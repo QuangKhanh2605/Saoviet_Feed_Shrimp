@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L151xC,USE_HAL_DRIVER,STM32L151xC</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;   ../Drivers/STM32L1xx_HAL_Driver/Inc;   ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;   ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;   ../Drivers/CMSIS/Include;   ..\Drivers\Mylib\Inc</IncludePath>
+              <IncludePath>../Inc;                     ../Drivers/STM32L1xx_HAL_Driver/Inc;                     ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                     ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                     ../Drivers/CMSIS/Include;                     ..\Drivers\Mylib\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -421,6 +421,11 @@
               <FileName>user_LCD.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\Mylib\Src\user_LCD.c</FilePath>
+            </File>
+            <File>
+              <FileName>ACS712.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mylib\Src\ACS712.c</FilePath>
             </File>
           </Files>
         </Group>

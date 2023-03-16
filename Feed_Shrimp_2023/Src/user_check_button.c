@@ -20,7 +20,7 @@ void Check_BT_ENTER(uint16_t *State,uint16_t *checkState, uint16_t *setupCount,u
 	if(BT_enter==1 && HAL_GPIO_ReadPin(GPIO_BT_ENTER, PIN_BT_ENTER)==1)
 	{
 		BT_enter=0;
-		
+		USER_LCD_Change_Setup();
 		if (*State==0) *State=1;
 		else 				  *State=0;
 		
@@ -31,15 +31,18 @@ void Check_BT_ENTER(uint16_t *State,uint16_t *checkState, uint16_t *setupCount,u
 			*time2=stampTime2;
 			*time3=stampTime3;
 			FLASH_WritePage(FLASH_USER_START_ADDR, FLASH_USER_END_ADDR, load_flash, *time1, *time2, *time3);
+			*setupCount=1;
+	
 		}
 		else
 		{
 			stampTime1=*time1;
 			stampTime2=*time2;
 			stampTime3=*time3;
+			*setupCount=2;
+			ptrStamp=&stampTime1;
 		}
-		*setupCount=1;
-		ptrStamp=&stampTime1;
+		
 	}
 	
 }
@@ -56,12 +59,13 @@ void Check_BT_ESC(uint16_t State, uint16_t *setupCount)
 		if(check_hold_esc==0)
 		{
 		USER_LCD_Change_Setup();	
-		if(*setupCount==3) *setupCount=1;
+		if(*setupCount==4) *setupCount=1;
 		else 						   (*setupCount)++;
 			
-		if(*setupCount==1 ) ptrStamp=&stampTime1;
-		if(*setupCount==2 ) ptrStamp=&stampTime2;
-		if(*setupCount==3 ) ptrStamp=&stampTime3;
+		if(State==0 && *setupCount==1) *setupCount=2;
+		if(*setupCount==2 ) ptrStamp=&stampTime1;
+		if(*setupCount==3 ) ptrStamp=&stampTime2;
+		if(*setupCount==4 ) ptrStamp=&stampTime3;
 		}
 		else check_hold_esc=0;
 	}
@@ -102,21 +106,20 @@ void BT_Check_Up_Down(void)
 	BT_Press_Click_Up(&BT_up, ptrStamp);
 	BT_Press_Click_Down(&BT_down, ptrStamp);
 			
-	BT_Press_Hold_Up(GPIOB, GPIO_PIN_3, ptrStamp);
-	BT_Press_Hold_Down(GPIOB, GPIO_PIN_4, ptrStamp);
+	BT_Press_Hold_Up(GPIO_BT_UP , PIN_BT_UP, ptrStamp);
+	BT_Press_Hold_Down(GPIO_BT_DOWN, PIN_BT_DOWN, ptrStamp);
 	
 	LCD_Change_State_Setup_T1_T2_T3(stampTime1, stampTime2, stampTime3);
 	
 	UintTime_To_CharTime_T1_T2_T3(stampTime1, stampTime2, stampTime3);
-	
 }
 
-void BT_Esc_Exit_Setup(uint16_t *State, uint16_t *setupCount,uint32_t *time1, uint32_t *time2, uint32_t *time3)
+void BT_Esc_Exit_Setup(uint16_t *State, uint16_t *setupCount, float ACS_value,uint32_t *time1, uint32_t *time2, uint32_t *time3)
 {
 	BT_Press_Hold_Esc(GPIO_BT_ESC, PIN_BT_ESC, State, BT_up, BT_down);
 	if(*State==1)
 	{
-		Run_Begin(setupCount, *time1, *time2, *time3);
+		Run_Begin(setupCount, ACS_value,*time1, *time2, *time3);
 		check_hold_esc=1;
 	}
 }
@@ -145,7 +148,7 @@ uint32_t FLASH_ReadData32(uint32_t addr)
 	return data;
 }
 
-void Run_Begin(uint16_t *setupCount, uint32_t time1, uint32_t time2,uint32_t time3)
+void Run_Begin(uint16_t *setupCount, float ACS_value, uint32_t time1, uint32_t time2,uint32_t time3)
 {
 	stampTime1=time1;
 	stampTime2=time2;
@@ -154,5 +157,6 @@ void Run_Begin(uint16_t *setupCount, uint32_t time1, uint32_t time2,uint32_t tim
 	ptrStamp=&stampTime1;
 	LCD_Change_State_Setup_T1_T2_T3(stampTime1, stampTime2, stampTime3);
 	UintTime_To_CharTime_T1_T2_T3(stampTime1, stampTime2, stampTime3);
+	float_to_char_ACS(ACS_value);
 }
 

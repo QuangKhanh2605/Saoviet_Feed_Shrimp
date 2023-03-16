@@ -3,6 +3,7 @@
 uint32_t check_time1=0;
 uint32_t check_time2=0;
 uint32_t check_time3=0;
+uint32_t check_ACS=0;
 
 uint32_t check_SS=0;
 uint16_t check_MM=0;
@@ -13,6 +14,7 @@ char HH[3],MM[3],SS[3];
 char stamp_time1[9];
 char stamp_time2[9];
 char stamp_time3[9];
+char char_ACS[9];
 
 LCD_Object_Display LCD_Running={"Running ",0,0,0};
 LCD_Object_Display LCD_Setup={"SETUP  ",0,0,0};
@@ -28,6 +30,9 @@ LCD_Object_Display LCD_Time_SS={SS,14,0,1};
 LCD_Object_Display LCD_Time1={stamp_time1,4,2,1};
 LCD_Object_Display LCD_Time2={stamp_time2,4,2,1};
 LCD_Object_Display LCD_Time3={stamp_time3,4,2,1};
+
+LCD_Object_Display LCD_ACS_Value={char_ACS,2,1,1};
+LCD_Object_Display LCD_ACS_Uint={"I=          Ampe",0,1,1};
 
 void LCD_Change_State_Setup_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, uint32_t stampTime3)
 {
@@ -71,6 +76,15 @@ void LCD_Change_State_Time_HH_MM_SS(uint16_t hh, uint16_t mm, uint32_t ss)
 	}
 }
 
+void LCD_Change_State_ACS(float float_ACS)
+{
+	if (float_ACS!=check_ACS)
+	{
+		check_ACS=float_ACS;
+		LCD_ACS_Value.state=1;
+	}
+}
+
 void UintTime_To_CharTime_HH_MM_SS(uint16_t hh, uint16_t mm, uint32_t ss)
 {
 	Variable_To_Char_Time(HH, hh);
@@ -83,6 +97,11 @@ void UintTime_To_CharTime_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, uin
 	Variable_To_Char(stamp_time1, stampTime1);
 	Variable_To_Char(stamp_time2, stampTime2);
 	Variable_To_Char(stamp_time3, stampTime3);
+}
+
+void float_to_char_ACS(float ACS_Value)
+{
+	float_To_Char(LCD_ACS_Value.Object,ACS_Value);
 }
 
 void USER_LCD_Display_Time(CLCD_Name* LCD)
@@ -102,17 +121,19 @@ void USER_LCD_Display_Running_OR_Setup(uint16_t State)
 	}
 }
 
-void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount)
+void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount, float ACS_Value)
 {
+	LCD_Change_State_ACS(ACS_Value);
+	float_to_char_ACS(ACS_Value);
 	LCD_Display_Running_OR_Setup(LCD, &LCD_Running, &LCD_Setup);
-	LCD_Display_Esc(LCD, setupCount ,&LCD_SetupT1, &LCD_SetupT2, &LCD_SetupT3);
-	LCD_Display_Time1_Time2_Time3(LCD, setupCount ,&LCD_Time1, &LCD_Time2, &LCD_Time3);
+	LCD_Display_Esc(LCD, setupCount ,&LCD_ACS_Uint ,&LCD_SetupT1, &LCD_SetupT2, &LCD_SetupT3);
+	LCD_Display_ACS_Time1_Time2_Time3(LCD, setupCount ,&LCD_ACS_Value ,&LCD_Time1, &LCD_Time2, &LCD_Time3);
 }
 void USER_LCD_Display_Setup(CLCD_Name* LCD, uint16_t setupCount)
 {
 	LCD_Display_Running_OR_Setup(LCD, &LCD_Setup, &LCD_Running);
-	LCD_Display_Esc(LCD, setupCount ,&LCD_SetupT1, &LCD_SetupT2, &LCD_SetupT3);
-	LCD_Display_Time1_Time2_Time3(LCD, setupCount ,&LCD_Time1, &LCD_Time2, &LCD_Time3);
+	LCD_Display_Esc(LCD, setupCount ,&LCD_ACS_Uint ,&LCD_SetupT1, &LCD_SetupT2, &LCD_SetupT3);
+	LCD_Display_ACS_Time1_Time2_Time3(LCD, setupCount ,&LCD_ACS_Value, &LCD_Time1, &LCD_Time2, &LCD_Time3);
 }
 
 void USER_LCD_Change_Setup(void)
@@ -120,10 +141,12 @@ void USER_LCD_Change_Setup(void)
 	  LCD_SetupT1.state=1;
 		LCD_SetupT2.state=1;
 		LCD_SetupT3.state=1;
+		LCD_ACS_Uint.state=1;
 		
 		LCD_Time1.state=1;
 		LCD_Time2.state=1;
 		LCD_Time3.state=1;
+		LCD_ACS_Value.state=1;
 }
 
 

@@ -1,10 +1,11 @@
 #MicroXplorer Configuration settings - do not modify
 ADC.Channel-0\#ChannelRegularConversion=ADC_CHANNEL_14
-ADC.IPParameters=Rank-0\#ChannelRegularConversion,Channel-0\#ChannelRegularConversion,SamplingTime-0\#ChannelRegularConversion,NbrOfConversionFlag,Resolution
+ADC.ContinuousConvMode=ENABLE
+ADC.IPParameters=Rank-0\#ChannelRegularConversion,Channel-0\#ChannelRegularConversion,SamplingTime-0\#ChannelRegularConversion,NbrOfConversionFlag,Resolution,ContinuousConvMode
 ADC.NbrOfConversionFlag=1
 ADC.Rank-0\#ChannelRegularConversion=1
 ADC.Resolution=ADC_RESOLUTION_10B
-ADC.SamplingTime-0\#ChannelRegularConversion=ADC_SAMPLETIME_4CYCLES
+ADC.SamplingTime-0\#ChannelRegularConversion=ADC_SAMPLETIME_384CYCLES
 File.Version=6
 KeepUserPlacement=false
 Mcu.Family=STM32L1

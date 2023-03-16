@@ -33,6 +33,48 @@ void Variable_To_Char(char time[], uint32_t stamp)
 	stamp=stamp/10;
 	}
 	time[lengthStamp]=' ';
+	time[lengthStamp++]=' ';
+}
+
+void float_To_Char(char time[], float stamp)
+{
+	uint32_t test=stamp*100;
+	uint16_t lengthStamp=1;
+	uint32_t Division=10;
+	while(test/Division>=1)
+	{
+		Division=Division*10;
+		(lengthStamp)++;
+	}
+	for(int j=lengthStamp-1;j>=0;j--)
+	{
+	time[j]=test%10+ACSII_value_number;
+	test=test/10;
+	}
+	if(lengthStamp>2)
+	{
+	lengthStamp++;
+	time[lengthStamp-1]=time[lengthStamp-2];
+	time[lengthStamp-2]=time[lengthStamp-3];
+	time[lengthStamp-3]='.';
+	}
+	else if(lengthStamp==1)
+	{
+	lengthStamp=4;
+	time[lengthStamp-1]=time[lengthStamp-4];
+	time[lengthStamp-2]='0';
+	time[lengthStamp-3]='.';
+	time[0]='0';
+	}
+	else if(lengthStamp==2)
+	{
+	lengthStamp=4;
+	time[lengthStamp-1]=time[lengthStamp-3];
+	time[lengthStamp-2]=time[lengthStamp-4];
+	time[lengthStamp-3]='.';
+	time[0]='0';
+	}
+	time[lengthStamp]=' ';
 }
 
 void Variable_To_Char_Length(char time[], uint16_t stamp, uint16_t *lengthStamp)

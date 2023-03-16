@@ -31,6 +31,8 @@
 #include "user_LCD_object.h"
 #include "user_check_button.h"
 #include "uart_sim.h"
+#include "ACS712.h"
+
 //#include "user_sim.h"
 /* USER CODE END Includes */
 
@@ -80,9 +82,8 @@ CLCD_Name LCD;
 
 UART_BUFFER rx_uart2;
 
-uint8_t countAvg=0;
-float ADC_stamp=0;
-float ADC_value=0;
+float ACS_Value=0;
+
 //UART_BUFFER rx_uart1;
 /* USER CODE END PV */
 
@@ -111,9 +112,7 @@ void Display_Time(void);
 void Setup_SIM(void);
 void Read_Flash(void);
 void Check_SMS_Receive(void);
-void Read_ACS(void);
 /* USER CODE END 0 */
-
 /**
   * @brief  The application entry point.
   * @retval int
@@ -151,7 +150,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim2);
 	HAL_UART_Receive_IT(&huart2,&rx_uart2.buffer,1);
 	//HAL_ADC_Start_IT(&hadc);
-	HAL_ADC_Start_IT(&hadc);
+	HAL_ADC_Start(&hadc);
 	//HAL_UART_Receive_IT(&huart1,&rx_uart1.buffer,1);
 	
 	CLCD_4BIT_Init(&LCD, 16,2, GPIOB, GPIO_PIN_15,GPIOC, GPIO_PIN_6,
@@ -165,7 +164,7 @@ int main(void)
 	CLCD_WriteString(&LCD, "        00:00:00");
 	
 	//Receive_SMS_Setup("+CMT: +84966674796,23/03/14,09:34:14+28 SETUP T1=  100  t3:199", &time1, &time2, &time3);
-	Run_Begin(&setupCount, time1, time2, time3);
+	Run_Begin(&setupCount, ACS_Value ,time1, time2, time3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -179,13 +178,13 @@ int main(void)
 		
 		Display_Time();
 		Check_BT_Callback();
-		
+		ACS_712(&hadc, &ACS_Value);
 		if(State==0 )
 		{
 			Check_Test();
-			BT_Esc_Exit_Setup(&State, &setupCount, &time1, &time2, &time3);
+			BT_Esc_Exit_Setup(&State, &setupCount, ACS_Value,&time1, &time2, &time3);
 			USER_LCD_Display_Running_OR_Setup(State);
-			if(setupCount!=3) BT_Check_Up_Down();
+			if(setupCount!=4) BT_Check_Up_Down();
 			USER_LCD_Display_Setup(&LCD, setupCount);
 		}
 		
@@ -193,7 +192,7 @@ int main(void)
 		{
 			Run_Feed_Shrimp();
 			USER_LCD_Display_Running_OR_Setup(State);
-			USER_LCD_Display_Running(&LCD, setupCount);
+			USER_LCD_Display_Running(&LCD, setupCount, ACS_Value);
 			Check_Test();
 		}
   }
@@ -265,7 +264,7 @@ static void MX_ADC_Init(void)
   hadc.Init.LowPowerAutoWait = ADC_AUTOWAIT_DISABLE;
   hadc.Init.LowPowerAutoPowerOff = ADC_AUTOPOWEROFF_DISABLE;
   hadc.Init.ChannelsBank = ADC_CHANNELS_BANK_A;
-  hadc.Init.ContinuousConvMode = DISABLE;
+  hadc.Init.ContinuousConvMode = ENABLE;
   hadc.Init.NbrOfConversion = 1;
   hadc.Init.DiscontinuousConvMode = DISABLE;
   hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
@@ -279,7 +278,7 @@ static void MX_ADC_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_14;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_4CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_384CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -442,35 +441,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-void Read_ACS(void)
-{
-	
-	float offsetVoltage=2.5;
-	float VCC=5;
-	float sensitivity_5A=0.185;
-	float sensitivity_20A=0.1;
-	float sensitivity_30A=0.66;
-	uint32_t check=0;
-	
-	if(check>GET_SYSTICK_MS()) check=0;
-	
-	if(GET_SYSTICK_MS()-check>100 )
-	{
-		check=GET_SYSTICK_MS();
-		ADC_stamp = ADC_stamp + HAL_ADC_GetValue(&hadc);
-		countAvg++;
-	}
-	
-	if(countAvg==10)
-	{
-		countAvg=0;
-		ADC_stamp=ADC_stamp/10;
-		ADC_stamp=ADC_stamp*(VCC/1023);
-		ADC_value = (ADC_stamp - offsetVoltage)/sensitivity_5A; 
-		ADC_stamp=0;
-	}
 
-}
 
 //void Check_SMS_Receive(void)
 //{
@@ -656,7 +627,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hadc);
-	ADC_value = HAL_ADC_GetValue(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvCpltCallback must be implemented in the user file.
    */

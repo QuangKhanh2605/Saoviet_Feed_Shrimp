@@ -24,7 +24,6 @@ uint32_t SYSTICK_count_ms=0;
 
 uint32_t GET_SYSTICK_MS(void)
 {
-	SYSTICK_count_ms++;
 	if (SYSTICK_count_ms >= MINISECOND_OF_THE_DAY - 1000)
 	{
 		SYSTICK_count_ms=0;
@@ -105,7 +104,7 @@ void BT_Press_Hold_Esc( GPIO_TypeDef* GPIOx, uint16_t GPIO_Pinx, uint16_t *State
 	
 void HAL_SYSTICK_Callback(void)
 {
-	GET_SYSTICK_MS();
+	SYSTICK_count_ms++;
 	if(check_BT_run_esc==1)
 		run_BT_Esc_time++;
 	

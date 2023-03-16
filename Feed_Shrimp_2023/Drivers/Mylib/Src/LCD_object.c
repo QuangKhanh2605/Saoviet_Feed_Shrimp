@@ -14,7 +14,8 @@ void LCD_Display_Running_OR_Setup(CLCD_Name* LCD, LCD_Object_Display *Name_Objec
 void LCD_Display_Esc(CLCD_Name* LCD,uint16_t setupCount,
 																LCD_Object_Display *Name_Object1,
                                 LCD_Object_Display *Name_Object2,
-                                LCD_Object_Display *Name_Object3)
+                                LCD_Object_Display *Name_Object3,
+																LCD_Object_Display *Name_Object4)
 {
 	if(Name_Object1->state==1 && setupCount==1)
 	{
@@ -33,12 +34,19 @@ void LCD_Display_Esc(CLCD_Name* LCD,uint16_t setupCount,
 	LCD_Send_Data(LCD, Name_Object3);
 	Name_Object3->state=0;
 	}
+	
+	if(Name_Object4->state==1 && setupCount==4)
+	{
+	LCD_Send_Data(LCD, Name_Object4);
+	Name_Object4->state=0;
+	}
 }
 
-void LCD_Display_Time1_Time2_Time3(CLCD_Name* LCD,uint16_t setupCount,
-																		 LCD_Object_Display *Name_Object1,
-                                     LCD_Object_Display *Name_Object2,
-                                     LCD_Object_Display *Name_Object3)
+void LCD_Display_ACS_Time1_Time2_Time3(CLCD_Name* LCD,uint16_t setupCount,
+																		     LCD_Object_Display *Name_Object1,
+                                         LCD_Object_Display *Name_Object2,
+                                         LCD_Object_Display *Name_Object3,
+                                         LCD_Object_Display *Name_Object4)
 {
 	if(setupCount==1 && Name_Object1->state==1)
 	{
@@ -56,6 +64,12 @@ void LCD_Display_Time1_Time2_Time3(CLCD_Name* LCD,uint16_t setupCount,
 	{
 		LCD_Send_Data(LCD, Name_Object3);
 		Name_Object3->state=0;
+	}
+	
+	if(setupCount==4 && Name_Object4->state==1)
+	{
+		LCD_Send_Data(LCD, Name_Object4);
+		Name_Object4->state=0;
 	}
 }
 

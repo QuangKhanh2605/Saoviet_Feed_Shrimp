@@ -38,6 +38,8 @@ feed_shrimp_2023\main.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\main.o: ../Inc/user_Relay_Led.h
 feed_shrimp_2023\main.o: ../Inc/user_LCD_object.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\LCD_object.h
+feed_shrimp_2023\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 feed_shrimp_2023\main.o: ../Inc/user_check_button.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\uart_sim.h
 feed_shrimp_2023\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\ACS712.h
