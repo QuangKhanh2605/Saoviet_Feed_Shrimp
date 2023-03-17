@@ -1,7 +1,6 @@
 feed_shrimp_2023\user_sim.o: ..\Src\user_sim.c
 feed_shrimp_2023\user_sim.o: ../Inc/user_sim.h
 feed_shrimp_2023\user_sim.o: ..\Drivers\Mylib\Inc\uart_sim.h
-feed_shrimp_2023\user_sim.o: ../Inc/main.h
 feed_shrimp_2023\user_sim.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\user_sim.o: ../Inc/stm32l1xx_hal_conf.h
 feed_shrimp_2023\user_sim.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rcc.h

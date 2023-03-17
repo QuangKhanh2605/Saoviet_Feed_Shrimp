@@ -5,7 +5,7 @@ Add "HAL_SYSTICK_IRQHandler();" To "Systick_Handler" In "stm32L1xx_it.c"
 
 */
 
-#include "check_Button.h"
+#include "Check_Button.h"
 
 uint16_t check_BT_run_up=0;
 uint16_t check_BT_run_down=0;

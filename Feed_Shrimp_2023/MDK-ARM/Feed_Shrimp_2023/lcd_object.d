@@ -1,5 +1,5 @@
-feed_shrimp_2023\lcd_object.o: ..\Drivers\Mylib\Src\LCD_object.c
-feed_shrimp_2023\lcd_object.o: ..\Drivers\Mylib\Inc\LCD_object.h
+feed_shrimp_2023\lcd_object.o: ..\Drivers\Mylib\Src\LCD_Object.c
+feed_shrimp_2023\lcd_object.o: ..\Drivers\Mylib\Inc\LCD_Object.h
 feed_shrimp_2023\lcd_object.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\lcd_object.o: ../Inc/stm32l1xx_hal_conf.h
 feed_shrimp_2023\lcd_object.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rcc.h

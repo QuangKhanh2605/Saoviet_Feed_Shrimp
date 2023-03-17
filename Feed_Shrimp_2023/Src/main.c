@@ -24,15 +24,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "main.h"
-#include "CLCD.h"
-#include "user_LCD.h"
-#include "check_Button.h"
 #include "user_Relay_Led.h"
-#include "user_LCD_object.h"
 #include "user_check_button.h"
 #include "uart_sim.h"
 #include "ACS712.h"
-#include "memory_flash.h"
+
 //#include "user_sim.h"
 /* USER CODE END Includes */
 
@@ -182,12 +178,12 @@ int main(void)
 		Display_Time();
 		Check_BT_Callback();
 		ACS_712(&hadc, &ACS_Value);
+		
 		if(State==0 )
 		{
-			Check_Test();
+			if(setupCount!=4) BT_Check_Up_Down();
 			BT_Esc_Exit_Setup(&State, &setupCount, ACS_Value,&time1, &time2, &time3);
 			USER_LCD_Display_Running_OR_Setup(State);
-			if(setupCount!=4) BT_Check_Up_Down();
 			USER_LCD_Display_Setup(&LCD, setupCount);
 		}
 		
@@ -196,7 +192,6 @@ int main(void)
 			Run_Feed_Shrimp();
 			USER_LCD_Display_Running_OR_Setup(State);
 			USER_LCD_Display_Running(&LCD, setupCount, ACS_Value);
-			Check_Test();
 		}
   }
   /* USER CODE END 3 */
@@ -522,7 +517,7 @@ void Check_BT_Callback(void)
 	Check_BT_UP(State);
 	Check_BT_DOWN(State);
 		
-	//Check_Test();
+	Check_Test();
 }
 
 void Set_Time(uint16_t *hh, uint16_t *mm, uint16_t *ss)

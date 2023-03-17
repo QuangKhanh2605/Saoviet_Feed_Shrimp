@@ -40,9 +40,7 @@ void Check_BT_ENTER(uint16_t *State,uint16_t *checkState, uint16_t *setupCount,u
 			*setupCount=2;
 			ptrStamp=&stampTime1;
 		}
-		
 	}
-	
 }
 
 void Check_BT_ESC(uint16_t State, uint16_t *setupCount)

@@ -1,7 +1,5 @@
 feed_shrimp_2023\relay_led.o: ..\Drivers\Mylib\Src\Relay_Led.c
 feed_shrimp_2023\relay_led.o: ..\Drivers\Mylib\Inc\Relay_Led.h
-feed_shrimp_2023\relay_led.o: ../Inc/stm32l1xx_it.h
-feed_shrimp_2023\relay_led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 feed_shrimp_2023\relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\relay_led.o: ../Inc/stm32l1xx_hal_conf.h
 feed_shrimp_2023\relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rcc.h

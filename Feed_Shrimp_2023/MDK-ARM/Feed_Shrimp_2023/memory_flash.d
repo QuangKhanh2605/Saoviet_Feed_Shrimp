@@ -1,5 +1,5 @@
-feed_shrimp_2023\memory_flash.o: ..\Drivers\Mylib\Src\memory_flash.c
-feed_shrimp_2023\memory_flash.o: ..\Drivers\Mylib\Inc\memory_flash.h
+feed_shrimp_2023\memory_flash.o: ..\Drivers\Mylib\Src\Memory_Flash.c
+feed_shrimp_2023\memory_flash.o: ..\Drivers\Mylib\Inc\Memory_Flash.h
 feed_shrimp_2023\memory_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\memory_flash.o: ../Inc/stm32l1xx_hal_conf.h
 feed_shrimp_2023\memory_flash.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rcc.h

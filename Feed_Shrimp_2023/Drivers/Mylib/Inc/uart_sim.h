@@ -1,7 +1,7 @@
 #ifndef __UART_SIM_
 #define __UART_SIM_
 
-#include "main.h"
+#include "stm32l1xx_hal.h"
 #include "string.h"
 #include "stm32l1xx_hal_uart.h"
 

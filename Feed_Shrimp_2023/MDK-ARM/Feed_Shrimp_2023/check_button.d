@@ -1,5 +1,5 @@
-feed_shrimp_2023\check_button.o: ..\Drivers\Mylib\Src\check_Button.c
-feed_shrimp_2023\check_button.o: ..\Drivers\Mylib\Inc\check_Button.h
+feed_shrimp_2023\check_button.o: ..\Drivers\Mylib\Src\Check_Button.c
+feed_shrimp_2023\check_button.o: ..\Drivers\Mylib\Inc\Check_Button.h
 feed_shrimp_2023\check_button.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\check_button.o: ../Inc/stm32l1xx_hal_conf.h

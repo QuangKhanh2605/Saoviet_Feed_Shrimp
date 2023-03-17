@@ -1,8 +1,6 @@
 #ifndef __RELAY_LED_
 #define __RELAY_LED_
 
-#include "stm32l1xx_it.h"
-#include <stdio.h>
 #include "stm32l1xx_hal.h"
 
 void Set_Relay_Led(GPIO_TypeDef* GPIO1, uint16_t GPIO_Pin1, 

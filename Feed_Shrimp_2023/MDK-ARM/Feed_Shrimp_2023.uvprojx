@@ -393,19 +393,9 @@
           <GroupName>Mylib</GroupName>
           <Files>
             <File>
-              <FileName>check_Button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\Mylib\Src\check_Button.c</FilePath>
-            </File>
-            <File>
               <FileName>CLCD.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\Mylib\Src\CLCD.c</FilePath>
-            </File>
-            <File>
-              <FileName>LCD_object.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\Mylib\Src\LCD_object.c</FilePath>
             </File>
             <File>
               <FileName>Relay_Led.c</FileName>
@@ -433,14 +423,19 @@
               <FilePath>..\Drivers\Mylib\Src\Convert_Variable.c</FilePath>
             </File>
             <File>
-              <FileName>memory_flash.c</FileName>
+              <FileName>Memory_Flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Drivers\Mylib\Src\memory_flash.c</FilePath>
+              <FilePath>..\Drivers\Mylib\Src\Memory_Flash.c</FilePath>
             </File>
             <File>
-              <FileName>memory_flash.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Drivers\Mylib\Inc\memory_flash.h</FilePath>
+              <FileName>Check_Button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mylib\Src\Check_Button.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_Object.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mylib\Src\LCD_Object.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,4 +1,4 @@
-#include "LCD_object.h"
+#include "LCD_Object.h"
 
 void LCD_Display_Running_OR_Setup(CLCD_Name* LCD, LCD_Object_Display *Name_Object_Run,
                                                   LCD_Object_Display *Name_Object_Stop)
