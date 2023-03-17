@@ -15,7 +15,7 @@ void ACS_712(ADC_HandleTypeDef* hadc, float *ACS_Value)
 	
 	if(check>GET_SYSTICK_MS()) check=0;
 	
-	if(GET_SYSTICK_MS()-check>200 )
+	if(GET_SYSTICK_MS()-check>500 )
 	{
 		check=GET_SYSTICK_MS();
 		ADC_stamp = ADC_stamp + HAL_ADC_GetValue(hadc)*2;
@@ -26,7 +26,7 @@ void ACS_712(ADC_HandleTypeDef* hadc, float *ACS_Value)
 	{
 		ADC_stamp=ADC_stamp/countAvg;
 		ADC_stamp=(ADC_stamp/1023)*VCC;
-		*ACS_Value = (ADC_stamp - 2.5)/sensitivity_30A;
+		*ACS_Value = (ADC_stamp - offsetVoltage)/sensitivity_30A;
 		countAvg=0;
 		ADC_stamp=0;
 	}

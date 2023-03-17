@@ -427,6 +427,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\Mylib\Src\ACS712.c</FilePath>
             </File>
+            <File>
+              <FileName>Convert_Variable.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mylib\Src\Convert_Variable.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -31,7 +31,7 @@ LCD_Object_Display LCD_Time1={stamp_time1,4,2,1};
 LCD_Object_Display LCD_Time2={stamp_time2,4,2,1};
 LCD_Object_Display LCD_Time3={stamp_time3,4,2,1};
 
-LCD_Object_Display LCD_ACS_Value={char_ACS,2,1,1};
+LCD_Object_Display LCD_ACS_Value={char_ACS,3,1,1};
 LCD_Object_Display LCD_ACS_Uint={"I=          Ampe",0,1,1};
 
 void LCD_Change_State_Setup_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, uint32_t stampTime3)
@@ -87,21 +87,21 @@ void LCD_Change_State_ACS(float float_ACS)
 
 void UintTime_To_CharTime_HH_MM_SS(uint16_t hh, uint16_t mm, uint32_t ss)
 {
-	Variable_To_Char_Time(HH, hh);
-	Variable_To_Char_Time(MM, mm);
-	Variable_To_Char_Time(SS, ss);
+	Uint_To_Char_Time(HH, hh);
+	Uint_To_Char_Time(MM, mm);
+	Uint_To_Char_Time(SS, ss);
 }
 
 void UintTime_To_CharTime_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, uint32_t stampTime3)
 {
-	Variable_To_Char(stamp_time1, stampTime1);
-	Variable_To_Char(stamp_time2, stampTime2);
-	Variable_To_Char(stamp_time3, stampTime3);
+	Uint_To_Char(stamp_time1, stampTime1);
+	Uint_To_Char(stamp_time2, stampTime2);
+	Uint_To_Char(stamp_time3, stampTime3);
 }
 
-void float_to_char_ACS(float ACS_Value)
+void Float_To_Char_ACS(float ACS_Value)
 {
-	float_To_Char(LCD_ACS_Value.Object,ACS_Value);
+	Float_To_Char(LCD_ACS_Value.Object,ACS_Value);
 }
 
 void USER_LCD_Display_Time(CLCD_Name* LCD)
@@ -124,7 +124,7 @@ void USER_LCD_Display_Running_OR_Setup(uint16_t State)
 void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount, float ACS_Value)
 {
 	LCD_Change_State_ACS(ACS_Value);
-	float_to_char_ACS(ACS_Value);
+	Float_To_Char_ACS(ACS_Value);
 	LCD_Display_Running_OR_Setup(LCD, &LCD_Running, &LCD_Setup);
 	LCD_Display_Esc(LCD, setupCount ,&LCD_ACS_Uint ,&LCD_SetupT1, &LCD_SetupT2, &LCD_SetupT3);
 	LCD_Display_ACS_Time1_Time2_Time3(LCD, setupCount ,&LCD_ACS_Value ,&LCD_Time1, &LCD_Time2, &LCD_Time3);

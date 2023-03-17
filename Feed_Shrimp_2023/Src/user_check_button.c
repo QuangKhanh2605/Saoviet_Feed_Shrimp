@@ -32,7 +32,6 @@ void Check_BT_ENTER(uint16_t *State,uint16_t *checkState, uint16_t *setupCount,u
 			*time3=stampTime3;
 			FLASH_WritePage(FLASH_USER_START_ADDR, FLASH_USER_END_ADDR, load_flash, *time1, *time2, *time3);
 			*setupCount=1;
-	
 		}
 		else
 		{
@@ -155,8 +154,9 @@ void Run_Begin(uint16_t *setupCount, float ACS_value, uint32_t time1, uint32_t t
 	stampTime3=time3;
 	*setupCount=1;
 	ptrStamp=&stampTime1;
+	
 	LCD_Change_State_Setup_T1_T2_T3(stampTime1, stampTime2, stampTime3);
 	UintTime_To_CharTime_T1_T2_T3(stampTime1, stampTime2, stampTime3);
-	float_to_char_ACS(ACS_value);
+	Float_To_Char_ACS(ACS_value);
 }
 

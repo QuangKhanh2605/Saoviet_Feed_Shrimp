@@ -37,4 +37,5 @@ feed_shrimp_2023\user_check_button.o: ..\Drivers\Mylib\Inc\CLCD.h
 feed_shrimp_2023\user_check_button.o: ..\Drivers\Mylib\Inc\check_Button.h
 feed_shrimp_2023\user_check_button.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\user_check_button.o: ..\Drivers\Mylib\Inc\user_LCD.h
+feed_shrimp_2023\user_check_button.o: ..\Drivers\Mylib\Inc\Convert_Variable.h
 feed_shrimp_2023\user_check_button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

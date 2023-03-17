@@ -33,6 +33,7 @@ feed_shrimp_2023\main.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_e
 feed_shrimp_2023\main.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\CLCD.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\user_LCD.h
+feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\Convert_Variable.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\check_Button.h
 feed_shrimp_2023\main.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\main.o: ../Inc/user_Relay_Led.h
