@@ -102,6 +102,13 @@ void UintTime_To_CharTime_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, uin
 void Float_To_Char_ACS(float ACS_Value)
 {
 	Float_To_Char(LCD_ACS_Value.Object,ACS_Value);
+	if( AC_DC == "AC" && LCD_ACS_Value.Object[0] == '-')
+	{
+		for(int i=0;i<9;i++)
+		{
+		LCD_ACS_Value.Object[i]=LCD_ACS_Value.Object[i+1];
+		}
+	}
 }
 
 void USER_LCD_Display_Time(CLCD_Name* LCD)

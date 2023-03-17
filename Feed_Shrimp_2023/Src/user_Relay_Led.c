@@ -28,7 +28,7 @@ void Reset_Relay3(void)
 
 void Set_LED_Waring(void)
 {
-	HAL_GPIO_WritePin(GPIO_LED_WARING, PIN_LED_NC, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIO_LED_WARING, PIN_LED_WARING, GPIO_PIN_SET);
 }
 void Set_LED_Run(void)
 {
@@ -45,7 +45,7 @@ void Set_LED_NC(void)
 
 void Reset_LED_Waring(void)
 {
-	HAL_GPIO_WritePin(GPIO_LED_WARING, PIN_LED_NC, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIO_LED_WARING, PIN_LED_WARING, GPIO_PIN_RESET);
 }
 void Reset_LED_Run(void)
 {

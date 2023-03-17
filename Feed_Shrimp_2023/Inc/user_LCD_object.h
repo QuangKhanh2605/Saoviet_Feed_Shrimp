@@ -6,6 +6,8 @@
 #include "stdio.h"
 #include "Convert_Variable.h"
 
+#define AC_DC "DC"
+
 void LCD_Change_State_Setup_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, uint32_t stampTime3);
 void LCD_Change_State_Time_HH_MM_SS(uint16_t hh, uint16_t mm, uint32_t ss);
 

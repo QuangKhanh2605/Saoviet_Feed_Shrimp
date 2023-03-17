@@ -1,6 +1,5 @@
 feed_shrimp_2023\acs712.o: ..\Drivers\Mylib\Src\ACS712.c
 feed_shrimp_2023\acs712.o: ..\Drivers\Mylib\Inc\ACS712.h
-feed_shrimp_2023\acs712.o: ../Inc/main.h
 feed_shrimp_2023\acs712.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\acs712.o: ../Inc/stm32l1xx_hal_conf.h
 feed_shrimp_2023\acs712.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rcc.h
@@ -34,3 +33,4 @@ feed_shrimp_2023\acs712.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim
 feed_shrimp_2023\acs712.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
 feed_shrimp_2023\acs712.o: ..\Drivers\Mylib\Inc\check_Button.h
 feed_shrimp_2023\acs712.o: ../Inc/stm32l1xx_it.h
+feed_shrimp_2023\acs712.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

@@ -48,12 +48,22 @@ void Float_To_Char(char time[], float stamp)
 	uint16_t test=stamp*division;
 	uint16_t mod=test%division;
 	uint16_t quotient=test/division;
-	uint16_t lengthMod=2;
+	uint16_t lengthMod=1;
 	uint16_t lengthQoutient=1;
 	uint32_t divisionMod=10;
 	uint32_t divisionQoutient=10;
 	char Cmod[3];
 	char Cquotient[3];
+	
+	uint16_t count=0;
+	if(stamp < 0 )
+	{
+		if(mod !=0 || quotient !=0)
+		{
+		time[count]='-';
+		count++;
+		}
+	}
 	
 	while(mod/divisionMod>=1)
 	{
@@ -77,13 +87,6 @@ void Float_To_Char(char time[], float stamp)
 		quotient=quotient/10;
 	}	
 	
-	uint16_t count=0;
-	if(stamp < 0 && (mod !=0 || quotient !=0))
-	{
-		time[count]='-';
-		count++;
-	}
-	
 	for(int j=0;j<lengthQoutient;j++)
 	{
 		time[count]=Cquotient[j];
@@ -95,6 +98,10 @@ void Float_To_Char(char time[], float stamp)
 		time[count]='.';
 		count++;
 	}
+	else
+	{
+		lengthMod=0;
+	}
 	
 	for(int j=lengthMod; j<LENGTH_MOD_FLOAT;j++)
 	{
@@ -102,13 +109,16 @@ void Float_To_Char(char time[], float stamp)
 		count++;
 	}
 	
-	for(int j=0;j<LENGTH_MOD_FLOAT;j++)
+	for(int j=0;j<lengthMod;j++)
 	{
 		time[count]=Cmod[j];
 		count++;
 	}
 	
-	time[count]=' ';
+	for(int j=count;j<=sizeof(&time);j++)
+	{
+	time[j]=' ';
+	}
 }
 
 void Uint_To_Char_Length(char time[], uint16_t stamp, uint16_t *lengthStamp)
