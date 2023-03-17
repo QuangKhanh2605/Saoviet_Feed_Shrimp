@@ -432,6 +432,16 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\Mylib\Src\Convert_Variable.c</FilePath>
             </File>
+            <File>
+              <FileName>memory_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mylib\Src\memory_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>memory_flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Drivers\Mylib\Inc\memory_flash.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -8,6 +8,7 @@
 "feed_shrimp_2023\user_lcd.o"
 "feed_shrimp_2023\acs712.o"
 "feed_shrimp_2023\convert_variable.o"
+"feed_shrimp_2023\memory_flash.o"
 "feed_shrimp_2023\user_check_button.o"
 "feed_shrimp_2023\user_lcd_object.o"
 "feed_shrimp_2023\user_sim.o"

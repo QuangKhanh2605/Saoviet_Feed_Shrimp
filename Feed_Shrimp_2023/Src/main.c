@@ -32,7 +32,7 @@
 #include "user_check_button.h"
 #include "uart_sim.h"
 #include "ACS712.h"
-
+#include "memory_flash.h"
 //#include "user_sim.h"
 /* USER CODE END Includes */
 
@@ -119,6 +119,7 @@ void Check_SMS_Receive(void);
   * @retval int
   */
 int main(void)
+
 
 {
   /* USER CODE BEGIN 1 */
