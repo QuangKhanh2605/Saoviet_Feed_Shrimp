@@ -188,12 +188,12 @@
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>check_time,0x0A</ItemText>
+          <ItemText>t,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>SYSTICK_count_ms,0x0A</ItemText>
+          <ItemText>check_t,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

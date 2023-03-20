@@ -114,8 +114,9 @@ void Check_SMS_Receive(void);
   * @brief  The application entry point.
   * @retval int
   */
-
 int main(void)
+
+
 {
   /* USER CODE BEGIN 1 */
 	//rx_uart1.huart=&huart1;
@@ -478,28 +479,24 @@ void Run_Feed_Shrimp(void)
 {
 	if(countState==0)
 	{
-		//Set_Relay_Led(GPIOC, RELAY1, GPIOC, RELAY2,GPIOC, LED5);
 		Set_Relay1();
 		countState++;
 		runTime=0;
 	}
 	if(countState==1 && runTime>=time3 )
 	{
-		//Set_Relay_Led(GPIOA, RELAY3, GPIOA, RELAY4,GPIOC, LED6);
 		Set_Relay2();
 		countState++;
 		runTime=0;
 	}
 	if(countState==2 && runTime>=time1 )
 	{
-		//Reset_Relay_Led(GPIOA, RELAY3, GPIOA, RELAY4,GPIOC, LED6);
 		Reset_Relay2();
 		countState++;
 		runTime=0;
 	}
 	if(countState==3 && runTime>=time3 )
 	{
-		//Reset_Relay_Led(GPIOC, RELAY1, GPIOC, RELAY2,GPIOC, LED5);
 		Reset_Relay1();
 		countState++;
 		runTime=0;
@@ -541,8 +538,6 @@ void Check_Test(void)
 {
 	if(checkState==1)
 	{
-//		Reset_Relay_Led(GPIOC, RELAY1, GPIOC, RELAY2,GPIOC, LED5);
-//		Reset_Relay_Led(GPIOA, RELAY3, GPIOA, RELAY4,GPIOC, LED6);
 		Reset_Relay1();
 		Reset_Relay2();
 		countState=0;
@@ -551,8 +546,6 @@ void Check_Test(void)
 	}
 	if(State==0)
 	{
-//		Reset_Relay_Led(GPIOC, RELAY1, GPIOC, RELAY2,GPIOC, LED5);
-//		Reset_Relay_Led(GPIOA, RELAY3, GPIOA, RELAY4,GPIOC, LED6);
 		Reset_Relay1();
 		Reset_Relay2();
 		countState=0;
@@ -606,7 +599,12 @@ void Read_Flash(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   UNUSED(htim);
-	runTime++;
+	runTime++; 
+	if(State==0)
+	{
+	countState=0;
+	runTime=0;
+	}
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)

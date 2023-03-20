@@ -1,7 +1,5 @@
 #include "user_sim.h"
 
-const uint32_t maxTime=9999999;
-
 void Receive_SMS_Setup(char *sim_rx, uint32_t *time1, uint32_t *time2, uint32_t *time3)
 {
 	uint16_t length=strlen(sim_rx);

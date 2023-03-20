@@ -30,7 +30,7 @@ void Relay3_ACS(uint16_t State, uint16_t countState, float ACS_Value)
 			Relay3_after_500_ms=0;
 			check_Relay3_after_500_ms=0;
 		}
-		if(GET_SYSTICK_MS()-check_Relay3_after_500_ms>1000 && Relay3_after_500_ms==2)
+		if(GET_SYSTICK_MS()-check_Relay3_after_500_ms>TIME_WAIT_RELAY3_WARNING && Relay3_after_500_ms==2)
 		{
 			Relay3_after_500_ms=1;
 		}
@@ -70,7 +70,7 @@ void LED_Waring(uint16_t State, uint16_t countState, float ACS_Value)
 			ACS_value_after_500_ms=0;
 			check_ACS_value_after_500_ms=0;
 		}
-		if(GET_SYSTICK_MS()-check_ACS_value_after_500_ms>1000 && ACS_value_after_500_ms==2)
+		if(GET_SYSTICK_MS()-check_ACS_value_after_500_ms>TIME_WAIT_RELAY3_WARNING && ACS_value_after_500_ms==2)
 		{
 			ACS_value_after_500_ms=1;
 		}

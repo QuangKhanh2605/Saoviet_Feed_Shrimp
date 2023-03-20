@@ -4,6 +4,8 @@
 #include "uart_sim.h"
 #include "math.h"
 
+#define maxTime 9999999
+
 void Receive_SMS_Setup(char *sim_rx,uint32_t *time1,uint32_t *time2,uint32_t *time3);
 void Char_To_Uint(char *char_time,uint32_t *uint_time, uint16_t length);
 
