@@ -18,13 +18,13 @@ uint16_t run_BT_Esc_time=0;
 
 const uint16_t run_BT_end=500;
 const uint16_t run_BT_irq=200;
-const uint32_t MINISECOND_OF_THE_DAY=86400000;
+const uint32_t MINISECOND_OF_49_DAY=4233600000;
 
-uint32_t SYSTICK_count_ms=0;
+uint32_t SYSTICK_count_ms=MINISECOND_OF_49_DAY-5000;
 
 uint32_t GET_SYSTICK_MS(void)
 {
-	if (SYSTICK_count_ms >= MINISECOND_OF_THE_DAY - 1000)
+	if (SYSTICK_count_ms >= MINISECOND_OF_49_DAY)
 	{
 		SYSTICK_count_ms=0;
 	}

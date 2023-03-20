@@ -16,6 +16,7 @@
 "feed_shrimp_2023\main.o"
 "feed_shrimp_2023\stm32l1xx_it.o"
 "feed_shrimp_2023\stm32l1xx_hal_msp.o"
+"feed_shrimp_2023\uart_debug.o"
 "feed_shrimp_2023\stm32l1xx_hal_adc.o"
 "feed_shrimp_2023\stm32l1xx_hal_adc_ex.o"
 "feed_shrimp_2023\stm32l1xx_hal_tim.o"

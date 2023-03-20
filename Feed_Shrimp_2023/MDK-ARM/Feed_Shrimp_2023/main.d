@@ -32,12 +32,12 @@ feed_shrimp_2023\main.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim.h
 feed_shrimp_2023\main.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h
 feed_shrimp_2023\main.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
 feed_shrimp_2023\main.o: ../Inc/user_Relay_Led.h
+feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\Check_Button.h
+feed_shrimp_2023\main.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\main.o: ../Inc/user_check_button.h
 feed_shrimp_2023\main.o: ../Inc/user_LCD_object.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\LCD_object.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\CLCD.h
-feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\check_Button.h
-feed_shrimp_2023\main.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\user_LCD.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\Convert_Variable.h
 feed_shrimp_2023\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
@@ -46,3 +46,4 @@ feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\uart_sim.h
 feed_shrimp_2023\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 feed_shrimp_2023\main.o: ..\Drivers\Mylib\Inc\ACS712.h
 feed_shrimp_2023\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+feed_shrimp_2023\main.o: ../Inc/uart_debug.h

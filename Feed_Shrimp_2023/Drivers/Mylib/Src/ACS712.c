@@ -15,14 +15,14 @@ void ACS_712(ADC_HandleTypeDef* hadc, float *ACS_Value)
 	
 	if(check>GET_SYSTICK_MS()) check=0;
 	
-	if(GET_SYSTICK_MS()-check>50 )
+	if(GET_SYSTICK_MS()-check>100 )
 	{
 		check=GET_SYSTICK_MS();
 		ADC_stamp = ADC_stamp + HAL_ADC_GetValue(hadc)*2;
 		countAvg++;
 	}
 	
-	if(countAvg==20)
+	if(countAvg==10)
 	{
 		ADC_stamp = ADC_stamp/countAvg;
 		ADC_stamp = (ADC_stamp/1023)*VCC;

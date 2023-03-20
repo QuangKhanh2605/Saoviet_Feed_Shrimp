@@ -28,7 +28,7 @@
 #include "user_check_button.h"
 #include "uart_sim.h"
 #include "ACS712.h"
-
+#include "uart_debug.h"
 //#include "user_sim.h"
 /* USER CODE END Includes */
 
@@ -114,9 +114,8 @@ void Check_SMS_Receive(void);
   * @brief  The application entry point.
   * @retval int
   */
+
 int main(void)
-
-
 {
   /* USER CODE BEGIN 1 */
 	//rx_uart1.huart=&huart1;
@@ -165,7 +164,7 @@ int main(void)
 	//Receive_SMS_Setup("+CMT: +84966674796,23/03/14,09:34:14+28 SETUP T1=  100  t3:199", &time1, &time2, &time3);
 	Run_Begin(&setupCount, ACS_Value ,time1, time2, time3);
   /* USER CODE END 2 */
-	
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -174,11 +173,13 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		//Check_SMS_Receive();
-		
 		Display_Time();
 		Check_BT_Callback();
 		ACS_712(&hadc, &ACS_Value);
-		
+		LED_Status_Run(State, countState);
+		LED_Waring(State, countState, ACS_Value);
+		Relay3_ACS(State, countState, ACS_Value);
+		debug_uart(&huart2, State, countState);
 		if(State==0 )
 		{
 			if(setupCount!=4) BT_Check_Up_Down();
@@ -530,7 +531,7 @@ void Set_Time(uint16_t *hh, uint16_t *mm, uint16_t *ss)
 	*mm=(runTime-(*hh)*MINUTES_OF_THE_HOUR*SECOND_OF_THE_HOUR)/SECOND_OF_THE_HOUR;
 	*ss=(runTime-(*hh)*MINUTES_OF_THE_HOUR*SECOND_OF_THE_HOUR-(*mm)*SECOND_OF_THE_HOUR);
 	
-	if(runTime>=SECOND_OF_THE_DAY-1)
+	if(runTime>=SECOND_OF_THE_DAY)
 	{
 	runTime=0; *hh=0; *mm=0; *ss=0;
 	}

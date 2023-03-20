@@ -57,13 +57,20 @@ void LCD_Change_State_Setup_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, u
 
 void LCD_Change_State_Time_HH_MM_SS(uint16_t hh, uint16_t mm, uint32_t ss)
 {
-	if(check_SS>GET_SYSTICK_MS()) check_SS=0;
+//	if(check_SS>GET_SYSTICK_MS()) check_SS=0;
+//	
+//	if(GET_SYSTICK_MS()-check_SS>1000)
+//	{
+//		check_SS=GET_SYSTICK_MS();
+//		LCD_Time_SS.state=1;
+//	}
 	
-	if(GET_SYSTICK_MS()-check_SS>1000)
+	if(check_SS!=ss)
 	{
-		check_SS=GET_SYSTICK_MS();
+		check_SS=ss;
 		LCD_Time_SS.state=1;
 	}
+	
 	if(check_MM!=mm)
 	{
 		check_MM=mm;
