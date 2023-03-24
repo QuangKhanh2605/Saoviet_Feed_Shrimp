@@ -34,3 +34,4 @@ feed_shrimp_2023\acs712.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uar
 feed_shrimp_2023\acs712.o: ..\Drivers\Mylib\Inc\check_Button.h
 feed_shrimp_2023\acs712.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\acs712.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+feed_shrimp_2023\acs712.o: ..\Drivers\Mylib\Inc\Convert_Variable.h

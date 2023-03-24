@@ -3,6 +3,11 @@
 
 const uint16_t ACSII_value_number=48;
 
+void Uint_To_Float_Mod(uint32_t variable_uint, float *variable_float)
+{
+	*variable_float =  (float)variable_uint/(pow(10,(LENGTH_MOD_FLOAT)));
+}
+
 void Uint_To_Char_Time(char *time, uint16_t stamp)
 {
 	if(stamp<10)
@@ -48,10 +53,12 @@ void Float_To_Char(char time[], float stamp)
 	uint16_t test=stamp*division;
 	uint16_t mod=test%division;
 	uint16_t quotient=test/division;
+	
 	uint16_t lengthMod=1;
 	uint16_t lengthQoutient=1;
 	uint32_t divisionMod=10;
 	uint32_t divisionQoutient=10;
+	
 	char Cmod[3];
 	char Cquotient[3];
 	

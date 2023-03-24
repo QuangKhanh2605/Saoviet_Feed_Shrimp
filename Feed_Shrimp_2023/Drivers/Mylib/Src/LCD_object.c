@@ -15,7 +15,9 @@ void LCD_Display_Esc(CLCD_Name* LCD,uint16_t setupCount,
 																LCD_Object_Display *Name_Object1,
                                 LCD_Object_Display *Name_Object2,
                                 LCD_Object_Display *Name_Object3,
-																LCD_Object_Display *Name_Object4)
+																LCD_Object_Display *Name_Object4,
+                                LCD_Object_Display *Name_Object5,
+                                LCD_Object_Display *Name_Object6)
 {
 	if(Name_Object1->state==1 && setupCount==1)
 	{
@@ -40,13 +42,27 @@ void LCD_Display_Esc(CLCD_Name* LCD,uint16_t setupCount,
 	LCD_Send_Data(LCD, Name_Object4);
 	Name_Object4->state=0;
 	}
+	
+	if(Name_Object5->state==1 && setupCount==5)
+	{
+	LCD_Send_Data(LCD, Name_Object5);
+	Name_Object5->state=0;
+	}
+	
+	if(Name_Object6->state==1 && setupCount==6)
+	{
+	LCD_Send_Data(LCD, Name_Object6);
+	Name_Object6->state=0;
+	}
 }
 
 void LCD_Display_ACS_Time1_Time2_Time3(CLCD_Name* LCD,uint16_t setupCount,
-																		     LCD_Object_Display *Name_Object1,
-                                         LCD_Object_Display *Name_Object2,
-                                         LCD_Object_Display *Name_Object3,
-                                         LCD_Object_Display *Name_Object4)
+																       LCD_Object_Display *Name_Object1,
+                                       LCD_Object_Display *Name_Object2,
+                                       LCD_Object_Display *Name_Object3,
+																       LCD_Object_Display *Name_Object4,
+                                       LCD_Object_Display *Name_Object5,
+                                       LCD_Object_Display *Name_Object6)
 {
 	if(setupCount==1 && Name_Object1->state==1)
 	{
@@ -70,6 +86,18 @@ void LCD_Display_ACS_Time1_Time2_Time3(CLCD_Name* LCD,uint16_t setupCount,
 	{
 		LCD_Send_Data(LCD, Name_Object4);
 		Name_Object4->state=0;
+	}
+	
+	if(setupCount==5 && Name_Object5->state==1)
+	{
+		LCD_Send_Data(LCD, Name_Object5);
+		Name_Object5->state=0;
+	}
+	
+	if(setupCount==6 && Name_Object6->state==1)
+	{
+		LCD_Send_Data(LCD, Name_Object6);
+		Name_Object6->state=0;
 	}
 }
 

@@ -54,8 +54,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc;
+DMA_HandleTypeDef hdma_adc;
 
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart2;
 
@@ -64,8 +66,14 @@ uint32_t runTime=0;
 uint32_t time1=10; //so giay cho an
 uint32_t time2=10;	//so phut giua 2 chu ky ban
 uint32_t time3=5; //thoi gian giua 2 moto vang va chinh luong 
+float threshold_Relay1_Float=0.1;
+float threshold_Relay2_Float=1.0;
+
+uint32_t threshold_Relay1_Uint=0;
+uint32_t threshold_Relay2_Uint=0;
 
 uint16_t State=1;
+uint16_t stateWaring=0;
 uint16_t checkState=0;
 uint16_t countState=0;
 uint16_t setupCount=1;
@@ -78,7 +86,9 @@ CLCD_Name LCD;
 
 UART_BUFFER rx_uart2;
 
-float ACS_Value=0;
+float ACS_Value_Float=0;
+uint32_t ACS_Value_Uint=0;
+uint16_t ADC_stamp[2];
 
 //UART_BUFFER rx_uart1;
 /* USER CODE END PV */
@@ -86,9 +96,11 @@ float ACS_Value=0;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_ADC_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
@@ -108,6 +120,7 @@ void Display_Time(void);
 void Setup_SIM(void);
 void Read_Flash(void);
 void Check_SMS_Receive(void);
+void State_Waring(void);
 /* USER CODE END 0 */
 
 /**
@@ -115,8 +128,6 @@ void Check_SMS_Receive(void);
   * @retval int
   */
 int main(void)
-
-
 {
   /* USER CODE BEGIN 1 */
 	//rx_uart1.huart=&huart1;
@@ -142,14 +153,17 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC_Init();
   MX_TIM2_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim2);
-	HAL_UART_Receive_IT(&huart2,&rx_uart2.buffer,1);
+	HAL_TIM_Base_Start_IT(&htim3);
+	HAL_UART_Receive_IT(&huart2,&rx_uart2.buffer,4);
 	//HAL_ADC_Start_IT(&hadc);
-	HAL_ADC_Start(&hadc);
+	//HAL_ADC_Start(&hadc);
 	//HAL_UART_Receive_IT(&huart1,&rx_uart1.buffer,1);
 	
 	CLCD_4BIT_Init(&LCD, 16,2, GPIOB, GPIO_PIN_15,GPIOC, GPIO_PIN_6,
@@ -163,7 +177,8 @@ int main(void)
 	CLCD_WriteString(&LCD, "        00:00:00");
 	
 	//Receive_SMS_Setup("+CMT: +84966674796,23/03/14,09:34:14+28 SETUP T1=  100  t3:199", &time1, &time2, &time3);
-	Run_Begin(&setupCount, ACS_Value ,time1, time2, time3);
+	Run_Begin(&setupCount, ACS_Value_Uint ,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp,2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -175,25 +190,28 @@ int main(void)
     /* USER CODE BEGIN 3 */
 		//Check_SMS_Receive();
 		Display_Time();
-		Check_BT_Callback();
-		ACS_712(&hadc, &ACS_Value);
-		LED_Status_Run(State, countState);
-		LED_Waring(State, countState, ACS_Value);
-		Relay3_ACS(State, countState, ACS_Value);
 		debug_uart(&huart2, State, countState);
+		Check_BT_Callback();
+		LED_Status_Run(State, countState);
+		USER_LCD_Display_Warning(&LCD, stateWaring);
+		
 		if(State==0 )
 		{
+			stateWaring=0;
 			if(setupCount!=4) BT_Check_Up_Down();
-			BT_Esc_Exit_Setup(&State, &setupCount, ACS_Value,&time1, &time2, &time3);
+			BT_Esc_Exit_Setup(&State, &setupCount, ACS_Value_Float,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 			USER_LCD_Display_Running_OR_Setup(State);
 			USER_LCD_Display_Setup(&LCD, setupCount);
+			USER_LCD_Display_X(&LCD, setupCount, stateWaring, ACS_Value_Float);
 		}
 		
-		if(State==1) 
+		if(State==1 ) 
 		{
-			Run_Feed_Shrimp();
+			Run_Feed_Shrimp(); 
 			USER_LCD_Display_Running_OR_Setup(State);
-			USER_LCD_Display_Running(&LCD, setupCount, ACS_Value);
+			USER_LCD_Display_Running(&LCD, setupCount, stateWaring, ACS_Value_Float);
+			USER_LCD_Display_X(&LCD, setupCount, stateWaring, ACS_Value_Float);
+			State_Waring();
 		}
   }
   /* USER CODE END 3 */
@@ -257,28 +275,36 @@ static void MX_ADC_Init(void)
   */
   hadc.Instance = ADC1;
   hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-  hadc.Init.Resolution = ADC_RESOLUTION_10B;
+  hadc.Init.Resolution = ADC_RESOLUTION_12B;
   hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   hadc.Init.LowPowerAutoWait = ADC_AUTOWAIT_DISABLE;
   hadc.Init.LowPowerAutoPowerOff = ADC_AUTOPOWEROFF_DISABLE;
   hadc.Init.ChannelsBank = ADC_CHANNELS_BANK_A;
-  hadc.Init.ContinuousConvMode = ENABLE;
-  hadc.Init.NbrOfConversion = 1;
+  hadc.Init.ContinuousConvMode = DISABLE;
+  hadc.Init.NbrOfConversion = 2;
   hadc.Init.DiscontinuousConvMode = DISABLE;
   hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc.Init.DMAContinuousRequests = DISABLE;
+  hadc.Init.DMAContinuousRequests = ENABLE;
   if (HAL_ADC_Init(&hadc) != HAL_OK)
   {
     Error_Handler();
   }
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
   */
-  sConfig.Channel = ADC_CHANNEL_14;
+  sConfig.Channel = ADC_CHANNEL_15;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_384CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+  */
+  sConfig.Channel = ADC_CHANNEL_14;
+  sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -310,7 +336,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 16000;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 1000;
+  htim2.Init.Period = 999;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -331,6 +357,51 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 160;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 999;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
 
 }
 
@@ -364,6 +435,22 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 2 */
 
   /* USER CODE END USART2_Init 2 */
+
+}
+
+/** 
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void) 
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 
 }
 
@@ -448,7 +535,24 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-
+void State_Waring()
+{
+	Waring(&State, &stateWaring, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	Relay3_ACS(&State, &stateWaring, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	
+	if(stateWaring == 1)
+	{
+		Set_Relay3();
+		Set_LED_NC();
+		Toggle_LED_Waring();
+	}
+	else
+	{
+		Reset_Relay3();
+		Reset_LED_NC();
+		Reset_LED_Waring();
+	}
+}
 
 //void Check_SMS_Receive(void)
 //{
@@ -489,7 +593,7 @@ void Run_Feed_Shrimp(void)
 		countState++;
 		runTime=0;
 	}
-	if(countState==2 && runTime>=time1 )
+	if(countState==2 && runTime>=1000*time1 )
 	{
 		Reset_Relay2();
 		countState++;
@@ -510,7 +614,7 @@ void Run_Feed_Shrimp(void)
 
 void Check_BT_Callback(void)
 {
-	Check_BT_ENTER(&State, &checkState, &setupCount, &time1, &time2, &time3);
+	Check_BT_ENTER(&State, &checkState, &setupCount, &time1, &time2, &time3, &threshold_Relay1_Uint, &threshold_Relay2_Uint );
 	Check_BT_ESC(State, &setupCount);
 	Check_BT_UP(State);
 	Check_BT_DOWN(State);
@@ -540,6 +644,7 @@ void Check_Test(void)
 	{
 		Reset_Relay1();
 		Reset_Relay2();
+		Reset_Relay3();
 		countState=0;
 		runTime=0;
 		checkState=0;
@@ -548,6 +653,7 @@ void Check_Test(void)
 	{
 		Reset_Relay1();
 		Reset_Relay2();
+		Reset_Relay3();
 		countState=0;
 		runTime=0;
 	}
@@ -593,17 +699,37 @@ void Read_Flash(void)
 		time1=FLASH_ReadData32(FLASH_USER_START_ADDR + 4);
 		time2=FLASH_ReadData32(FLASH_USER_START_ADDR + 8);
 		time3=FLASH_ReadData32(FLASH_USER_START_ADDR + 12);
+		threshold_Relay1_Uint=FLASH_ReadData32(FLASH_USER_START_ADDR + 16);
+		threshold_Relay2_Uint=FLASH_ReadData32(FLASH_USER_START_ADDR + 20);
+	}
+	else
+	{
+		threshold_Relay1_Uint = threshold_Relay1_Float*pow(10,LENGTH_MOD_FLOAT);
+		threshold_Relay2_Uint = threshold_Relay2_Float*pow(10,LENGTH_MOD_FLOAT);
 	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   UNUSED(htim);
-	runTime++; 
-	if(State==0)
+	if(htim->Instance == htim2.Instance)
 	{
-	countState=0;
-	runTime=0;
+		if(stateWaring==0 && State == 1)
+		{
+			runTime++;
+		}
+		
+		if(State==0)
+		{
+		countState=0;
+		runTime=0;
+		}
+	}
+	
+	if(htim->Instance == htim3.Instance)
+	{
+		HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp,2);
+		ACS_712(&ACS_Value_Float, &ACS_Value_Uint, ADC_stamp[0], ADC_stamp[1]);
 	}
 }
 
@@ -615,7 +741,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	{
 		rx_uart2.sim_rx[(rx_uart2.countBuffer)++]= rx_uart2.buffer;
 		HAL_UART_Receive_IT(&huart2,&rx_uart2.buffer,1);
-		
 	}
 	
 //	if(huart->Instance == huart1.Instance)
@@ -631,10 +756,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hadc);
+	
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvCpltCallback must be implemented in the user file.
    */
 }
+
 
 void Delay_1ms(void)
 {

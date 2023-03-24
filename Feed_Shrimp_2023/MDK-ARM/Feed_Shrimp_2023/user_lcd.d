@@ -33,3 +33,4 @@ feed_shrimp_2023\user_lcd.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_t
 feed_shrimp_2023\user_lcd.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h
 feed_shrimp_2023\user_lcd.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
 feed_shrimp_2023\user_lcd.o: ..\Drivers\Mylib\Inc\Convert_Variable.h
+feed_shrimp_2023\user_lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

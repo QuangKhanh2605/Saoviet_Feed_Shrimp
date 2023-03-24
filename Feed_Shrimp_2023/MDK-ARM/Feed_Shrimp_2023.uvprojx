@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L151xC,USE_HAL_DRIVER,STM32L151xC</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                      ../Drivers/STM32L1xx_HAL_Driver/Inc;                      ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                      ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                      ../Drivers/CMSIS/Include;                      ..\Drivers\Mylib\Inc</IncludePath>
+              <IncludePath>../Inc;                                           ../Drivers/STM32L1xx_HAL_Driver/Inc;                                           ../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy;                                           ../Drivers/CMSIS/Device/ST/STM32L1xx/Include;                                           ../Drivers/CMSIS/Include;                                           ..\Drivers\Mylib\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -393,11 +393,6 @@
           <GroupName>Mylib</GroupName>
           <Files>
             <File>
-              <FileName>CLCD.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\Mylib\Src\CLCD.c</FilePath>
-            </File>
-            <File>
               <FileName>Relay_Led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\Mylib\Src\Relay_Led.c</FilePath>
@@ -437,6 +432,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\Mylib\Src\LCD_Object.c</FilePath>
             </File>
+            <File>
+              <FileName>CLCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mylib\Src\CLCD.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -463,6 +463,11 @@
               <FilePath>..\Src\user_Relay_Led.c</FilePath>
             </File>
             <File>
+              <FileName>uart_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\uart_debug.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/main.c</FilePath>
@@ -476,11 +481,6 @@
               <FileName>stm32l1xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32l1xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart_debug.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\uart_debug.c</FilePath>
             </File>
           </Files>
         </Group>

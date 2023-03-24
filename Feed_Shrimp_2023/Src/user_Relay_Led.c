@@ -10,14 +10,10 @@ float stampACSvalue=0;
 uint32_t Relay3_after_500_ms=0;
 uint32_t check_Relay3_after_500_ms=0;
 
-void Relay3_ACS(uint16_t State, uint16_t countState, float ACS_Value)
+void Relay3_ACS(uint16_t *State, uint16_t *stateWaring, uint16_t *countState, uint32_t ACS_Value_Uint, 
+                uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint)
 {
-	if(State == 1 && countState == 1)
-	{
-		stampACSvalue=ACS_Value;
-	}
-	
-	if(State == 1 && countState == 2)
+	if(*State == 1 && *countState == 2)
 	{
 		if(Relay3_after_500_ms==0)
 		{
@@ -38,26 +34,30 @@ void Relay3_ACS(uint16_t State, uint16_t countState, float ACS_Value)
 	else
 	{
 		Relay3_after_500_ms=0;
-		Reset_Relay3();
 	}
 	
 	if(Relay3_after_500_ms==1)
 	{
-		if(ACS_Value - ACS_VALUE_WARING <= stampACSvalue)
+		if(ACS_Value_Uint < threshol_Relay2_Uint )
 		{
-			Set_Relay3();
+			*stateWaring=1;
+		}
+		else
+		{
+			*stateWaring=0;
 		}
 	}
-	else
-	{
-		Reset_Relay3();
-	}
 	
+	if(*countState > 2)
+	{
+		*stateWaring=0;
+	}
 }
 
-void LED_Waring(uint16_t State, uint16_t countState, float ACS_Value)
+void Waring(uint16_t *State, uint16_t *stateWaring, uint16_t *countState, uint32_t ACS_Value_Uint, 
+                uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint)
 {
-	if(State == 1 && countState < 4 )
+	if(*State == 1 && *countState <= 1 )
 	{
 		if(ACS_value_after_500_ms==0)
 		{
@@ -70,6 +70,7 @@ void LED_Waring(uint16_t State, uint16_t countState, float ACS_Value)
 			ACS_value_after_500_ms=0;
 			check_ACS_value_after_500_ms=0;
 		}
+		
 		if(GET_SYSTICK_MS()-check_ACS_value_after_500_ms>TIME_WAIT_RELAY3_WARNING && ACS_value_after_500_ms==2)
 		{
 			ACS_value_after_500_ms=1;
@@ -78,29 +79,18 @@ void LED_Waring(uint16_t State, uint16_t countState, float ACS_Value)
 	else
 	{
 		ACS_value_after_500_ms=0;
-		Reset_LED_Waring();
 	}
-	
 
 	if(ACS_value_after_500_ms==1)
 	{
-		if(ACS_Value < ACS_VALUE_WARING && ACS_Value > -(ACS_VALUE_WARING) )
+		if(ACS_Value_Uint < threshol_Relay1_Uint)
 		{
-			if(check_ACS_value>GET_SYSTICK_MS())  check_ACS_value=0;
-			if(GET_SYSTICK_MS()-check_ACS_value>100)
-			{
-				check_ACS_value=GET_SYSTICK_MS();
-				HAL_GPIO_TogglePin(GPIO_LED_WARING, PIN_LED_WARING);
-			}
+			*stateWaring=1;
 		}
 		else
 		{
-			Reset_LED_Waring();
+			*stateWaring=0;
 		}
-	}
-	else
-	{
-		Reset_LED_Waring();
 	}
 }
 
@@ -128,6 +118,15 @@ void LED_Status_Run(uint16_t State, uint16_t countState)
 	}
 }
 
+void Toggle_LED_Waring(void)
+{
+	if(check_ACS_value>GET_SYSTICK_MS())  check_ACS_value=0;
+			if(GET_SYSTICK_MS()-check_ACS_value>100)
+			{
+				check_ACS_value=GET_SYSTICK_MS();
+				HAL_GPIO_TogglePin(GPIO_LED_WARING, PIN_LED_WARING);
+			}
+}
 
 void Set_Relay1(void)
 {
