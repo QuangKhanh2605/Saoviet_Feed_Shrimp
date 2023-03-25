@@ -73,7 +73,7 @@ uint32_t threshold_Relay1_Uint=0;
 uint32_t threshold_Relay2_Uint=0;
 
 uint16_t State=1;
-uint16_t stateWaring=0;
+uint16_t stateWarning=0;
 uint16_t checkState=0;
 uint16_t countState=0;
 uint16_t setupCount=1;
@@ -120,7 +120,7 @@ void Display_Time(void);
 void Setup_SIM(void);
 void Read_Flash(void);
 void Check_SMS_Receive(void);
-void State_Waring(void);
+void State_Warning(void);
 /* USER CODE END 0 */
 
 /**
@@ -193,25 +193,25 @@ int main(void)
 		debug_uart(&huart2, State, countState);
 		Check_BT_Callback();
 		LED_Status_Run(State, countState);
-		USER_LCD_Display_Warning(&LCD, stateWaring);
+		USER_LCD_Display_Warning(&LCD, stateWarning);
 		
 		if(State==0 )
 		{
-			stateWaring=0;
+			stateWarning=0;
 			if(setupCount!=4) BT_Check_Up_Down();
 			BT_Esc_Exit_Setup(&State, &setupCount, ACS_Value_Float,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 			USER_LCD_Display_Running_OR_Setup(State);
 			USER_LCD_Display_Setup(&LCD, setupCount);
-			USER_LCD_Display_X(&LCD, setupCount, stateWaring, ACS_Value_Float);
+			USER_LCD_Display_X(&LCD, setupCount, stateWarning, ACS_Value_Float);
 		}
 		
 		if(State==1 ) 
 		{
 			Run_Feed_Shrimp(); 
 			USER_LCD_Display_Running_OR_Setup(State);
-			USER_LCD_Display_Running(&LCD, setupCount, stateWaring, ACS_Value_Float);
-			USER_LCD_Display_X(&LCD, setupCount, stateWaring, ACS_Value_Float);
-			State_Waring();
+			USER_LCD_Display_Running(&LCD, setupCount, stateWarning, ACS_Value_Float);
+			USER_LCD_Display_X(&LCD, setupCount, stateWarning, ACS_Value_Float);
+			State_Warning();
 		}
   }
   /* USER CODE END 3 */
@@ -535,22 +535,22 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-void State_Waring()
+void State_Warning()
 {
-	Waring(&State, &stateWaring, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
-	Relay3_ACS(&State, &stateWaring, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	Warning_Relay1(&State, &stateWarning, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	Warning_Relay2(&State, &stateWarning, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
 	
-	if(stateWaring == 1)
+	if(stateWarning == 1)
 	{
 		Set_Relay3();
 		Set_LED_NC();
-		Toggle_LED_Waring();
+		Toggle_LED_Warning();
 	}
 	else
 	{
 		Reset_Relay3();
 		Reset_LED_NC();
-		Reset_LED_Waring();
+		Reset_LED_Warning();
 	}
 }
 
@@ -714,7 +714,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   UNUSED(htim);
 	if(htim->Instance == htim2.Instance)
 	{
-		if(stateWaring==0 && State == 1)
+		if(stateWarning==0 && State == 1)
 		{
 			runTime++;
 		}

@@ -10,7 +10,7 @@ float stampACSvalue=0;
 uint32_t Relay3_after_500_ms=0;
 uint32_t check_Relay3_after_500_ms=0;
 
-void Relay3_ACS(uint16_t *State, uint16_t *stateWaring, uint16_t *countState, uint32_t ACS_Value_Uint, 
+void Warning_Relay2(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, 
                 uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint)
 {
 	if(*State == 1 && *countState == 2)
@@ -40,21 +40,21 @@ void Relay3_ACS(uint16_t *State, uint16_t *stateWaring, uint16_t *countState, ui
 	{
 		if(ACS_Value_Uint < threshol_Relay2_Uint )
 		{
-			*stateWaring=1;
+			*stateWarning=1;
 		}
 		else
 		{
-			*stateWaring=0;
+			*stateWarning=0;
 		}
 	}
 	
 	if(*countState > 2)
 	{
-		*stateWaring=0;
+		*stateWarning=0;
 	}
 }
 
-void Waring(uint16_t *State, uint16_t *stateWaring, uint16_t *countState, uint32_t ACS_Value_Uint, 
+void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, 
                 uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint)
 {
 	if(*State == 1 && *countState <= 1 )
@@ -85,11 +85,11 @@ void Waring(uint16_t *State, uint16_t *stateWaring, uint16_t *countState, uint32
 	{
 		if(ACS_Value_Uint < threshol_Relay1_Uint)
 		{
-			*stateWaring=1;
+			*stateWarning=1;
 		}
 		else
 		{
-			*stateWaring=0;
+			*stateWarning=0;
 		}
 	}
 }
@@ -118,13 +118,13 @@ void LED_Status_Run(uint16_t State, uint16_t countState)
 	}
 }
 
-void Toggle_LED_Waring(void)
+void Toggle_LED_Warning(void)
 {
 	if(check_ACS_value>GET_SYSTICK_MS())  check_ACS_value=0;
 			if(GET_SYSTICK_MS()-check_ACS_value>100)
 			{
 				check_ACS_value=GET_SYSTICK_MS();
-				HAL_GPIO_TogglePin(GPIO_LED_WARING, PIN_LED_WARING);
+				HAL_GPIO_TogglePin(GPIO_LED_WARNING, PIN_LED_WARNING);
 			}
 }
 
@@ -154,9 +154,9 @@ void Reset_Relay3(void)
 	HAL_GPIO_WritePin(GPIO_RELAY, PIN_RELAY3, GPIO_PIN_RESET);
 }
 
-void Set_LED_Waring(void)
+void Set_LED_Warning(void)
 {
-	HAL_GPIO_WritePin(GPIO_LED_WARING, PIN_LED_WARING, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIO_LED_WARNING, PIN_LED_WARNING, GPIO_PIN_SET);
 }
 void Set_LED_Run(void)
 {
@@ -171,9 +171,9 @@ void Set_LED_NC(void)
 	HAL_GPIO_WritePin(GPIO_LED_NC, PIN_LED_NC, GPIO_PIN_SET);
 }
 
-void Reset_LED_Waring(void)
+void Reset_LED_Warning(void)
 {
-	HAL_GPIO_WritePin(GPIO_LED_WARING, PIN_LED_WARING, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIO_LED_WARNING, PIN_LED_WARNING, GPIO_PIN_RESET);
 }
 void Reset_LED_Run(void)
 {

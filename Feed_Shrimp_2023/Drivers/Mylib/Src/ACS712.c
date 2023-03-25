@@ -22,7 +22,7 @@ void ACS_712(float *ACS_Value_Float,uint32_t *ACS_Value_Uint, uint16_t ADC_VCC_V
 	offsetVoltage_Avg = offsetVoltage_Avg + ADC_VCC_Value;
 	countAvg++;
 	
-	if(countAvg == 50)
+	if(countAvg == 25)
 	{
 		offsetVoltage_Avg = offsetVoltage_Avg/countAvg;
 		offsetVoltage = ((float)offsetVoltage_Avg/ADC_12bit)*VCC;

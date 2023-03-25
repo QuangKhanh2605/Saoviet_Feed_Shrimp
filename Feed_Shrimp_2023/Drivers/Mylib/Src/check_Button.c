@@ -17,7 +17,7 @@ uint16_t run_BT_begin=0;
 uint16_t run_BT_Esc_time=0;
 
 const uint16_t run_BT_end=500;
-const uint16_t run_BT_irq=200;
+const uint16_t run_BT_irq=50;
 const uint32_t MINISECOND_OF_49_DAY=4233600000;
 float drop=0.1;
 uint32_t SYSTICK_count_ms=0;

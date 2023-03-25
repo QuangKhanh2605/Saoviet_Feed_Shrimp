@@ -33,3 +33,6 @@ feed_shrimp_2023\uart_debug.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal
 feed_shrimp_2023\uart_debug.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
 feed_shrimp_2023\uart_debug.o: ..\Drivers\Mylib\Inc\uart_sim.h
 feed_shrimp_2023\uart_debug.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+feed_shrimp_2023\uart_debug.o: ../Inc/user_Relay_Led.h
+feed_shrimp_2023\uart_debug.o: ..\Drivers\Mylib\Inc\Check_Button.h
+feed_shrimp_2023\uart_debug.o: ../Inc/stm32l1xx_it.h

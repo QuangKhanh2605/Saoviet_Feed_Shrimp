@@ -26,7 +26,7 @@ char char_ACS[9];
 
 LCD_Object_Display LCD_Running={"Running ",0,0,0};
 LCD_Object_Display LCD_Setup={"SETUP  ",0,0,0};
-LCD_Object_Display LCD_Waring={" Supply Power!  ",0,0,0};
+LCD_Object_Display LCD_Warning={" Supply Power!  ",0,0,0};
 LCD_Object_Display LCD_Time={"00:00:00",8,0,0};
 
 LCD_Object_Display LCD_SetupT1={"T1:         Giay",0,1,1};
@@ -163,7 +163,7 @@ void USER_LCD_Display_Running_OR_Setup(uint16_t State)
 	}
 }
 
-void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWaring, float ACS_Value_Float)
+void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWarning, float ACS_Value_Float)
 {
 	LCD_Display_Running_OR_Setup(LCD, &LCD_Running, &LCD_Setup);
 }
@@ -173,7 +173,7 @@ void USER_LCD_Display_Setup(CLCD_Name* LCD, uint16_t setupCount)
 	LCD_Display_Running_OR_Setup(LCD, &LCD_Setup, &LCD_Running);
 }
 
-void USER_LCD_Display_X(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWaring, float ACS_Value_Float)
+void USER_LCD_Display_X(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWarning, float ACS_Value_Float)
 {
 	LCD_Change_State_ACS(ACS_Value_Float);
 	Float_To_Char_ACS(ACS_Value_Float);
@@ -200,15 +200,15 @@ void USER_LCD_Change_Setup(void)
 	LCD_ACS_Value.state=1;
 }
 
-void USER_LCD_Display_Warning(CLCD_Name* LCD, uint16_t stateWaring)
+void USER_LCD_Display_Warning(CLCD_Name* LCD, uint16_t stateWarning)
 {
-	if(check_Warning == 0 && stateWaring == 1)
+	if(check_Warning == 0 && stateWarning == 1)
 	{
-		LCD_Send_Data(LCD, &LCD_Waring);
+		LCD_Send_Data(LCD, &LCD_Warning);
 		check_Warning=1;
 	}
 		
-	if(check_Warning == 1 && stateWaring == 0)
+	if(check_Warning == 1 && stateWarning == 0)
 	{
 		LCD_Send_Data(LCD, &LCD_Time);
 		LCD_Running.state=1;
