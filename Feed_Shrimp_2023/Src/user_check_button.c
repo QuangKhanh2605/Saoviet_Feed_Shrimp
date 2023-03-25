@@ -125,12 +125,12 @@ void BT_Esc_Exit_Setup(uint16_t *State, uint16_t *setupCount, uint32_t ACS_Value
 	BT_Press_Hold_Esc(GPIO_BT_ESC, PIN_BT_ESC, State, BT_up, BT_down);
 	if(*State==1)
 	{
-		Run_Begin(setupCount, ACS_Value_Uint,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
+		Run_Begin(*State, setupCount, ACS_Value_Uint,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 		check_hold_esc=1;
 	}
 }
 
-void Run_Begin(uint16_t *setupCount, uint32_t ACS_Value_Float, uint32_t time1, uint32_t time2,uint32_t time3,
+void Run_Begin(uint16_t State, uint16_t *setupCount, uint32_t ACS_Value_Float, uint32_t time1, uint32_t time2,uint32_t time3,
                                      uint32_t threshold_Relay1_Uint, uint32_t threshold_Relay2_Uint)
 {
 	stampTime1=time1;
@@ -138,11 +138,13 @@ void Run_Begin(uint16_t *setupCount, uint32_t ACS_Value_Float, uint32_t time1, u
 	stampTime3=time3;
 	stampThreshold_Relay1 = threshold_Relay1_Uint;
 	stampThreshold_Relay2 = threshold_Relay2_Uint;
-	*setupCount=1;
+	if(State==1) *setupCount=1;
+	if(State==0) *setupCount=2;
 	ptrStamp=&stampTime1;
 	
 	LCD_Change_State_Setup_T1_T2_T3(stampTime1, stampTime2, stampTime3, stampThreshold_Relay1, stampThreshold_Relay2);
 	UintTime_To_CharTime_T1_T2_T3(stampTime1, stampTime2, stampTime3, stampThreshold_Relay1, stampThreshold_Relay2);
 	Float_To_Char_ACS(ACS_Value_Float);
+	
 }
 

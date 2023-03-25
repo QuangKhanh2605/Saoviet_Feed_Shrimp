@@ -67,7 +67,7 @@ uint32_t time1=10; //so giay cho an
 uint32_t time2=10;	//so phut giua 2 chu ky ban
 uint32_t time3=5; //thoi gian giua 2 moto vang va chinh luong 
 float threshold_Relay1_Float=0.1;
-float threshold_Relay2_Float=1.0;
+float threshold_Relay2_Float=0.1;
 
 uint32_t threshold_Relay1_Uint=0;
 uint32_t threshold_Relay2_Uint=0;
@@ -78,7 +78,8 @@ uint16_t checkState=0;
 uint16_t countState=0;
 uint16_t setupCount=1;
 uint16_t check_Power_OFF=0;
-
+uint16_t check_Power=0;
+uint16_t check_Power_setup=0;
 //gio phut giay
 uint16_t hh, mm, ss;
 
@@ -128,6 +129,8 @@ void State_Warning(void);
   * @retval int
   */
 int main(void)
+
+
 {
   /* USER CODE BEGIN 1 */
 	//rx_uart1.huart=&huart1;
@@ -177,7 +180,7 @@ int main(void)
 	CLCD_WriteString(&LCD, "        00:00:00");
 	
 	//Receive_SMS_Setup("+CMT: +84966674796,23/03/14,09:34:14+28 SETUP T1=  100  t3:199", &time1, &time2, &time3);
-	Run_Begin(&setupCount, ACS_Value_Uint ,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	Run_Begin(State,&setupCount, ACS_Value_Uint ,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 	HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp,2);
   /* USER CODE END 2 */
 
@@ -656,6 +659,11 @@ void Check_Test(void)
 		Reset_Relay3();
 		countState=0;
 		runTime=0;
+		if(check_Power_setup==0)
+		{
+			FLASH_Write_Program(FLASH_USER_START_ADDR_PROGRAM, FLASH_USER_END_ADDR_PROGRAM,1, State, countState, runTime);
+			check_Power_setup=1;
+		}
 	}
 }
 
@@ -707,6 +715,23 @@ void Read_Flash(void)
 		threshold_Relay1_Uint = threshold_Relay1_Float*pow(10,LENGTH_MOD_FLOAT);
 		threshold_Relay2_Uint = threshold_Relay2_Float*pow(10,LENGTH_MOD_FLOAT);
 	}
+	
+	check_Power=FLASH_ReadData32(FLASH_USER_START_ADDR_PROGRAM );
+	if(check_Power==1)
+	{
+		State=FLASH_ReadData32(FLASH_USER_START_ADDR_PROGRAM + 4);
+		countState=FLASH_ReadData32(FLASH_USER_START_ADDR_PROGRAM + 8);
+		runTime=FLASH_ReadData32(FLASH_USER_START_ADDR_PROGRAM + 12);
+		if(countState==1)
+		{
+			Set_Relay1();
+		}
+		if(countState==2)
+		{
+			Set_Relay1();
+			Set_Relay2();
+		}
+	}
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -721,9 +746,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if(State==0)
 		{
-		countState=0;
-		runTime=0;
+			countState=0;
+			runTime=0;
 		}
+		
+		if(countState>0 && runTime>0)
+		{
+			FLASH_Write_Program(FLASH_USER_START_ADDR_PROGRAM, FLASH_USER_END_ADDR_PROGRAM,1, State, countState, runTime);
+			check_Power_setup=0;
+		}
+			
 	}
 	
 	if(htim->Instance == htim3.Instance)

@@ -4,7 +4,7 @@
 #include "stm32l1xx_it.h"
 #include "stm32l1xx_hal.h"
 
-#define MAX_TIME 999999
+#define MAX_TIME 9999
 
 void HAL_SYSTICK_Callback(void);
 
