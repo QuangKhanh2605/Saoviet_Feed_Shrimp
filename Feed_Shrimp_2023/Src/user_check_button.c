@@ -62,16 +62,16 @@ void Check_BT_ESC(uint16_t State, uint16_t *setupCount)
 		BT_esc=0;
 		if(check_hold_esc==0)
 		{
-		USER_LCD_Change_Setup();	
-		if(*setupCount==6) *setupCount=1;
-		else 						   (*setupCount)++;
-			
-		if(State==0 && *setupCount==1) *setupCount=2;
-		if(*setupCount==2 ) ptrStamp=&stampTime1;
-		if(*setupCount==3 ) ptrStamp=&stampTime2;
-		if(*setupCount==4 ) ptrStamp=&stampTime3;
-		if(*setupCount==5 ) ptrStamp=&stampThreshold_Relay1;
-		if(*setupCount==6 ) ptrStamp=&stampThreshold_Relay2;
+			USER_LCD_Change_Setup();	
+			if(*setupCount==6) *setupCount=1;
+			else 						   (*setupCount)++;
+				
+			if(State==0 && *setupCount==1) *setupCount=2;
+			if(*setupCount==2 ) ptrStamp=&stampTime1;
+			if(*setupCount==3 ) ptrStamp=&stampTime2;
+			if(*setupCount==4 ) ptrStamp=&stampTime3;
+			if(*setupCount==5 ) ptrStamp=&stampThreshold_Relay1;
+			if(*setupCount==6 ) ptrStamp=&stampThreshold_Relay2;
 		}
 		else check_hold_esc=0;
 	}

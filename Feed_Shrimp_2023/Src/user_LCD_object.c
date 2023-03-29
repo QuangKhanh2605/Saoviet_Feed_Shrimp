@@ -91,7 +91,6 @@ void LCD_Change_State_Time_HH_MM_SS(uint16_t hh, uint16_t mm, uint32_t ss)
 		check_SS=ss;
 		LCD_Time_SS.state=1;
 	}
-	
 	if(check_MM!=mm)
 	{
 		check_MM=mm;

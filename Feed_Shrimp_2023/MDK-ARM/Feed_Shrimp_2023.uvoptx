@@ -260,7 +260,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x08000000 + 1024*60</ItemText>
+          <ItemText>0x08000000 + 1024*126</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
