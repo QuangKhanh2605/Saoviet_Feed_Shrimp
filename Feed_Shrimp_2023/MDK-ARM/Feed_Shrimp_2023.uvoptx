@@ -243,12 +243,17 @@
         <Ww>
           <count>18</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m,0x0A</ItemText>
+          <ItemText>ACS_Value_Uint,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>19</count>
           <WinNumber>1</WinNumber>
-          <ItemText>n,0x0A</ItemText>
+          <ItemText>threshold_Relay1_Uint,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>20</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>threshold_Relay2_Uint,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

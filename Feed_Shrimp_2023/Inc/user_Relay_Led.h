@@ -5,8 +5,7 @@
 #include "Check_Button.h"
 
 #define TIME_lED_STATUS_TOGGLE   2000
-#define TIME_WAIT_RELAY3_WARNING 1000
-#define ACS_VALUE_WARNING         0.2
+#define TIME_WAIT_WARNING        2000
 
 #define PIN_RELAY1 GPIO_PIN_0 
 #define PIN_RELAY2 GPIO_PIN_1
@@ -27,7 +26,7 @@
 void LED_Status_Run(uint16_t State, uint16_t countState);
 void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, 
                 uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint);
-void Warning_Relay2(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, 
+void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *countState, uint32_t ACS_Value_Uint, 
                 uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint);
 void Toggle_LED_Warning(void);
 void Set_Relay1(void);

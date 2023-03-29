@@ -18,8 +18,8 @@
 void Check_BT_ENTER(uint16_t *State,uint16_t *checkState, uint16_t *setupCount,uint32_t *time1, uint32_t *time2, uint32_t *time3,
                     uint32_t *threshold_Relay1, uint32_t *threshold_Relay2 );
 void Check_BT_ESC(uint16_t State, uint16_t *setupCount);
-void Check_BT_UP(uint16_t State);
-void Check_BT_DOWN(uint16_t State);
+void Check_BT_UP(uint16_t State, uint16_t *stateWarning_Relay3);
+void Check_BT_DOWN(uint16_t State, uint16_t *stateWarning_Relay3);
 
 void Run_Begin(uint16_t State, uint16_t *setupCount, uint32_t ACS_Value_Float, uint32_t time1, uint32_t time2,uint32_t time3,
                                      uint32_t threshold_Relay1_Uint, uint32_t threshold_Relay2_Uint);

@@ -30,11 +30,11 @@ LCD_Object_Display LCD_Warning={" Supply Power!  ",0,0,0};
 LCD_Object_Display LCD_Time={"00:00:00",8,0,0};
 
 LCD_Object_Display LCD_SetupT1={"Time1:      Giay",0,1,1};
-LCD_Object_Display LCD_SetupT2={"Time2:      Giay",0,1,1};
+LCD_Object_Display LCD_SetupT2={"Time2:      Phut",0,1,1};
 LCD_Object_Display LCD_SetupT3={"Time3:      Giay",0,1,1};
 LCD_Object_Display LCD_ACS_Unit={"I=          Ampe",0,1,1};
-LCD_Object_Display LCD_ThresholRelay1_Unit={"R1:         Ampe",0,1,1};
-LCD_Object_Display LCD_ThresholRelay2_Unit={"R2:         Ampe",0,1,1};
+LCD_Object_Display LCD_ThresholRelay1_Unit={"TBran:      Ampe",0,1,1};
+LCD_Object_Display LCD_ThresholRelay2_Unit={"T_Vcc:      Ampe",0,1,1};
 
 LCD_Object_Display LCD_Time_HH={HH,8,0,1};
 LCD_Object_Display LCD_Time_MM={MM,11,0,1};
@@ -43,8 +43,9 @@ LCD_Object_Display LCD_Time_SS={SS,14,0,1};
 LCD_Object_Display LCD_Time1={stamp_time1,7,1,1};
 LCD_Object_Display LCD_Time2={stamp_time2,7,1,1};
 LCD_Object_Display LCD_Time3={stamp_time3,7,1,1};
-LCD_Object_Display LCD_ThresholRelay1={stamp_thresholdRelay1,4,1,1};
-LCD_Object_Display LCD_ThresholRelay2={stamp_thresholdRelay2,4,1,1};
+
+LCD_Object_Display LCD_ThresholRelay1={stamp_thresholdRelay1,7,1,1};
+LCD_Object_Display LCD_ThresholRelay2={stamp_thresholdRelay2,7,1,1};
 
 LCD_Object_Display LCD_ACS_Value={char_ACS,3,1,1};
 LCD_Object_Display LCD_ACS_Uint={"I=          Ampe",0,1,1};

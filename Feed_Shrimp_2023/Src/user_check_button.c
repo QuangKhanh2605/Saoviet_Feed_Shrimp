@@ -77,34 +77,44 @@ void Check_BT_ESC(uint16_t State, uint16_t *setupCount)
 	}
 }
 
-void Check_BT_UP(uint16_t State)
+void Check_BT_UP(uint16_t State, uint16_t *stateWarning_Relay3)
 {
 	if (State==0)
 	{
-	if(HAL_GPIO_ReadPin(GPIO_BT_UP, PIN_BT_UP)==0 && BT_up==0)
-	{
-		BT_up=1;
+		if(HAL_GPIO_ReadPin(GPIO_BT_UP, PIN_BT_UP)==0 && BT_up==0)
+		{
+			BT_up=1;
+		}
+		if(HAL_GPIO_ReadPin(GPIO_BT_UP, PIN_BT_UP)==1)
+		{
+			BT_up=0;
+		}
 	}
-	if(HAL_GPIO_ReadPin(GPIO_BT_UP, PIN_BT_UP)==1)
+
+	if(HAL_GPIO_ReadPin(GPIO_BT_UP, PIN_BT_UP)==0 )
 	{
-		BT_up=0;
-	}
+		*stateWarning_Relay3=0;
 	}
 }
 
-void Check_BT_DOWN(uint16_t State)
+void Check_BT_DOWN(uint16_t State, uint16_t *stateWarning_Relay3)
 {
 	if (State==0)
 	{
-	if(HAL_GPIO_ReadPin(GPIO_BT_DOWN, PIN_BT_DOWN)==0 && BT_down==0)
-	{
-		BT_down=1;
+		if(HAL_GPIO_ReadPin(GPIO_BT_DOWN, PIN_BT_DOWN)==0 && BT_down==0)
+		{
+			BT_down=1;
+		}
+		if(HAL_GPIO_ReadPin(GPIO_BT_DOWN, PIN_BT_DOWN)==1)
+		{
+			BT_down=0;
+		}
 	}
-	if(HAL_GPIO_ReadPin(GPIO_BT_DOWN, PIN_BT_DOWN)==1)
-	{
-		BT_down=0;
-	}
-	}
+	
+	if(HAL_GPIO_ReadPin(GPIO_BT_DOWN, PIN_BT_DOWN)==0 )
+		{
+			*stateWarning_Relay3=0;
+		}
 }
 
 void BT_Check_Up_Down(uint16_t setupCount)
