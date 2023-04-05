@@ -2,7 +2,7 @@
 
 uint16_t countAvg=0;
 //uint16_t ADC_stamp[2];
-uint16_t dropACS=14;
+uint16_t dropACS=16;
 uint32_t ADC_12bit=4095;
 
 uint32_t ADC_ACS_Avg=0;

@@ -27,6 +27,9 @@ feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32
 feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_flash_ramfunc.h
 feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_pwr.h
 feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_pwr_ex.h
+feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rtc.h
+feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rtc_ex.h
 feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim.h
 feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h
 feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
+feed_shrimp_2023\stm32l1xx_hal_gpio.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h

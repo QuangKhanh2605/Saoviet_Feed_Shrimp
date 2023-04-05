@@ -1,5 +1,5 @@
 feed_shrimp_2023\check_button.o: ..\Drivers\Mylib\Src\Check_Button.c
-feed_shrimp_2023\check_button.o: ..\Drivers\Mylib\Inc\Check_Button.h
+feed_shrimp_2023\check_button.o: ../Drivers/Mylib/Inc/Check_Button.h
 feed_shrimp_2023\check_button.o: ../Inc/stm32l1xx_it.h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\check_button.o: ../Inc/stm32l1xx_hal_conf.h
@@ -29,6 +29,9 @@ feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_flash_ramfunc.h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_pwr.h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_pwr_ex.h
+feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rtc.h
+feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rtc_ex.h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim.h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h
 feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
+feed_shrimp_2023\check_button.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h
