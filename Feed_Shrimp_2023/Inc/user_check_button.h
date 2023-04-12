@@ -1,9 +1,9 @@
 #ifndef __USER_CHECK_BUTTON_
 #define __USER_CHECK_BUTTON_
 
-#include "user_LCD_object.h"
-#include "check_Button.h"
-#include "memory_flash.h"
+#include "user_lcd_object.h"
+#include "check_button.h"
+#include "flash_memory.h"
 
 #define PIN_BT_ENTER GPIO_PIN_12
 #define PIN_BT_UP    GPIO_PIN_11

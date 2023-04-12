@@ -1,4 +1,4 @@
-feed_shrimp_2023\user_relay_led.o: ..\Src\user_Relay_Led.c
+feed_shrimp_2023\user_relay_led.o: ..\Src\user_relay_led.c
 feed_shrimp_2023\user_relay_led.o: ../Inc/user_Relay_Led.h
 feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\user_relay_led.o: ../Inc/stm32l1xx_hal_conf.h
@@ -28,11 +28,8 @@ feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx
 feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_flash_ramfunc.h
 feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_pwr.h
 feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_pwr_ex.h
-feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rtc.h
-feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rtc_ex.h
 feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim.h
 feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h
 feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
-feed_shrimp_2023\user_relay_led.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h
-feed_shrimp_2023\user_relay_led.o: ../Drivers/Mylib/Inc/Check_Button.h
+feed_shrimp_2023\user_relay_led.o: ..\Drivers\Mylib\Inc\Check_Button.h
 feed_shrimp_2023\user_relay_led.o: ../Inc/stm32l1xx_it.h
