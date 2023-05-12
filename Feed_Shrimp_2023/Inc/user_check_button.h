@@ -25,7 +25,7 @@ void Run_Begin(uint16_t State, uint16_t *setupCount, uint32_t ACS_Value_Float, u
                                      uint32_t threshold_Relay1_Uint, uint32_t threshold_Relay2_Uint);
 void BT_Esc_Exit_Setup(uint16_t *State, uint16_t *setupCount, uint32_t ACS_value_Uint,uint32_t time1, uint32_t time2, uint32_t time3,
                                        uint32_t threshold_Relay1, uint32_t threshold_Relay2);
-
+void BT_Check_Up_Down(uint16_t setupCount);
 
 
 #endif

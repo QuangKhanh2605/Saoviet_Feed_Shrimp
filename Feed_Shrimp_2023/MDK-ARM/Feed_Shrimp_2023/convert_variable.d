@@ -1,5 +1,5 @@
-feed_shrimp_2023\convert_variable.o: ..\Drivers\Mylib\Src\Convert_Variable.c
-feed_shrimp_2023\convert_variable.o: ..\Drivers\Mylib\Inc\Convert_Variable.h
+feed_shrimp_2023\convert_variable.o: ..\Drivers\Mylib\Src\convert_variable.c
+feed_shrimp_2023\convert_variable.o: ../Drivers/Mylib/Inc/Convert_Variable.h
 feed_shrimp_2023\convert_variable.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal.h
 feed_shrimp_2023\convert_variable.o: ../Inc/stm32l1xx_hal_conf.h
 feed_shrimp_2023\convert_variable.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_rcc.h
@@ -31,4 +31,5 @@ feed_shrimp_2023\convert_variable.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1
 feed_shrimp_2023\convert_variable.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim.h
 feed_shrimp_2023\convert_variable.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_tim_ex.h
 feed_shrimp_2023\convert_variable.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_uart.h
+feed_shrimp_2023\convert_variable.o: ../Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_exti.h
 feed_shrimp_2023\convert_variable.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

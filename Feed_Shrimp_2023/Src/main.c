@@ -17,7 +17,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
@@ -62,7 +61,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 uint32_t runTime=0;
 uint32_t time1=10; //so giay cho an
-uint32_t time2=10;	//so phut giua 2 chu ky ban
+uint32_t time2=1;	//so phut giua 2 chu ky ban
 uint32_t time3=5; //thoi gian giua 2 moto vang va chinh luong 
 float threshold_Relay1_Float=0.1;
 float threshold_Relay2_Float=0.1;
@@ -116,7 +115,6 @@ void Check_BT_Callback(void);
 void Check_Test(void);
 void Set_Time(uint16_t *hh, uint16_t *mm, uint16_t *ss);
 void Run_Feed_Shrimp(void);
-void BT_Check_Up_Down(void);
 void Display_Time(void);
 void Setup_SIM(void);
 void Read_Flash(void);
@@ -131,13 +129,11 @@ void State_Warning(void);
   */
 int main(void)
 
-
 {
   /* USER CODE BEGIN 1 */
 	//rx_uart1.huart=&huart1;
 	rx_uart2.huart=&huart2;
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -173,14 +169,11 @@ int main(void)
 	CLCD_4BIT_Init(&LCD, 16,2, GPIOB, GPIO_PIN_15,GPIOC, GPIO_PIN_6,
                              GPIOC, GPIO_PIN_7,GPIOC, GPIO_PIN_8,
                              GPIOC, GPIO_PIN_9,GPIOA, GPIO_PIN_8);
-	
-	//Setup_SIM();
 	Read_Flash();
 	
 	CLCD_SetCursor(&LCD, 0,0);
 	CLCD_WriteString(&LCD, "        00:00:00");
 	
-	//Receive_SMS_Setup("+CMT: +84966674796,23/03/14,09:34:14+28 SETUP T1=  100  t3:199", &time1, &time2, &time3);
 	Run_Begin(State,&setupCount, ACS_Value_Uint ,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 	HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp,2);
   /* USER CODE END 2 */
@@ -204,19 +197,19 @@ int main(void)
 		if(State==0 )
 		{
 			stateWarning_Run=0;
-			if(setupCount!=4) BT_Check_Up_Down();
+			if(setupCount!=4) BT_Check_Up_Down(setupCount);
 			BT_Esc_Exit_Setup(&State, &setupCount, ACS_Value_Float,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 			USER_LCD_Display_Running_OR_Setup(State);
 			USER_LCD_Display_Setup(&LCD, setupCount);
-			USER_LCD_Display_X(&LCD, setupCount, stateWarning_Run, ACS_Value_Float);
+			USER_LCD_Display_X(&LCD, setupCount, ACS_Value_Float);
 		}
 		
 		if(State==1 ) 
 		{
 			Run_Feed_Shrimp(); 
 			USER_LCD_Display_Running_OR_Setup(State);
-			USER_LCD_Display_Running(&LCD, setupCount, stateWarning_Run, ACS_Value_Float);
-			USER_LCD_Display_X(&LCD, setupCount, stateWarning_Run, ACS_Value_Float);
+			USER_LCD_Display_Running(&LCD, setupCount, ACS_Value_Float);
+			USER_LCD_Display_X(&LCD, setupCount, ACS_Value_Float);
 		}
   }
   /* USER CODE END 3 */
@@ -231,10 +224,12 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Configure the main internal regulator output voltage 
+  /** Configure the main internal regulator output voltage
   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-  /** Initializes the CPU, AHB and APB busses clocks 
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -244,7 +239,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -276,7 +272,8 @@ static void MX_ADC_Init(void)
   /* USER CODE BEGIN ADC_Init 1 */
 
   /* USER CODE END ADC_Init 1 */
-  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion) 
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc.Instance = ADC1;
   hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
@@ -297,7 +294,8 @@ static void MX_ADC_Init(void)
   {
     Error_Handler();
   }
-  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
   sConfig.Channel = ADC_CHANNEL_15;
   sConfig.Rank = ADC_REGULAR_RANK_1;
@@ -306,7 +304,8 @@ static void MX_ADC_Init(void)
   {
     Error_Handler();
   }
-  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
   */
   sConfig.Channel = ADC_CHANNEL_14;
   sConfig.Rank = ADC_REGULAR_RANK_2;
@@ -443,10 +442,10 @@ static void MX_USART2_UART_Init(void)
 
 }
 
-/** 
+/**
   * Enable DMA controller clock
   */
-static void MX_DMA_Init(void) 
+static void MX_DMA_Init(void)
 {
 
   /* DMA controller clock enable */
@@ -467,6 +466,8 @@ static void MX_DMA_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -475,7 +476,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_15 
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_15
                           |GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -487,9 +488,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PB0 PB1 PB2 PB3 
+  /*Configure GPIO pins : PB0 PB1 PB2 PB3
                            PB4 PB5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3
                           |GPIO_PIN_4|GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
@@ -536,61 +537,39 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
 
 void State_Warning()
 {
-	Warning_Relay1(&State, &stateWarning_Run, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
-	Warning_Relay2(&State, &stateWarning_Relay3, &countState, ACS_Value_Uint, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	//Warning_Relay1(&State, &stateWarning_Run, &countState, ACS_Value_Uint, threshold_Relay1_Uint);
+	Warning_Relay2(&State, &stateWarning_Relay3, &countState, ACS_Value_Uint, threshold_Relay2_Uint);
 	
 	if(stateWarning_Run == 1)
 	{
-		Toggle_LED_Warning();
+		//Toggle_LED_Warning();
 	}
 	else
 	{
-		Reset_LED_Warning();
+		//Reset_LED_Warning();
 	}
 	
 	if(stateWarning_Relay3 == 1)
 	{
+		Toggle_LED_Warning();
 		Set_Relay3();
-		Set_LED_NC();
+		//Set_LED_NC();
 	}
 	else
 	{
+		Reset_LED_Warning();
 		Reset_Relay3();
-		Reset_LED_NC();
+		//Reset_LED_NC();
 	}
-	
 }
-
-//void Check_SMS_Receive(void)
-//{
-//	if(Wait_SMS_Receive(&rx_uart1,&rx_uart3,"AT+RESET")==1) 
-//	{
-//		Reset_Relay_Led(GPIOC, RELAY1, GPIOC, RELAY2,GPIOC, LED5);
-//		Reset_Relay_Led(GPIOA, RELAY3, GPIOA, RELAY4,GPIOC, LED6);
-//		runTime=0;
-//		countState=0;
-//		Delete_Buffer(&rx_uart3);
-//	}
-//	if(Wait_SMS_Receive(&rx_uart1,&rx_uart3,"SETUP")==1) 
-//	{
-//		Receive_SMS_Setup(rx_uart3.sim_rx, &time1, &time2, &time3);
-//		Reset_Relay_Led(GPIOC, RELAY1, GPIOC, RELAY2,GPIOC, LED5);
-//		Reset_Relay_Led(GPIOA, RELAY3, GPIOA, RELAY4,GPIOC, LED6);
-//		runTime=0;
-//		countState=0;
-//		State=1;
-//		FLASH_WritePage(FLASH_USER_START_ADDR, FLASH_USER_END_ADDR, 1, time1, time2, time3);
-//		Run_Begin(&setupCount, time1, time2, time3);
-//		Delete_Buffer(&rx_uart3);
-//	}
-//}
-
 
 void Run_Feed_Shrimp(void)
 {
@@ -618,7 +597,7 @@ void Run_Feed_Shrimp(void)
 		countState++;
 		runTime=0;
 	}
-	if(countState==4 && runTime>=time2)
+	if(countState==4 && runTime>=60*time2)
 	{
 		runTime=0;
 		countState=0;
@@ -685,29 +664,6 @@ void Display_Time(void)
 	USER_LCD_Display_Time(&LCD);
 }
 
-//void Setup_SIM(void)
-//{
-//	float PWM_runtime_LCD=1.32;
-//	CLCD_SetCursor(&LCD, 2,0);
-//	CLCD_WriteString(&LCD, "Loading SIM");	
-//	while(runTime<=22)
-//	{
-//	Setup_On_Off_Sim(GPIOB, On_Off_Sim,
-//                   GPIOB, Pin_PWKEY,
-//									 GPIOC, Pin_RESET, runTime);
-//	CLCD_SetCursor(&LCD, runTime/PWM_runtime_LCD,1);
-//	CLCD_WriteString(&LCD, ".");
-//	}
-//	if(runTime<=25)
-//	{
-//	CLCD_SetCursor(&LCD, 2,0);
-//	CLCD_WriteString(&LCD, " Config SIM");
-//	}
-//	Delete_Buffer(&rx_uart3);
-//	Config_Uart_Sim(&rx_uart1,&rx_uart3);
-//	Config_SMS_Receive(&rx_uart1, &rx_uart3);
-//}
-
 void Read_Flash(void)
 {
 	check_Power_OFF=FLASH_ReadData32(FLASH_USER_START_ADDR);
@@ -749,7 +705,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   UNUSED(htim);
 	if(htim->Instance == htim2.Instance)
 	{
-		if(stateWarning_Run==0 && State == 1)
+//		if(stateWarning_Run==0 && State == 1)
+//		{
+//			runTime++;
+//		}
+		if(State == 1)
 		{
 			runTime++;
 		}
@@ -764,14 +724,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 			FLASH_Write_Program(FLASH_USER_START_ADDR_PROGRAM, FLASH_USER_END_ADDR_PROGRAM,1, State, countState, runTime);
 			check_Power_setup=0;
-		}
-			
+		}	
 	}
 	
 	if(htim->Instance == htim3.Instance)
 	{
-		HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp,2);
-		ACS_712(&ACS_Value_Float, &ACS_Value_Uint, ADC_stamp[0], ADC_stamp[1]);
+		HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp, 2);
+		ACS_712(&ACS_Value_Float, &ACS_Value_Uint, ADC_stamp[0], ADC_stamp[1], countState);
 	}
 }
 
@@ -785,11 +744,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		HAL_UART_Receive_IT(&huart2,&rx_uart2.buffer,1);
 	}
 	
-//	if(huart->Instance == huart1.Instance)
-//	{
-//		rx_uart1.sim_rx[(rx_uart1.countBuffer)++]= rx_uart1.buffer;
-//		HAL_UART_Receive_IT(&huart1,&rx_uart1.buffer,1);
-//	}
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_RxCpltCallback could be implemented in the user file
    */
@@ -841,12 +795,10 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

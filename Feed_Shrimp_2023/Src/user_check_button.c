@@ -65,12 +65,15 @@ void Check_BT_ESC(uint16_t State, uint16_t *setupCount)
 			USER_LCD_Change_Setup();	
 			if(*setupCount==6) *setupCount=1;
 			else 						   (*setupCount)++;
+			
+			if(*setupCount==4 ) *setupCount=5;
+			if(*setupCount==5 ) *setupCount=6;
 				
 			if(State==0 && *setupCount==1) *setupCount=2;
 			if(*setupCount==2 ) ptrStamp=&stampTime1;
 			if(*setupCount==3 ) ptrStamp=&stampTime2;
-			if(*setupCount==4 ) ptrStamp=&stampTime3;
-			if(*setupCount==5 ) ptrStamp=&stampThreshold_Relay1;
+			//if(*setupCount==4 ) ptrStamp=&stampTime3;
+			//if(*setupCount==5 ) ptrStamp=&stampThreshold_Relay1;
 			if(*setupCount==6 ) ptrStamp=&stampThreshold_Relay2;
 		}
 		else check_hold_esc=0;
@@ -112,9 +115,9 @@ void Check_BT_DOWN(uint16_t State, uint16_t *stateWarning_Relay3)
 	}
 	
 	if(HAL_GPIO_ReadPin(GPIO_BT_DOWN, PIN_BT_DOWN)==0 )
-		{
-			*stateWarning_Relay3=0;
-		}
+	{
+		*stateWarning_Relay3=0;
+	}
 }
 
 void BT_Check_Up_Down(uint16_t setupCount)

@@ -14,7 +14,7 @@
 #define PIN_LED_NC       GPIO_PIN_2
 #define PIN_LED_STATUS   GPIO_PIN_3
 #define PIN_LED_RUN      GPIO_PIN_4
-#define PIN_LED_WARNING   GPIO_PIN_5
+#define PIN_LED_WARNING  GPIO_PIN_5
 
 #define GPIO_RELAY GPIOB
 
@@ -24,10 +24,9 @@
 #define GPIO_LED_WARNING   GPIOB
 
 void LED_Status_Run(uint16_t State, uint16_t countState);
-void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, 
-                uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint);
-void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *countState, uint32_t ACS_Value_Uint, 
-                uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint);
+void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, uint32_t threshol_Relay1_Uint);
+void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *countState, uint32_t ACS_Value_Uint, uint32_t threshol_Relay1_Uint);
+
 void Toggle_LED_Warning(void);
 void Set_Relay1(void);
 void Set_Relay2(void);

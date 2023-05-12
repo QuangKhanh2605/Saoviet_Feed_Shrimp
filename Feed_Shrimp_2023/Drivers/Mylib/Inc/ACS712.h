@@ -6,6 +6,6 @@
 #include "math.h"
 #include "Convert_Variable.h"
 
-void ACS_712(float *ACS_Value_Float, uint32_t *ACS_Value_Uint, uint16_t ADC_VCC_Value, uint16_t ADC_ACS_Value);
+void ACS_712(float *ACS_Value_Float,uint32_t *ACS_Value_Uint, uint16_t ADC_VCC_Value, uint16_t ADC_ACS_Value, uint16_t countState);
 
 #endif

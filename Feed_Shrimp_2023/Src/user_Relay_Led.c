@@ -11,7 +11,7 @@ uint32_t warning_relay3_after_500_ms=0;
 uint32_t check_warning_relay3_after_500_ms=0;
 
 void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *countState, uint32_t ACS_Value_Uint, 
-                uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint)
+                uint32_t threshol_Relay2_Uint)
 {
 	if(*State == 1 && *countState == 2)
 	{
@@ -39,7 +39,7 @@ void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *co
 	
 	if(warning_relay3_after_500_ms==1)
 	{
-		if(ACS_Value_Uint < threshol_Relay1_Uint )
+		if(ACS_Value_Uint < threshol_Relay2_Uint )
 		{
 			*stateWarning_Relay3=1;
 		}
@@ -51,7 +51,7 @@ void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *co
 }
 
 void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, 
-                uint32_t threshol_Relay1_Uint, uint32_t threshol_Relay2_Uint)
+                uint32_t threshol_Relay1_Uint)
 {
 	if(*State == 1 && *countState <= 3 )
 	{
@@ -79,7 +79,7 @@ void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countStat
 
 	if(warning_run_after_500_ms==1)
 	{
-		if(ACS_Value_Uint < threshol_Relay2_Uint)
+		if(ACS_Value_Uint < threshol_Relay1_Uint)
 		{
 			*stateWarning=1;
 		}
@@ -121,11 +121,11 @@ void LED_Status_Run(uint16_t State, uint16_t countState)
 void Toggle_LED_Warning(void)
 {
 	if(check_ACS_value>GET_SYSTICK_MS())  check_ACS_value=0;
-			if(GET_SYSTICK_MS()-check_ACS_value>100)
-			{
-				check_ACS_value=GET_SYSTICK_MS();
-				HAL_GPIO_TogglePin(GPIO_LED_WARNING, PIN_LED_WARNING);
-			}
+	if(GET_SYSTICK_MS()-check_ACS_value>100)
+	{
+		check_ACS_value=GET_SYSTICK_MS();
+		HAL_GPIO_TogglePin(GPIO_LED_WARNING, PIN_LED_WARNING);
+	}
 }
 
 void Set_Relay1(void)

@@ -25,30 +25,31 @@ char stamp_thresholdRelay2[9];
 char char_ACS[9];
 
 LCD_Object_Display LCD_Running={"Running ",0,0,0};
-LCD_Object_Display LCD_Setup={"SETUP  ",0,0,0};
-LCD_Object_Display LCD_Warning={" Supply Power!  ",0,0,0};
+LCD_Object_Display LCD_Setup={"Cai dat ",0,0,0};
+LCD_Object_Display LCD_Warning={"   Cap nguon!   ",0,0,0};
 LCD_Object_Display LCD_Time={"00:00:00",8,0,0};
 
-LCD_Object_Display LCD_SetupT1={"Time1:      Giay",0,1,1};
-LCD_Object_Display LCD_SetupT2={"Time2:      Phut",0,1,1};
+LCD_Object_Display LCD_SetupT1={"Ban :       Giay",0,1,1};
+LCD_Object_Display LCD_SetupT2={"Nghi:       Phut",0,1,1};
 LCD_Object_Display LCD_SetupT3={"Time3:      Giay",0,1,1};
-LCD_Object_Display LCD_ACS_Unit={"I=          Ampe",0,1,1};
-LCD_Object_Display LCD_ThresholRelay1_Unit={"TBran:      Ampe",0,1,1};
-LCD_Object_Display LCD_ThresholRelay2_Unit={"T_Vcc:      Ampe",0,1,1};
+
+LCD_Object_Display LCD_ThresholRelay1_Unit={"Vcc:        Ampe",0,1,1};
+LCD_Object_Display LCD_ThresholRelay2_Unit={"Cam :       Ampe",0,1,1};
 
 LCD_Object_Display LCD_Time_HH={HH,8,0,1};
 LCD_Object_Display LCD_Time_MM={MM,11,0,1};
 LCD_Object_Display LCD_Time_SS={SS,14,0,1};
 
-LCD_Object_Display LCD_Time1={stamp_time1,7,1,1};
-LCD_Object_Display LCD_Time2={stamp_time2,7,1,1};
-LCD_Object_Display LCD_Time3={stamp_time3,7,1,1};
+LCD_Object_Display LCD_Time1={stamp_time1,6,1,1};
+LCD_Object_Display LCD_Time2={stamp_time2,6,1,1};
+LCD_Object_Display LCD_Time3={stamp_time3,6,1,1};
 
-LCD_Object_Display LCD_ThresholRelay1={stamp_thresholdRelay1,7,1,1};
-LCD_Object_Display LCD_ThresholRelay2={stamp_thresholdRelay2,7,1,1};
+LCD_Object_Display LCD_ThresholRelay1={stamp_thresholdRelay1,6,1,1};
+LCD_Object_Display LCD_ThresholRelay2={stamp_thresholdRelay2,6
+,1,1};
 
-LCD_Object_Display LCD_ACS_Value={char_ACS,3,1,1};
-LCD_Object_Display LCD_ACS_Uint={"I=          Ampe",0,1,1};
+LCD_Object_Display LCD_ACS_Value={char_ACS,6,1,1};
+LCD_Object_Display LCD_ACS_Uint={"Dong:       Ampe",0,1,1};
 
 void LCD_Change_State_Setup_T1_T2_T3(uint32_t stampTime1, uint32_t stampTime2, uint32_t stampTime3,
                                      uint32_t stampThresholdRelay1, uint32_t stampThresholdRelay2)
@@ -163,7 +164,7 @@ void USER_LCD_Display_Running_OR_Setup(uint16_t State)
 	}
 }
 
-void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWarning, float ACS_Value_Float)
+void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount, float ACS_Value_Float)
 {
 	LCD_Display_Running_OR_Setup(LCD, &LCD_Running, &LCD_Setup);
 }
@@ -173,7 +174,7 @@ void USER_LCD_Display_Setup(CLCD_Name* LCD, uint16_t setupCount)
 	LCD_Display_Running_OR_Setup(LCD, &LCD_Setup, &LCD_Running);
 }
 
-void USER_LCD_Display_X(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWarning, float ACS_Value_Float)
+void USER_LCD_Display_X(CLCD_Name* LCD, uint16_t setupCount, float ACS_Value_Float)
 {
 	LCD_Change_State_ACS(ACS_Value_Float);
 	Float_To_Char_ACS(ACS_Value_Float);

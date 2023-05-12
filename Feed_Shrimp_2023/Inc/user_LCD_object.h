@@ -20,12 +20,12 @@ void Float_To_Char_ACS(float ACS_Value_Float);
 void USER_LCD_Display_Time(CLCD_Name* LCD);
 void USER_LCD_Display_Running_OR_Setup(uint16_t State);
 
-void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWarning, float ACS_Value_Float);
+void USER_LCD_Display_Running(CLCD_Name* LCD, uint16_t setupCount, float ACS_Value_Float);
 void USER_LCD_Display_Setup(CLCD_Name* LCD, uint16_t setupCount);
 
 void USER_LCD_Change_Setup(void);
 
 void USER_LCD_Display_Warning(CLCD_Name* LCD, uint16_t stateWarning);
 
-void USER_LCD_Display_X(CLCD_Name* LCD, uint16_t setupCount,uint16_t stateWarning, float ACS_Value_Float);
+void USER_LCD_Display_X(CLCD_Name* LCD, uint16_t setupCount, float ACS_Value_Float);
 #endif
