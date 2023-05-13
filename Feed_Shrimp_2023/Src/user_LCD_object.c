@@ -45,8 +45,7 @@ LCD_Object_Display LCD_Time2={stamp_time2,6,1,1};
 LCD_Object_Display LCD_Time3={stamp_time3,6,1,1};
 
 LCD_Object_Display LCD_ThresholRelay1={stamp_thresholdRelay1,6,1,1};
-LCD_Object_Display LCD_ThresholRelay2={stamp_thresholdRelay2,6
-,1,1};
+LCD_Object_Display LCD_ThresholRelay2={stamp_thresholdRelay2,6,1,1};
 
 LCD_Object_Display LCD_ACS_Value={char_ACS,6,1,1};
 LCD_Object_Display LCD_ACS_Uint={"Dong:       Ampe",0,1,1};
