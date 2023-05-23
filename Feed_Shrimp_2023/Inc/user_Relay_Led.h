@@ -6,6 +6,7 @@
 
 #define TIME_lED_STATUS_TOGGLE   2000
 #define TIME_WAIT_WARNING        1500
+#define TIME_TOGGLE              100
 
 #define PIN_RELAY1 GPIO_PIN_0 
 #define PIN_RELAY2 GPIO_PIN_1

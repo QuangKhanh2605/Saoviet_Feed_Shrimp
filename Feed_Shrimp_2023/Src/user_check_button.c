@@ -122,28 +122,28 @@ void Check_BT_DOWN(uint16_t State, uint16_t *stateWarning_Relay3)
 
 void BT_Check_Up_Down(uint16_t setupCount)
 {
-	BT_Press_Click_Up(&BT_up,setupCount , ptrStamp);
-	BT_Press_Click_Down(&BT_down,setupCount , ptrStamp);
+	BT_Press_Click_Up(&BT_up, ptrStamp);
+	BT_Press_Click_Down(&BT_down, ptrStamp);
 			
-	BT_Press_Hold_Up(GPIO_BT_UP , PIN_BT_UP,setupCount, ptrStamp);
-	BT_Press_Hold_Down(GPIO_BT_DOWN, PIN_BT_DOWN,setupCount, ptrStamp);
+	BT_Press_Hold_Up(GPIO_BT_UP , PIN_BT_UP, ptrStamp);
+	BT_Press_Hold_Down(GPIO_BT_DOWN, PIN_BT_DOWN, ptrStamp);
 	
 	LCD_Change_State_Setup_T1_T2_T3(stampTime1, stampTime2, stampTime3, stampThreshold_Relay1, stampThreshold_Relay2);
 	UintTime_To_CharTime_T1_T2_T3(stampTime1, stampTime2, stampTime3, stampThreshold_Relay1, stampThreshold_Relay2);
 }
 
-void BT_Esc_Exit_Setup(uint16_t *State, uint16_t *setupCount, uint32_t ACS_Value_Uint,uint32_t time1, uint32_t time2, uint32_t time3, 
+void BT_Esc_Exit_Setup(uint16_t *State, uint16_t *setupCount, float ACS_Value_Float,uint32_t time1, uint32_t time2, uint32_t time3, 
 	                                       uint32_t threshold_Relay1_Uint, uint32_t threshold_Relay2_Uint)
 {
 	BT_Press_Hold_Esc(GPIO_BT_ESC, PIN_BT_ESC, State, BT_up, BT_down);
 	if(*State==1)
 	{
-		Run_Begin(*State, setupCount, ACS_Value_Uint,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
+		Run_Begin(*State, setupCount, ACS_Value_Float, time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 		check_hold_esc=1;
 	}
 }
 
-void Run_Begin(uint16_t State, uint16_t *setupCount, uint32_t ACS_Value_Float, uint32_t time1, uint32_t time2,uint32_t time3,
+void Run_Begin(uint16_t State, uint16_t *setupCount, float ACS_Value_Float, uint32_t time1, uint32_t time2,uint32_t time3,
                                      uint32_t threshold_Relay1_Uint, uint32_t threshold_Relay2_Uint)
 {
 	stampTime1=time1;
@@ -158,6 +158,5 @@ void Run_Begin(uint16_t State, uint16_t *setupCount, uint32_t ACS_Value_Float, u
 	LCD_Change_State_Setup_T1_T2_T3(stampTime1, stampTime2, stampTime3, stampThreshold_Relay1, stampThreshold_Relay2);
 	UintTime_To_CharTime_T1_T2_T3(stampTime1, stampTime2, stampTime3, stampThreshold_Relay1, stampThreshold_Relay2);
 	Float_To_Char_ACS(ACS_Value_Float);
-	
 }
 

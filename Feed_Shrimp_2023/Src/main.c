@@ -53,7 +53,8 @@
 ADC_HandleTypeDef hadc;
 DMA_HandleTypeDef hdma_adc;
 
-TIM_HandleTypeDef htim2;
+RTC_HandleTypeDef hrtc;
+
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart2;
@@ -63,8 +64,8 @@ uint32_t runTime=0;
 uint32_t time1=10; //so giay cho an
 uint32_t time2=1;	//so phut giua 2 chu ky ban
 uint32_t time3=5; //thoi gian giua 2 moto vang va chinh luong 
-float threshold_Relay1_Float=0.1;
-float threshold_Relay2_Float=0.1;
+float threshold_Relay1_Float=0.0;
+float threshold_Relay2_Float=0.0;
 
 uint32_t threshold_Relay1_Uint=0;
 uint32_t threshold_Relay2_Uint=0;
@@ -90,6 +91,9 @@ float ACS_Value_Float=0;
 uint32_t ACS_Value_Uint=0;
 uint16_t ADC_stamp[2];
 
+uint8_t check_RTC=0;
+RTC_TimeTypeDef sTime;
+RTC_DateTypeDef sDate;
 //UART_BUFFER rx_uart1;
 /* USER CODE END PV */
 
@@ -98,9 +102,9 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC_Init(void);
-static void MX_TIM2_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_RTC_Init(void);
 /* USER CODE BEGIN PFP */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
@@ -109,8 +113,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void Delay_1ms(void);
-void Delay_s(int time);
 void Check_BT_Callback(void);
 void Check_Test(void);
 void Set_Time(uint16_t *hh, uint16_t *mm, uint16_t *ss);
@@ -120,7 +122,7 @@ void Setup_SIM(void);
 void Read_Flash(void);
 void Check_SMS_Receive(void);
 void State_Warning(void);
-
+void Time_RTC(void);
 /* USER CODE END 0 */
 
 /**
@@ -128,7 +130,6 @@ void State_Warning(void);
   * @retval int
   */
 int main(void)
-
 {
   /* USER CODE BEGIN 1 */
 	//rx_uart1.huart=&huart1;
@@ -155,11 +156,11 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_ADC_Init();
-  MX_TIM2_Init();
   MX_USART2_UART_Init();
   MX_TIM3_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
-	HAL_TIM_Base_Start_IT(&htim2);
+	//HAL_TIM_Base_Start_IT(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
 	HAL_UART_Receive_IT(&huart2,&rx_uart2.buffer,4);
 	//HAL_ADC_Start_IT(&hadc);
@@ -174,7 +175,7 @@ int main(void)
 	CLCD_SetCursor(&LCD, 0,0);
 	CLCD_WriteString(&LCD, "        00:00:00");
 	
-	Run_Begin(State,&setupCount, ACS_Value_Uint ,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
+	Run_Begin(State,&setupCount, ACS_Value_Float ,time1, time2, time3, threshold_Relay1_Uint, threshold_Relay2_Uint);
 	HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp,2);
   /* USER CODE END 2 */
 
@@ -186,6 +187,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		//Check_SMS_Receive();
+		Time_RTC();
 		Display_Time();
 		debug_uart(&huart2, State, countState);
 		Check_BT_Callback();
@@ -223,6 +225,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Configure the main internal regulator output voltage
   */
@@ -231,7 +234,8 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
@@ -250,6 +254,12 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
@@ -320,47 +330,67 @@ static void MX_ADC_Init(void)
 }
 
 /**
-  * @brief TIM2 Initialization Function
+  * @brief RTC Initialization Function
   * @param None
   * @retval None
   */
-static void MX_TIM2_Init(void)
+static void MX_RTC_Init(void)
 {
 
-  /* USER CODE BEGIN TIM2_Init 0 */
+  /* USER CODE BEGIN RTC_Init 0 */
 
-  /* USER CODE END TIM2_Init 0 */
+  /* USER CODE END RTC_Init 0 */
 
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  RTC_TimeTypeDef sTime = {0};
+  RTC_DateTypeDef sDate = {0};
 
-  /* USER CODE BEGIN TIM2_Init 1 */
+  /* USER CODE BEGIN RTC_Init 1 */
 
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 16000;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 999;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  /* USER CODE END RTC_Init 1 */
+
+  /** Initialize RTC Only
+  */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  if (HAL_RTC_Init(&hrtc) != HAL_OK)
   {
     Error_Handler();
   }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
 
-  /* USER CODE END TIM2_Init 2 */
+  /* USER CODE BEGIN Check_RTC_BKUP */
+	if(HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1)==0x2608)
+	{
+  /* USER CODE END Check_RTC_BKUP */
+
+  /** Initialize RTC and set the Time and Date
+  */
+  sTime.Hours = 0x0;
+  sTime.Minutes = 0x0;
+  sTime.Seconds = 0x0;
+  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+  sDate.Month = RTC_MONTH_JANUARY;
+  sDate.Date = 0x1;
+  sDate.Year = 0x0;
+
+  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RTC_Init 2 */
+	HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 0x2608);
+	}
+  /* USER CODE END RTC_Init 2 */
 
 }
 
@@ -470,8 +500,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
@@ -700,15 +730,13 @@ void Read_Flash(void)
 	}
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void Time_RTC(void)
 {
-  UNUSED(htim);
-	if(htim->Instance == htim2.Instance)
+	HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+	HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+	if(sTime.Seconds != check_RTC)
 	{
-//		if(stateWarning_Run==0 && State == 1)
-//		{
-//			runTime++;
-//		}
+		check_RTC = sTime.Seconds;
 		if(State == 1)
 		{
 			runTime++;
@@ -726,11 +754,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			check_Power_setup=0;
 		}	
 	}
-	
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  UNUSED(htim);
+
 	if(htim->Instance == htim3.Instance)
 	{
 		HAL_ADC_Start_DMA(&hadc, (uint32_t*) ADC_stamp, 2);
-		ACS_712(&ACS_Value_Float, &ACS_Value_Uint, ADC_stamp[0], ADC_stamp[1], countState);
+		Calib_CountState(countState);
+		ACS_712(&ACS_Value_Float, &ACS_Value_Uint, ADC_stamp[0], ADC_stamp[1]);
 	}
 }
 
@@ -759,19 +793,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 }
 
 
-void Delay_1ms(void)
-{
-	__HAL_TIM_SetCounter(&htim2,0);
-	while (__HAL_TIM_GetCounter(&htim2)<1000);
-}
-void Delay_s(int time)
-{
-	int i=0;
-	for(i=0;i<time;i++)
-	{
-		Delay_1ms();
-	}
-}
 /* USER CODE END 4 */
 
 /**

@@ -89,7 +89,7 @@ void LED_Status_Run(uint16_t State, uint16_t countState)
 		check_led_status=HAL_GetTick();
 		Set_LED_Status();
 	}
-	if(HAL_GetTick()-check_led_status>100 && HAL_GPIO_ReadPin(GPIO_LED_STATUS, PIN_LED_STATUS)==1)
+	if(HAL_GetTick()-check_led_status>TIME_TOGGLE && HAL_GPIO_ReadPin(GPIO_LED_STATUS, PIN_LED_STATUS)==1)
 	{
 		Reset_LED_Status();
 	}
@@ -106,7 +106,7 @@ void LED_Status_Run(uint16_t State, uint16_t countState)
 
 void Toggle_LED_Warning(void)
 {
-	if(HAL_GetTick()-check_ACS_value>100)
+	if(HAL_GetTick()-check_ACS_value>TIME_TOGGLE)
 	{
 		check_ACS_value=HAL_GetTick();
 		HAL_GPIO_TogglePin(GPIO_LED_WARNING, PIN_LED_WARNING);
