@@ -10,6 +10,14 @@ uint32_t check_warning_run_after_500_ms=0;
 uint32_t warning_relay3_after_500_ms=0;
 uint32_t check_warning_relay3_after_500_ms=0;
 
+/*
+	@brief  Canh bao nguong 
+	@param  State, countState trang thai chuong trinh 
+	@param  stateWarning_Relay3 
+	@param  ACS_Value_Uint gia tri dong do duoc
+	@param  threshol_Relay2_Uint nguong canh bao
+	@retval None
+*/
 void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *countState, uint32_t ACS_Value_Uint, 
                 uint32_t threshol_Relay2_Uint)
 {
@@ -44,6 +52,14 @@ void Warning_Relay2(uint16_t *State, uint16_t *stateWarning_Relay3, uint16_t *co
 	}
 }
 
+/*
+	@brief  Canh bao nguong 
+	@param  State, countState trang thai chuong trinh 
+	@param  stateWarning
+	@param  ACS_Value_Uint gia tri dong do duoc
+	@param  threshol_Relay1_Uint nguong canh bao
+	@retval None
+*/
 void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countState, uint32_t ACS_Value_Uint, 
                 uint32_t threshol_Relay1_Uint)
 {
@@ -82,6 +98,11 @@ void Warning_Relay1(uint16_t *State, uint16_t *stateWarning, uint16_t *countStat
 	}
 }
 
+/*
+	@brief  Dieu khien led Run	
+	@param  State, countState trang thai chuong trinh
+	@retval None
+*/
 void LED_Status_Run(uint16_t State, uint16_t countState)
 {
 	if(HAL_GetTick() -check_led_status>TIME_lED_STATUS_TOGGLE)
@@ -104,6 +125,10 @@ void LED_Status_Run(uint16_t State, uint16_t countState)
 	}
 }
 
+/*
+	@brief  Nhap nhay led
+	@retVal None
+*/
 void Toggle_LED_Warning(void)
 {
 	if(HAL_GetTick()-check_ACS_value>TIME_TOGGLE)
@@ -113,6 +138,7 @@ void Toggle_LED_Warning(void)
 	}
 }
 
+/*=================================ON/OFF Relay LED ====================================*/
 void Set_Relay1(void)
 {
 	HAL_GPIO_WritePin(GPIO_RELAY, PIN_RELAY1, GPIO_PIN_SET);
@@ -172,5 +198,5 @@ void Reset_LED_NC(void)
 {
 	HAL_GPIO_WritePin(GPIO_LED_NC, PIN_LED_NC, GPIO_PIN_RESET);
 }
-
+/*==========================================================================================*/
 

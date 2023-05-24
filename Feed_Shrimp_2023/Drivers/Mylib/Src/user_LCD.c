@@ -1,7 +1,5 @@
 #include "user_LCD.h"
 
-
-
 void LCD_Run_Time(char time[],char hh[], char mm[], char ss[])
 {
 	time[2]=time[5]=':';

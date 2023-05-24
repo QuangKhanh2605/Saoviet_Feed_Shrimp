@@ -2,7 +2,7 @@
 #define __USER_LCD_OBJECT_
 
 #include "LCD_object.h"
-#include "user_LCD.h"
+//#include "user_LCD.h"
 #include "stdio.h"
 #include "Convert_Variable.h"
 

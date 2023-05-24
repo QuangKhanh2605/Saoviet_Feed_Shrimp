@@ -2,6 +2,13 @@
 
 //uint32_t startpage = FLASH_USER_START_ADDR_TIME;
 
+/*
+	@brief  Ghi du lieu vao Flash (6 Byte)
+	@param  StartPage page flash bat dau viet
+	@param  endPage page flash ket thuc viet
+	@param  data1, data2, data3, data4, data5 du lieu can ghi vao Flash
+	@retval None
+*/
 void FLASH_WritePage(uint32_t startPage, uint32_t endPage,uint32_t check, uint32_t data1, uint32_t data2, uint32_t data3,
 	                   uint32_t data4, uint32_t data5)
 {
@@ -21,6 +28,13 @@ void FLASH_WritePage(uint32_t startPage, uint32_t endPage,uint32_t check, uint32
   HAL_FLASH_Lock();
 }
 
+/*
+	@brief  Ghi du lieu vao Flash (5 Byte)
+	@param  StartPage page flash bat dau viet
+	@param  endPage page flash ket thuc viet
+	@param  data1, data2, data3, data4, data5 du lieu can ghi vao Flash
+	@retval None
+*/
 void FLASH_Write_Program(uint32_t startPage, uint32_t endPage,uint16_t check, uint32_t data1, uint32_t data2, uint32_t data3)
 {
   HAL_FLASH_Unlock();
@@ -37,6 +51,10 @@ void FLASH_Write_Program(uint32_t startPage, uint32_t endPage,uint16_t check, ui
   HAL_FLASH_Lock();
 }
 
+/*
+	@brief  Doc mot byte tu Flash
+	@param  addr dia chi byte can doc
+*/
 uint32_t FLASH_ReadData32(uint32_t addr)
 {
 	uint32_t data = *(__IO uint32_t *)(addr);
