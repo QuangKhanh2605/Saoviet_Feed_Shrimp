@@ -23,7 +23,7 @@
 
 #define CYCLE_DEFAULT   5
 
-#define LEVEL_MAX       30
+#define LEVEL_MAX       100
 #define LEVEL_MIN       1
 
 typedef enum
@@ -70,5 +70,6 @@ void        Init_StateFeed(void);
 void        Save_StateFeed(uint8_t State);
 
 void        Control_MotorLevel(uint8_t Level);
+void        Off_MotorLevel(void);
 #endif
 

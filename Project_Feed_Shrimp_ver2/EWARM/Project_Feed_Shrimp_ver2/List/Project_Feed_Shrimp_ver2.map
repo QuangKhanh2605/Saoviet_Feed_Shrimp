@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.40.2.214/W32 for ARM                  24/Oct/2023  14:17:46
+# IAR ELF Linker V8.40.2.214/W32 for ARM                  25/Oct/2023  13:52:19
 # Copyright 2007-2019 IAR Systems AB.
 #
 #    Output file  =
@@ -8,7 +8,7 @@
 #    Map file     =
 #        D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\Project_Feed_Shrimp_ver2\List\Project_Feed_Shrimp_ver2.map
 #    Command line =
-#        -f C:\Users\PC\AppData\Local\Temp\EWD327.tmp
+#        -f C:\Users\PC\AppData\Local\Temp\EWC366.tmp
 #        (D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\Project_Feed_Shrimp_ver2\Obj\CLCD.o
 #        D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\Project_Feed_Shrimp_ver2\Obj\convert_variable.o
 #        D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\Project_Feed_Shrimp_ver2\Obj\event_driven.o
@@ -98,7 +98,7 @@ initialize by copy { rw };
   .intvec            ro code   0x800'0000   0x124  startup_stm32l151xc.o [1]
                              - 0x800'0124   0x124
 
-"P1":                                      0x2e9e
+"P1":                                      0x2e96
   .text              ro code   0x800'0124   0x61c  stm32l1xx_hal_rcc.o [1]
   .text              ro code   0x800'0740     0xc  stm32l1xx_hal.o [1]
   .text              ro code   0x800'074c    0x44  stm32l1xx_hal.o [1]
@@ -125,36 +125,38 @@ initialize by copy { rw };
   .text              ro code   0x800'193e    0x5e  stm32l1xx_hal_iwdg.o [1]
   .text              ro code   0x800'199c   0x3a4  user_app_lcd.o [1]
   .text              ro code   0x800'1d40   0x284  user_app_menu_display.o [1]
-  .text              ro code   0x800'1fc4   0x300  user_app_feed_shrimp.o [1]
-  .text              ro code   0x800'22c4    0x28  stm32l1xx_hal.o [1]
-  .text              ro code   0x800'22ec    0xdc  user_app_relay.o [1]
-  .text              ro code   0x800'23c8   0x29c  user_app_button.o [1]
-  .text              ro code   0x800'2664   0x2a0  CLCD.o [1]
-  .text              ro code   0x800'2904     0x6  ABImemclr4.o [4]
-  .text              ro code   0x800'290a    0x30  event_driven.o [1]
-  .text              ro code   0x800'293c    0xf2  onchipflash.o [1]
-  .text              ro code   0x800'2a30    0x32  ABImemset48.o [4]
-  .text              ro code   0x800'2a64   0x170  stm32l1xx_hal_flash.o [1]
-  .text              ro code   0x800'2bd4    0x2c  stm32l1xx_hal_flash_ex.o [1]
-  .text              ro code   0x800'2c00    0x78  lz77_init_single.o [4]
-  .text              ro code   0x800'2c78    0x28  data_init.o [4]
-  .iar.init_table    const     0x800'2ca0    0x20  - Linker created -
-  .text              ro code   0x800'2cc0    0x20  system_stm32l1xx.o [1]
-  .text              ro code   0x800'2ce0    0x1e  cmain.o [4]
-  .text              ro code   0x800'2cfe     0x4  low_level_init.o [2]
-  .text              ro code   0x800'2d02     0x4  exit.o [2]
-  .text              ro code   0x800'2d08     0xa  cexit.o [4]
-  .text              ro code   0x800'2d14    0x14  exit.o [5]
-  .rodata            const     0x800'2d28    0x14  user_app_lcd.o [1]
-  .rodata            const     0x800'2d3c    0x14  user_app_lcd.o [1]
-  .rodata            const     0x800'2d50    0x14  user_app_lcd.o [1]
-  .rodata            const     0x800'2d64    0x14  user_app_lcd.o [1]
-  .text              ro code   0x800'2d78    0x14  stm32l1xx_it.o [1]
-  .text              ro code   0x800'2d8c    0x10  stm32l1xx_hal.o [1]
-  .text              ro code   0x800'2d9c    0x10  startup_stm32l151xc.o [1]
-  .rodata            const     0x800'2dac     0xc  user_app_lcd.o [1]
-  .rodata            const     0x800'2db8     0xc  user_app_lcd.o [1]
-  .text              ro code   0x800'2dc4     0xc  cstartup_M.o [4]
+  .text              ro code   0x800'1fc4   0x2f8  user_app_feed_shrimp.o [1]
+  .text              ro code   0x800'22bc    0x28  stm32l1xx_hal.o [1]
+  .text              ro code   0x800'22e4    0xdc  user_app_relay.o [1]
+  .text              ro code   0x800'23c0   0x29c  user_app_button.o [1]
+  .text              ro code   0x800'265c   0x2a0  CLCD.o [1]
+  .text              ro code   0x800'28fc     0x6  ABImemclr4.o [4]
+  .text              ro code   0x800'2902    0x30  event_driven.o [1]
+  .text              ro code   0x800'2934    0xf2  onchipflash.o [1]
+  .text              ro code   0x800'2a28    0x32  ABImemset48.o [4]
+  .text              ro code   0x800'2a5c   0x170  stm32l1xx_hal_flash.o [1]
+  .text              ro code   0x800'2bcc    0x2c  stm32l1xx_hal_flash_ex.o [1]
+  .text              ro code   0x800'2bf8    0x78  lz77_init_single.o [4]
+  .text              ro code   0x800'2c70    0x28  data_init.o [4]
+  .iar.init_table    const     0x800'2c98    0x20  - Linker created -
+  .text              ro code   0x800'2cb8    0x20  system_stm32l1xx.o [1]
+  .text              ro code   0x800'2cd8    0x1e  cmain.o [4]
+  .text              ro code   0x800'2cf6     0x4  low_level_init.o [2]
+  .text              ro code   0x800'2cfa     0x4  exit.o [2]
+  .text              ro code   0x800'2d00     0xa  cexit.o [4]
+  .text              ro code   0x800'2d0c    0x14  exit.o [5]
+  .rodata            const     0x800'2d20    0x14  user_app_lcd.o [1]
+  .rodata            const     0x800'2d34    0x14  user_app_lcd.o [1]
+  .rodata            const     0x800'2d48    0x14  user_app_lcd.o [1]
+  .rodata            const     0x800'2d5c    0x14  user_app_lcd.o [1]
+  .text              ro code   0x800'2d70    0x14  stm32l1xx_it.o [1]
+  .text              ro code   0x800'2d84    0x10  stm32l1xx_hal.o [1]
+  .text              ro code   0x800'2d94    0x10  startup_stm32l151xc.o [1]
+  .rodata            const     0x800'2da4     0xc  user_app_lcd.o [1]
+  .rodata            const     0x800'2db0     0xc  user_app_lcd.o [1]
+  .text              ro code   0x800'2dbc     0xc  cstartup_M.o [4]
+  .text              ro code   0x800'2dc8     0x4  startup_stm32l151xc.o [1]
+  .text              ro code   0x800'2dcc     0x4  startup_stm32l151xc.o [1]
   .text              ro code   0x800'2dd0     0x4  startup_stm32l151xc.o [1]
   .text              ro code   0x800'2dd4     0x4  startup_stm32l151xc.o [1]
   .text              ro code   0x800'2dd8     0x4  startup_stm32l151xc.o [1]
@@ -205,12 +207,10 @@ initialize by copy { rw };
   .text              ro code   0x800'2e8c     0x4  startup_stm32l151xc.o [1]
   .text              ro code   0x800'2e90     0x4  startup_stm32l151xc.o [1]
   .text              ro code   0x800'2e94     0x4  startup_stm32l151xc.o [1]
-  .text              ro code   0x800'2e98     0x4  startup_stm32l151xc.o [1]
-  .text              ro code   0x800'2e9c     0x4  startup_stm32l151xc.o [1]
-  .rodata            const     0x800'2ea0     0x0  zero_init3.o [4]
-  .rodata            const     0x800'2ea0     0x0  lz77_init_single.o [4]
-  Initializer bytes  const     0x800'2ea0   0x122  <for P2-1>
-                             - 0x800'2fc2  0x2e9e
+  .rodata            const     0x800'2e98     0x0  zero_init3.o [4]
+  .rodata            const     0x800'2e98     0x0  lz77_init_single.o [4]
+  Initializer bytes  const     0x800'2e98   0x122  <for P2-1>
+                             - 0x800'2fba  0x2e96
 
 "P2", part 1 of 3:                          0x2a4
   P2-1                        0x2000'0000   0x2a4  <Init block>
@@ -256,7 +256,7 @@ Unused ranges:
 
          From           To      Size
          ----           --      ----
-   0x800'2fc2   0x803'ffff  0x3'd03e
+   0x800'2fba   0x803'ffff  0x3'd046
   0x2000'0770  0x2000'7fff    0x7890
 
 
@@ -272,7 +272,7 @@ Zero (__iar_zero_init3)
 
 Copy/lz77 (__iar_lz77_init_single3)
     1 source range, total size 0x122 (42% of destination):
-           0x800'2ea0  0x122
+           0x800'2e98  0x122
     1 destination range, total size 0x2a4:
           0x2000'0000  0x2a4
 
@@ -314,12 +314,12 @@ D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\Project
     tim.o                         284                64
     user_app_button.o             668       66      152
     user_app_comm.o                42
-    user_app_feed_shrimp.o        768       41      150
+    user_app_feed_shrimp.o        760       41      150
     user_app_lcd.o                932      233      317
     user_app_menu_display.o       644       19       44
     user_app_relay.o              220       29       68
     ---------------------------------------------------
-    Total:                     11'038      394      879
+    Total:                     11'030      394      879
 
 dl7M_tlf.a: [2]
     exit.o                          4
@@ -355,7 +355,7 @@ shb_l.a: [5]
     Gaps                           22
     Linker created                          32    1'024
 -------------------------------------------------------
-    Grand Total:               11'800      426    1'903
+    Grand Total:               11'792      426    1'903
 
 
 *******************************************************************************
@@ -364,50 +364,50 @@ shb_l.a: [5]
 
 Entry                       Address   Size  Type      Object
 -----                       -------   ----  ----      ------
-.iar.init_table$$Base    0x800'2ca0          --   Gb  - Linker created -
-.iar.init_table$$Limit   0x800'2cc0          --   Gb  - Linker created -
-?main                    0x800'2ce1         Code  Gb  cmain.o [4]
-AHBPrescTable            0x800'2cd0   0x10  Data  Gb  system_stm32l1xx.o [1]
-AppButton_Task           0x800'2607   0x40  Code  Gb  user_app_button.o [1]
-AppFeed_Task             0x800'225f   0x40  Code  Gb  user_app_feed_shrimp.o [1]
+.iar.init_table$$Base    0x800'2c98          --   Gb  - Linker created -
+.iar.init_table$$Limit   0x800'2cb8          --   Gb  - Linker created -
+?main                    0x800'2cd9         Code  Gb  cmain.o [4]
+AHBPrescTable            0x800'2cc8   0x10  Data  Gb  system_stm32l1xx.o [1]
+AppButton_Task           0x800'25ff   0x40  Code  Gb  user_app_button.o [1]
+AppFeed_Task             0x800'2257   0x40  Code  Gb  user_app_feed_shrimp.o [1]
 AppLcd_Task              0x800'1cad   0x40  Code  Gb  user_app_lcd.o [1]
 AppMenu_Task             0x800'1f6b   0x40  Code  Gb  user_app_menu_display.o [1]
-AppRelay_Task            0x800'2379   0x40  Code  Gb  user_app_relay.o [1]
+AppRelay_Task            0x800'2371   0x40  Code  Gb  user_app_relay.o [1]
 BT_Menu_Main_1           0x800'1dd9   0x92  Code  Gb  user_app_menu_display.o [1]
 BT_Menu_Main_2           0x800'1e6d   0xda  Code  Gb  user_app_menu_display.o [1]
-BusFault_Handler         0x800'2d7f    0x2  Code  Gb  stm32l1xx_it.o [1]
-CLCD_4BIT_Init           0x800'27b5   0xce  Code  Gb  CLCD.o [1]
-CLCD_Delay               0x800'2665    0x4  Code  Lc  CLCD.o [1]
-CLCD_SetCursor           0x800'288d   0x42  Code  Gb  CLCD.o [1]
-CLCD_Write4              0x800'26e9   0x9a  Code  Lc  CLCD.o [1]
-CLCD_Write8              0x800'2669   0x80  Code  Lc  CLCD.o [1]
-CLCD_WriteChar           0x800'28cf   0x18  Code  Gb  CLCD.o [1]
-CLCD_WriteString         0x800'28e7   0x1a  Code  Gb  CLCD.o [1]
+BusFault_Handler         0x800'2d77    0x2  Code  Gb  stm32l1xx_it.o [1]
+CLCD_4BIT_Init           0x800'27ad   0xce  Code  Gb  CLCD.o [1]
+CLCD_Delay               0x800'265d    0x4  Code  Lc  CLCD.o [1]
+CLCD_SetCursor           0x800'2885   0x42  Code  Gb  CLCD.o [1]
+CLCD_Write4              0x800'26e1   0x9a  Code  Lc  CLCD.o [1]
+CLCD_Write8              0x800'2661   0x80  Code  Lc  CLCD.o [1]
+CLCD_WriteChar           0x800'28c7   0x18  Code  Gb  CLCD.o [1]
+CLCD_WriteString         0x800'28df   0x1a  Code  Gb  CLCD.o [1]
 CSTACK$$Base            0x2000'0370          --   Gb  - Linker created -
 CSTACK$$Limit           0x2000'0770          --   Gb  - Linker created -
-Control_MotorLevel       0x800'213b   0x14  Code  Gb  user_app_feed_shrimp.o [1]
+Control_MotorLevel       0x800'2137    0xe  Code  Gb  user_app_feed_shrimp.o [1]
 DLCD_Main_1              0x800'19c3   0x60  Code  Gb  user_app_lcd.o [1]
 DLCD_Main_1_Entry        0x800'1a23   0x14  Code  Gb  user_app_lcd.o [1]
 DLCD_Main_2              0x800'1a37   0x62  Code  Gb  user_app_lcd.o [1]
 DLCD_Main_2_Entry        0x800'1aaf   0x14  Code  Gb  user_app_lcd.o [1]
-DebugMon_Handler         0x800'2d85    0x2  Code  Gb  stm32l1xx_it.o [1]
+DebugMon_Handler         0x800'2d7d    0x2  Code  Gb  stm32l1xx_it.o [1]
 Error_Handler            0x800'0fd5    0x4  Code  Gb  main.o [1]
-FLASH_PageErase          0x800'2bd5   0x22  Code  Gb  stm32l1xx_hal_flash_ex.o [1]
-FLASH_SetErrorCode       0x800'2b3f   0x78  Code  Lc  stm32l1xx_hal_flash.o [1]
+FLASH_PageErase          0x800'2bcd   0x22  Code  Gb  stm32l1xx_hal_flash_ex.o [1]
+FLASH_SetErrorCode       0x800'2b37   0x78  Code  Lc  stm32l1xx_hal_flash.o [1]
 FLASH_WaitForLastOperation
-                         0x800'2add   0x62  Code  Gb  stm32l1xx_hal_flash.o [1]
+                         0x800'2ad5   0x62  Code  Gb  stm32l1xx_hal_flash.o [1]
 Gettick                 0x2000'031c    0x4  Data  Gb  user_app_feed_shrimp.o [1]
-HAL_Delay                0x800'22c5   0x28  Code  Wk  stm32l1xx_hal.o [1]
-HAL_FLASH_Lock           0x800'2acd    0xa  Code  Gb  stm32l1xx_hal_flash.o [1]
-HAL_FLASH_Program        0x800'2a65   0x36  Code  Gb  stm32l1xx_hal_flash.o [1]
-HAL_FLASH_Unlock         0x800'2a9b   0x32  Code  Gb  stm32l1xx_hal_flash.o [1]
+HAL_Delay                0x800'22bd   0x28  Code  Wk  stm32l1xx_hal.o [1]
+HAL_FLASH_Lock           0x800'2ac5    0xa  Code  Gb  stm32l1xx_hal_flash.o [1]
+HAL_FLASH_Program        0x800'2a5d   0x36  Code  Gb  stm32l1xx_hal_flash.o [1]
+HAL_FLASH_Unlock         0x800'2a93   0x32  Code  Gb  stm32l1xx_hal_flash.o [1]
 HAL_GPIO_Init            0x800'103d  0x19e  Code  Gb  stm32l1xx_hal_gpio.o [1]
 HAL_GPIO_ReadPin         0x800'11db    0xc  Code  Gb  stm32l1xx_hal_gpio.o [1]
 HAL_GPIO_WritePin        0x800'11e7    0x8  Code  Gb  stm32l1xx_hal_gpio.o [1]
 HAL_GetTick              0x800'0741    0xc  Code  Wk  stm32l1xx_hal.o [1]
 HAL_IWDG_Init            0x800'193f   0x52  Code  Gb  stm32l1xx_hal_iwdg.o [1]
 HAL_IWDG_Refresh         0x800'1991    0xc  Code  Gb  stm32l1xx_hal_iwdg.o [1]
-HAL_IncTick              0x800'2d8d   0x10  Code  Wk  stm32l1xx_hal.o [1]
+HAL_IncTick              0x800'2d85   0x10  Code  Wk  stm32l1xx_hal.o [1]
 HAL_Init                 0x800'1279   0x1e  Code  Gb  stm32l1xx_hal.o [1]
 HAL_InitTick             0x800'074d   0x44  Code  Wk  stm32l1xx_hal.o [1]
 HAL_MspInit              0x800'15c1   0x44  Code  Gb  stm32l1xx_hal_msp.o [1]
@@ -440,14 +440,14 @@ HAL_TIM_PWM_ConfigChannel
 HAL_TIM_PWM_Init         0x800'09b9   0x1a  Code  Gb  stm32l1xx_hal_tim.o [1]
 HAL_TIM_PWM_Start        0x800'09d3   0x78  Code  Gb  stm32l1xx_hal_tim.o [1]
 Handle_Menu_Button       0x800'1f47   0x10  Code  Gb  user_app_menu_display.o [1]
-HardFault_Handler        0x800'2d7b    0x2  Code  Gb  stm32l1xx_it.o [1]
-Init_AppFeed             0x800'224f   0x10  Code  Gb  user_app_feed_shrimp.o [1]
+HardFault_Handler        0x800'2d73    0x2  Code  Gb  stm32l1xx_it.o [1]
+Init_AppFeed             0x800'2247   0x10  Code  Gb  user_app_feed_shrimp.o [1]
 Init_AppLcd              0x800'1cab    0x2  Code  Gb  user_app_lcd.o [1]
 Init_AppMenuDisplay      0x800'1f69    0x2  Code  Gb  user_app_menu_display.o [1]
 Init_LCD16x2             0x800'1b89   0x3e  Code  Gb  user_app_lcd.o [1]
-Init_LevelFeed           0x800'21f1   0x20  Code  Gb  user_app_feed_shrimp.o [1]
-Init_StateFeed           0x800'216d   0x22  Code  Gb  user_app_feed_shrimp.o [1]
-Init_TimeFeed            0x800'2211   0x3e  Code  Gb  user_app_feed_shrimp.o [1]
+Init_LevelFeed           0x800'21e9   0x20  Code  Gb  user_app_feed_shrimp.o [1]
+Init_StateFeed           0x800'2171   0x16  Code  Gb  user_app_feed_shrimp.o [1]
+Init_TimeFeed            0x800'2209   0x3e  Code  Gb  user_app_feed_shrimp.o [1]
 LCD                     0x2000'015c   0x58  Data  Gb  user_app_lcd.o [1]
 LCD_Display_Uint         0x800'1c05   0x62  Code  Gb  user_app_lcd.o [1]
 LCD_Display_Uint_Time    0x800'1c67   0x44  Code  Gb  user_app_lcd.o [1]
@@ -482,14 +482,15 @@ Main_2_Time_Alter::stampMM
 Main_2_Time_Alter::stampSS
                         0x2000'036d    0x1  Data  Lc  user_app_lcd.o [1]
 Main_Task                0x800'1489   0x2a  Code  Gb  user_app_comm.o [1]
-MemManage_Handler        0x800'2d7d    0x2  Code  Gb  stm32l1xx_it.o [1]
+MemManage_Handler        0x800'2d75    0x2  Code  Gb  stm32l1xx_it.o [1]
 Menu_ResetStamp          0x800'1f57   0x12  Code  Gb  user_app_menu_display.o [1]
-NMI_Handler              0x800'2d79    0x2  Code  Gb  stm32l1xx_it.o [1]
-OnOff_Relay              0x800'235d   0x1c  Code  Gb  user_app_relay.o [1]
-OnchipFlashPageErase     0x800'2995   0x36  Code  Gb  onchipflash.o [1]
-OnchipFlashWriteData     0x800'293d   0x50  Code  Gb  onchipflash.o [1]
-PLLMulTable              0x800'2cc4    0xc  Data  Gb  system_stm32l1xx.o [1]
-PendSV_Handler           0x800'2d87    0x2  Code  Gb  stm32l1xx_it.o [1]
+NMI_Handler              0x800'2d71    0x2  Code  Gb  stm32l1xx_it.o [1]
+Off_MotorLevel           0x800'2145    0xe  Code  Gb  user_app_feed_shrimp.o [1]
+OnOff_Relay              0x800'2355   0x1c  Code  Gb  user_app_relay.o [1]
+OnchipFlashPageErase     0x800'298d   0x36  Code  Gb  onchipflash.o [1]
+OnchipFlashWriteData     0x800'2935   0x50  Code  Gb  onchipflash.o [1]
+PLLMulTable              0x800'2cbc    0xc  Data  Gb  system_stm32l1xx.o [1]
+PendSV_Handler           0x800'2d7f    0x2  Code  Gb  stm32l1xx_it.o [1]
 RCC_SetFlashLatencyFromMSIRange
                          0x800'0697   0x72  Code  Lc  stm32l1xx_hal_rcc.o [1]
 RELAY_PIN               0x2000'0288    0x8  Data  Lc  user_app_relay.o [1]
@@ -498,18 +499,18 @@ RTC_Bcd2ToByte           0x800'192f   0x10  Code  Gb  stm32l1xx_hal_rtc.o [1]
 RTC_ByteToBcd2           0x800'1919   0x16  Code  Gb  stm32l1xx_hal_rtc.o [1]
 RTC_EnterInitMode        0x800'18ad   0x42  Code  Gb  stm32l1xx_hal_rtc.o [1]
 RTC_ExitInitMode         0x800'18ef   0x2a  Code  Gb  stm32l1xx_hal_rtc.o [1]
-Region$$Table$$Base      0x800'2ca0          --   Gb  - Linker created -
-Region$$Table$$Limit     0x800'2cc0          --   Gb  - Linker created -
-SVC_Handler              0x800'2d83    0x2  Code  Gb  stm32l1xx_it.o [1]
-Save_Array               0x800'29d1   0x16  Code  Gb  onchipflash.o [1]
-Save_LevelFeed           0x800'21cd   0x24  Code  Gb  user_app_feed_shrimp.o [1]
-Save_StateFeed           0x800'214f   0x1e  Code  Gb  user_app_feed_shrimp.o [1]
-Save_TimeFeed            0x800'218f   0x3e  Code  Gb  user_app_feed_shrimp.o [1]
+Region$$Table$$Base      0x800'2c98          --   Gb  - Linker created -
+Region$$Table$$Limit     0x800'2cb8          --   Gb  - Linker created -
+SVC_Handler              0x800'2d7b    0x2  Code  Gb  stm32l1xx_it.o [1]
+Save_Array               0x800'29c9   0x16  Code  Gb  onchipflash.o [1]
+Save_LevelFeed           0x800'21c5   0x24  Code  Gb  user_app_feed_shrimp.o [1]
+Save_StateFeed           0x800'2153   0x1e  Code  Gb  user_app_feed_shrimp.o [1]
+Save_TimeFeed            0x800'2187   0x3e  Code  Gb  user_app_feed_shrimp.o [1]
 Set_Time                 0x800'1bc7   0x3e  Code  Gb  user_app_lcd.o [1]
-SysTick_Handler          0x800'2d89    0x4  Code  Gb  stm32l1xx_it.o [1]
+SysTick_Handler          0x800'2d81    0x4  Code  Gb  stm32l1xx_it.o [1]
 SystemClock_Config       0x800'0f39   0x96  Code  Gb  main.o [1]
 SystemCoreClock         0x2000'000c    0x4  Data  Gb  system_stm32l1xx.o [1]
-SystemInit               0x800'2cc1    0x2  Code  Gb  system_stm32l1xx.o [1]
+SystemInit               0x800'2cb9    0x2  Code  Gb  system_stm32l1xx.o [1]
 TIM_Base_SetConfig       0x800'0c27   0x68  Code  Lc  stm32l1xx_hal_tim.o [1]
 TIM_CCxChannelCmd        0x800'0dc7   0x16  Code  Lc  stm32l1xx_hal_tim.o [1]
 TIM_ETR_SetConfig        0x800'0db3   0x14  Code  Lc  stm32l1xx_hal_tim.o [1]
@@ -522,7 +523,7 @@ TIM_TI1_ConfigInputStage
                          0x800'0d61   0x1e  Code  Lc  stm32l1xx_hal_tim.o [1]
 TIM_TI2_ConfigInputStage
                          0x800'0d7f   0x24  Code  Lc  stm32l1xx_hal_tim.o [1]
-UsageFault_Handler       0x800'2d81    0x2  Code  Gb  stm32l1xx_it.o [1]
+UsageFault_Handler       0x800'2d79    0x2  Code  Gb  stm32l1xx_it.o [1]
 User_Button_Down_Click   0x800'1db3    0x4  Code  Gb  user_app_menu_display.o [1]
 User_Button_Down_Hold_Cycle
                          0x800'1dc3    0x4  Code  Gb  user_app_menu_display.o [1]
@@ -546,82 +547,82 @@ User_Button_Up_Hold_Once
                          0x800'1dcf    0x4  Code  Gb  user_app_menu_display.o [1]
 __NVIC_SetPriority       0x800'08d1   0x1a  Code  Lc  stm32l1xx_hal_cortex.o [1]
 __aeabi_ldiv0            0x800'097d         Code  Gb  I64DivZer.o [4]
-__aeabi_memclr4          0x800'2905         Code  Gb  ABImemclr4.o [4]
+__aeabi_memclr4          0x800'28fd         Code  Gb  ABImemclr4.o [4]
 __aeabi_memset           0x800'1211         Code  Gb  ABImemset.o [4]
-__cmain                  0x800'2ce1         Code  Gb  cmain.o [4]
-__exit                   0x800'2d15   0x14  Code  Gb  exit.o [5]
+__cmain                  0x800'2cd9         Code  Gb  cmain.o [4]
+__exit                   0x800'2d0d   0x14  Code  Gb  exit.o [5]
 __iar_Memset             0x800'1211         Code  Gb  ABImemset.o [4]
-__iar_Memset4_word       0x800'2a31         Code  Gb  ABImemset48.o [4]
-__iar_Memset8_word       0x800'2a31         Code  Gb  ABImemset48.o [4]
+__iar_Memset4_word       0x800'2a29         Code  Gb  ABImemset48.o [4]
+__iar_Memset8_word       0x800'2a29         Code  Gb  ABImemset48.o [4]
 __iar_Memset_word        0x800'1219         Code  Gb  ABImemset.o [4]
-__iar_data_init3         0x800'2c79   0x28  Code  Gb  data_init.o [4]
+__iar_data_init3         0x800'2c71   0x28  Code  Gb  data_init.o [4]
 __iar_lz77_init_single3
-                         0x800'2c01   0x78  Code  Gb  lz77_init_single.o [4]
-__iar_program_start      0x800'2dc5         Code  Gb  cstartup_M.o [4]
+                         0x800'2bf9   0x78  Code  Gb  lz77_init_single.o [4]
+__iar_program_start      0x800'2dbd         Code  Gb  cstartup_M.o [4]
 __iar_small_uldivmod     0x800'0791         Code  Gb  I64DivMod_small.o [4]
 __iar_zero_init3         0x800'0897   0x3a  Code  Gb  zero_init3.o [4]
-__low_level_init         0x800'2cff    0x4  Code  Gb  low_level_init.o [2]
+__low_level_init         0x800'2cf7    0x4  Code  Gb  low_level_init.o [2]
 __vector_table           0x800'0000         Data  Gb  startup_stm32l151xc.o [1]
-_call_main               0x800'2ced         Code  Gb  cmain.o [4]
-_exit                    0x800'2d09         Code  Gb  cexit.o [4]
-_main                    0x800'2cfb         Code  Gb  cmain.o [4]
-exit                     0x800'2d03    0x4  Code  Gb  exit.o [2]
-fevent_active            0x800'290b   0x10  Code  Gb  event_driven.o [1]
+_call_main               0x800'2ce5         Code  Gb  cmain.o [4]
+_exit                    0x800'2d01         Code  Gb  cexit.o [4]
+_main                    0x800'2cf3         Code  Gb  cmain.o [4]
+exit                     0x800'2cfb    0x4  Code  Gb  exit.o [2]
+fevent_active            0x800'2903   0x10  Code  Gb  event_driven.o [1]
 fevent_button_click_down
-                         0x800'24e9   0x4c  Code  Lc  user_app_button.o [1]
+                         0x800'24e1   0x4c  Code  Lc  user_app_button.o [1]
 fevent_button_click_down::state_before
                         0x2000'02a1    0x1  Data  Lc  user_app_button.o [1]
 fevent_button_click_down::state_current
                         0x2000'02a0    0x1  Data  Lc  user_app_button.o [1]
 fevent_button_click_enter
-                         0x800'23cd   0x4c  Code  Lc  user_app_button.o [1]
+                         0x800'23c5   0x4c  Code  Lc  user_app_button.o [1]
 fevent_button_click_enter::state_before
                         0x2000'029d    0x1  Data  Lc  user_app_button.o [1]
 fevent_button_click_enter::state_current
                         0x2000'029c    0x1  Data  Lc  user_app_button.o [1]
 fevent_button_click_exit
-                         0x800'2579   0x4e  Code  Lc  user_app_button.o [1]
+                         0x800'2571   0x4e  Code  Lc  user_app_button.o [1]
 fevent_button_click_exit::state_before
                         0x2000'02a3    0x1  Data  Lc  user_app_button.o [1]
 fevent_button_click_exit::state_current
                         0x2000'02a2    0x1  Data  Lc  user_app_button.o [1]
-fevent_button_click_up   0x800'244d   0x4a  Code  Lc  user_app_button.o [1]
+fevent_button_click_up   0x800'2445   0x4a  Code  Lc  user_app_button.o [1]
 fevent_button_click_up::state_before
                         0x2000'029f    0x1  Data  Lc  user_app_button.o [1]
 fevent_button_click_up::state_current
                         0x2000'029e    0x1  Data  Lc  user_app_button.o [1]
-fevent_button_entry      0x800'23c9    0x4  Code  Lc  user_app_button.o [1]
+fevent_button_entry      0x800'23c1    0x4  Code  Lc  user_app_button.o [1]
 fevent_button_hold_down
-                         0x800'2541   0x32  Code  Lc  user_app_button.o [1]
+                         0x800'2539   0x32  Code  Lc  user_app_button.o [1]
 fevent_button_hold_enter
-                         0x800'2419   0x34  Code  Lc  user_app_button.o [1]
+                         0x800'2411   0x34  Code  Lc  user_app_button.o [1]
 fevent_button_hold_exit
-                         0x800'25c7   0x36  Code  Lc  user_app_button.o [1]
-fevent_button_hold_up    0x800'24a7   0x30  Code  Lc  user_app_button.o [1]
-fevent_control_led_run   0x800'2333   0x28  Code  Lc  user_app_relay.o [1]
+                         0x800'25bf   0x36  Code  Lc  user_app_button.o [1]
+fevent_button_hold_up    0x800'249f   0x30  Code  Lc  user_app_button.o [1]
+fevent_control_led_run   0x800'232b   0x28  Code  Lc  user_app_relay.o [1]
 fevent_control_led_status
-                         0x800'22fb   0x38  Code  Lc  user_app_relay.o [1]
-fevent_disable           0x800'292f    0xc  Code  Gb  event_driven.o [1]
-fevent_enable            0x800'291b   0x14  Code  Gb  event_driven.o [1]
+                         0x800'22f3   0x38  Code  Lc  user_app_relay.o [1]
+fevent_disable           0x800'2927    0xc  Code  Gb  event_driven.o [1]
+fevent_enable            0x800'2913   0x14  Code  Gb  event_driven.o [1]
 fevent_feed_entry        0x800'1fc5    0xa  Code  Lc  user_app_feed_shrimp.o [1]
 fevent_feed_get_time_rtc
                          0x800'1fcf   0x5c  Code  Lc  user_app_feed_shrimp.o [1]
 fevent_feed_get_time_rtc::check_RTC
                         0x2000'0318    0x1  Data  Lc  user_app_feed_shrimp.o [1]
 fevent_feed_level_motor
-                         0x800'2115   0x1e  Code  Lc  user_app_feed_shrimp.o [1]
+                         0x800'2111   0x1e  Code  Lc  user_app_feed_shrimp.o [1]
 fevent_feed_level_motor::stampLevel
                         0x2000'0350    0x2  Data  Lc  user_app_feed_shrimp.o [1]
-fevent_feed_save_level   0x800'20f3   0x12  Code  Lc  user_app_feed_shrimp.o [1]
-fevent_feed_save_state   0x800'20dd   0x16  Code  Lc  user_app_feed_shrimp.o [1]
-fevent_feed_shrimp       0x800'202b   0x9e  Code  Lc  user_app_feed_shrimp.o [1]
+fevent_feed_save_level   0x800'20ef   0x12  Code  Lc  user_app_feed_shrimp.o [1]
+fevent_feed_save_state   0x800'20d9   0x16  Code  Lc  user_app_feed_shrimp.o [1]
+fevent_feed_shrimp       0x800'202b   0x9a  Code  Lc  user_app_feed_shrimp.o [1]
 fevent_lcd_entry         0x800'199d   0x22  Code  Lc  user_app_lcd.o [1]
 fevent_lcd_get_time_rtc
                          0x800'19bf    0x4  Code  Lc  user_app_lcd.o [1]
 fevent_menu_display_alter
                          0x800'1d61   0x46  Code  Lc  user_app_menu_display.o [1]
 fevent_menu_entry        0x800'1d41   0x20  Code  Lc  user_app_menu_display.o [1]
-fevent_relay_entry       0x800'22ed    0xe  Code  Lc  user_app_relay.o [1]
+fevent_relay_entry       0x800'22e5    0xe  Code  Lc  user_app_relay.o [1]
 hiwdg                   0x2000'0354    0xc  Data  Gb  iwdg.o [1]
 hrtc                    0x2000'02e4   0x20  Data  Gb  rtc.o [1]
 htim2                   0x2000'02a4   0x40  Data  Gb  tim.o [1]
@@ -654,7 +655,7 @@ uwTickPrio              0x2000'0004    0x4  Data  Gb  stm32l1xx_hal.o [1]
 [4] = rt7M_tl.a
 [5] = shb_l.a
 
-  11'800 bytes of readonly  code memory
+  11'792 bytes of readonly  code memory
      426 bytes of readonly  data memory
    1'903 bytes of readwrite data memory
 

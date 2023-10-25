@@ -86,7 +86,7 @@ static uint8_t fevent_feed_shrimp(uint8_t event)
         }
         if(sParamFeed.State==2 && sParamFeed.Time>=sParamFeed.TimeRun )
         {
-            Control_MotorLevel(100);
+            Off_MotorLevel();
             OnOff_Relay(RELAY_2, OFF_RELAY);
             sParamFeed.State++;
             sParamFeed.Time=0;
@@ -107,7 +107,7 @@ static uint8_t fevent_feed_shrimp(uint8_t event)
     {
         OnOff_Relay(RELAY_1, OFF_RELAY);
         OnOff_Relay(RELAY_2, OFF_RELAY);
-        Control_MotorLevel(100);
+        Off_MotorLevel();
     }
     
     fevent_enable(sEventAppFeed, event);
@@ -155,11 +155,14 @@ static uint8_t fevent_feed_level_motor(uint8_t event)
 /*=========================================================*/
 void Control_MotorLevel(uint8_t Level)
 {
-  uint8_t stampLevel = LEVEL_MAX;
-  stampLevel -= Level; 
-  
-  __HAL_TIM_SetCompare (&htim2, TIM_CHANNEL_2, stampLevel);
+  __HAL_TIM_SetCompare (&htim2, TIM_CHANNEL_2, Level);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+}
+
+void Off_MotorLevel(void)
+{
+    __HAL_TIM_SetCompare (&htim2, TIM_CHANNEL_2, 0);
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 }
 
 
@@ -186,8 +189,7 @@ void Init_StateFeed(void)
         sParamFeed.Power = _ON_FEED;
     }
     sParamFeed.StampPower = sParamFeed.Power;
-    __HAL_TIM_SetCompare (&htim2,TIM_CHANNEL_2,100);
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+    Off_MotorLevel();
 }
 
 
