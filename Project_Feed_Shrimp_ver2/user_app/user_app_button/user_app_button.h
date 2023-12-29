@@ -45,7 +45,7 @@
 #define TIME_HOLD_BUTTON_UP         1000
 #define TIME_HOLD_BUTTON_DOWN       1000
 
-#define TIME_HOLD_DELAY             200     //Gia tri phai khac time Hold Button
+#define TIME_HOLD_DELAY             50     //Gia tri phai khac time Hold Button
 
 
 typedef enum

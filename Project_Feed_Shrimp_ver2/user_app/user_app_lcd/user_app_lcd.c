@@ -32,10 +32,10 @@ LCD_Uint_Display                    oLCD_U_Main_1[]=
   {_LCD_U_MAIN_1_HOUR,          0,0,8,          &sTimeRun.Hour},
   {_LCD_U_MAIN_1_MINUTES,       0,0,11,         &sTimeRun.Minutes},
   {_LCD_U_MAIN_1_SECOND,        0,0,14,         &sTimeRun.Second},
-  {_LCD_U_MAIN_1_LEVEL,         0,1,9,          &sParamFeed.Level},
-  {_LCD_U_MAIN_1_RUN,           0,1,9,          &sParamFeed.TimeRun},
-  {_LCD_U_MAIN_1_FREE,          0,1,9,          &sParamFeed.TimeFree},
-  {_LCD_U_MAIN_1_CYCLE,         0,1,9,          &sParamFeed.TimeCycle},
+  {_LCD_U_MAIN_1_LEVEL,         0,1,7,          &sParamFeed.Level},
+  {_LCD_U_MAIN_1_RUN,           0,1,7,          &sParamFeed.TimeRun},
+  {_LCD_U_MAIN_1_FREE,          0,1,7,          &sParamFeed.TimeFree},
+  {_LCD_U_MAIN_1_CYCLE,         0,1,7,          &sParamFeed.TimeCycle},
 };
 
 LCD_Char_Display                    oLCD_C_Main_2[]=
@@ -51,9 +51,9 @@ LCD_Uint_Display                    oLCD_U_Main_2[]=
   {_LCD_U_MAIN_2_HOUR,          0,0,8,          (uint16_t*)&sTimeRun.Hour},
   {_LCD_U_MAIN_2_MINUTES,       0,0,11,         (uint16_t*)&sTimeRun.Minutes},
   {_LCD_U_MAIN_2_SECOND,        0,0,14,         (uint16_t*)&sTimeRun.Second},
-  {_LCD_U_MAIN_2_RUN,           0,1,9,          &sMenuStamp.TimeRun},
-  {_LCD_U_MAIN_2_FREE,          0,1,9,          &sMenuStamp.TimeFree},
-  {_LCD_U_MAIN_2_CYCLE,         0,1,9,          &sMenuStamp.TimeCycle}
+  {_LCD_U_MAIN_2_RUN,           0,1,7,          &sMenuStamp.TimeRun},
+  {_LCD_U_MAIN_2_FREE,          0,1,7,          &sMenuStamp.TimeFree},
+  {_LCD_U_MAIN_2_CYCLE,         0,1,7,          &sMenuStamp.TimeCycle}
 };
 /*=============================== Function Handle ===============================*/
 

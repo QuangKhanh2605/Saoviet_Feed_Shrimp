@@ -19,7 +19,7 @@ sEvent_struct       sEventAppFeed[]=
   {_EVENT_FEED_ENTRY,            1, 5, 0,        fevent_feed_entry},
   {_EVENT_FEED_GET_TIME_RTC,     1, 5, 250,      fevent_feed_get_time_rtc},
   {_EVENT_FEED_SHRIMP,           1, 5, 20,       fevent_feed_shrimp},
-  {_EVENT_FEED_SAVE_STATE,       1, 5, 10000,    fevent_feed_save_state},
+  {_EVENT_FEED_SAVE_STATE,       1, 5, 5,        fevent_feed_save_state},
   {_EVENT_FEED_SAVE_LEVEL,       1, 5, 5000,     fevent_feed_save_level},
   {_EVENT_FEED_LEVEL_MOTOR,      1, 5, 5,        fevent_feed_level_motor},
 };
@@ -34,7 +34,6 @@ Struct_Param_Feed               sParamFeed={0};
 
 static uint8_t fevent_feed_entry(uint8_t event)
 {
-    sParamFeed.TimeCycle = CYCLE_DEFAULT;
     return 1;
 }
 uint32_t Gettick = 0;
@@ -84,7 +83,7 @@ static uint8_t fevent_feed_shrimp(uint8_t event)
             sParamFeed.State++;
             sParamFeed.Time=0;
         }
-        if(sParamFeed.State==2 && sParamFeed.Time>=sParamFeed.TimeRun )
+        if(sParamFeed.State==2 && sParamFeed.Time>=sParamFeed.TimeRun)
         {
             Off_MotorLevel();
             OnOff_Relay(RELAY_2, OFF_RELAY);
@@ -171,7 +170,7 @@ void Save_StateFeed(uint8_t State)
     uint8_t aData[2] = {0};
     uint8_t length = 0;
     
-    sParamFeed.StampLevel = State;
+    sParamFeed.StampPower = State;
     
     aData[length++] = sParamFeed.Power;
 
@@ -188,6 +187,7 @@ void Init_StateFeed(void)
     {
         sParamFeed.Power = _ON_FEED;
     }
+    
     sParamFeed.StampPower = sParamFeed.Power;
     Off_MotorLevel();
 }
@@ -246,17 +246,17 @@ void Init_TimeFeed(void)
 {
     if(*(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP) == BYTE_TEMP_FIRST)
     {
-        sParamFeed.TimeCycle  = *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+6) ;
-        sParamFeed.TimeCycle  = sParamFeed.TimeCycle << 8;
-        sParamFeed.TimeCycle |= *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+7);
-      
+        sParamFeed.TimeRun = *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+2);
+        sParamFeed.TimeRun = sParamFeed.TimeRun << 8;
+        sParamFeed.TimeRun |= *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+3);
+        
         sParamFeed.TimeFree  = *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+4) ;
         sParamFeed.TimeFree  = sParamFeed.TimeFree << 8;
         sParamFeed.TimeFree |= *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+5);
         
-        sParamFeed.TimeRun = *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+2);
-        sParamFeed.TimeRun = sParamFeed.TimeRun << 8;
-        sParamFeed.TimeRun = *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+3);
+        sParamFeed.TimeCycle  = *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+6) ;
+        sParamFeed.TimeCycle  = sParamFeed.TimeCycle << 8;
+        sParamFeed.TimeCycle |= *(__IO uint8_t*)(ADDR_TIME_FEED_SHRIMP+7);
     }
     else
     {

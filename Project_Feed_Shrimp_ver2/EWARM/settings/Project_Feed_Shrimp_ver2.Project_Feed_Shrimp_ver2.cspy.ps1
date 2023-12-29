@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.general.xcl" --backend -f "D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Saoviet_Bitbucket\Saoviet_Feed_Shrimp\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.general.xcl" --backend -f "D:\Saoviet_Bitbucket\Saoviet_Feed_Shrimp\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.driver.xcl" 
 }
 else
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.general.xcl" --debug_file=$debugfile --backend -f "D:\Project_STM32\Saoviet_Feed_Shrimp_ver2\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Saoviet_Bitbucket\Saoviet_Feed_Shrimp\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.general.xcl" --debug_file=$debugfile --backend -f "D:\Saoviet_Bitbucket\Saoviet_Feed_Shrimp\Project_Feed_Shrimp_ver2\EWARM\settings\Project_Feed_Shrimp_ver2.Project_Feed_Shrimp_ver2.driver.xcl" 
 }

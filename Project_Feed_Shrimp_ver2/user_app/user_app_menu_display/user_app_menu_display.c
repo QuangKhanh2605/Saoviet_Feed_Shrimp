@@ -218,7 +218,7 @@ void    BT_Menu_Main_2(uint8_t KindButton)
           Save_TimeFeed(sMenuStamp.TimeRun, sMenuStamp.TimeFree, sMenuStamp.TimeCycle);
           Menu_ResetStamp();
           sParamFeed.Power = _ON_FEED;
-          Menu_ResetState();;
+          Menu_ResetState();
           break;
           
         case _BT_ENTER_HOLD_CYCLE:
