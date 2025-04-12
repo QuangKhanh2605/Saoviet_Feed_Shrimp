@@ -1,0 +1,850 @@
+#include "user_app_menu_display.h"
+#include "user_app_lcd.h"
+#include "user_app_ctrl_oxy.h"
+#include "user_internal_mem.h"
+/*=============== Function static ================*/
+static uint8_t fevent_menu_entry(uint8_t event);
+static uint8_t fevent_menu_display_alter(uint8_t event);
+/*================== Struct ===================*/
+sEvent_struct       sEventAppMenu[]=
+{
+  {_EVENT_MENU_ENTRY,               1, 5, 5,        fevent_menu_entry},
+  {_EVENT_MENU_DISPLAY_ALTER,       1, 5, 20,       fevent_menu_display_alter},
+};
+
+Struct_Menu_State               sMenuState={0};
+/*================== Function Handle ===================*/
+static uint8_t fevent_menu_entry(uint8_t event)
+{
+    DLCD_Main_1_Entry();
+    return 1;
+}
+
+static uint8_t fevent_menu_display_alter(uint8_t event)
+{
+    switch(sMenuState.Screen)
+    {
+        case _MENU_MAIN_1:
+          DLCD_Main_1_Alter();
+          break;
+          
+        case _MENU_MAIN_2:
+          DLCD_Main_2_Alter();
+          break;
+          
+        case _MENU_LOGIN:
+          DLCD_Login_Alter();
+          break;     
+          
+        case _MENU_SETTING_CYCLE:
+          DLCD_Setting_Cycle_Alter();
+          break;     
+          
+        case _MENU_SETTING_SATILITY:
+          DLCD_Setting_Satility_Alter();
+          break;   
+          
+        case _MENU_SETTING_PASSWORD:
+          DLCD_Setting_Password_Alter();
+          break;  
+
+        default:
+          break;
+    }
+    fevent_enable(sEventAppMenu, event);
+    return 1;
+}
+/*====================== Function Use Button Click =======================*/
+void User_Button_Enter_Click(void)
+{
+    switch(sMenuState.Screen)
+    {
+        // Enter Click Menu Main 1
+        case _MENU_MAIN_1:
+          sMenuState.Screen = _MENU_MAIN_2;
+          Clear_Rol_LCD(3, 5);
+          DLCD_Main_2_Entry();
+          break;
+          
+        // Enter Click Menu Main 2
+        case _MENU_MAIN_2:
+          sMenuState.Screen = _MENU_MAIN_1;
+          Clear_Rol_LCD(3, 5);
+          DLCD_Main_1_Entry();
+          break;
+          
+        // Enter Click Login
+        case _MENU_LOGIN:
+          switch(sMenuState.Login)
+          {
+            case _LOGIN_PASS_1:
+                sMenuState.Login = _LOGIN_PASS_2;
+                oLCD_C_Login[_LCD_C_LOGIN_PASS_2].Status = 1;
+                break;
+                
+            case _LOGIN_PASS_2:
+                sMenuState.Login = _LOGIN_PASS_3;
+                oLCD_C_Login[_LCD_C_LOGIN_PASS_3].Status = 1;
+                break;
+                
+            case _LOGIN_PASS_3:
+                Menu_ResetState();
+                if(Check_Password() == 1)   
+                {
+                  sMenuState.Screen = _MENU_SETTING_MAIN;
+                  Clear_Rol_LCD(2, 7);
+                  DLCD_Setting_Main_Entry();
+                }
+                else
+                {
+                  DLCD_Login_Entry();
+                  oLCD_C_Login[_LCD_C_LOGIN_WRONG].Status = 1;
+                }
+                break;
+                
+              default: 
+                break;
+          }
+          DLCD_Login();
+          break;
+          
+        //Enter Click Setting Main
+        case _MENU_SETTING_MAIN:
+          switch(sMenuState.SettingMain)
+          {
+            case _SETTING_MAIN_CYCLE:
+                sMenuState.Screen = _MENU_SETTING_CYCLE;
+                break;
+                
+            case _SETTING_MAIN_CALIB:
+                sMenuState.Screen = _MENU_SETTING_CALIB;
+                break;
+                
+            case _SETTING_MAIN_SATILITY:
+                sMenuState.Screen = _MENU_SETTING_SATILITY;
+                break;
+                
+            case _SETTING_MAIN_PASSWORD:
+                sMenuState.Screen = _MENU_SETTING_PASSWORD;
+                break;
+                
+              default: 
+                break;
+          }
+          Menu_ResetState();
+          break;
+          
+        //Enter Click Setting Cycle
+        case _MENU_SETTING_CYCLE:
+          switch(sMenuState.SettingCycle)
+          {
+            case _SETTING_CYCLE_RUN_CHOOSE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_RUN_CHANGE;
+                break;
+                
+            case _SETTING_CYCLE_FREE_CHOOSE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_FREE_CHANGE;
+                break;
+                
+            case _SETTING_CYCLE_RUN_CHANGE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_RUN_CHOOSE;
+                break;
+                
+            case _SETTING_CYCLE_FREE_CHANGE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_FREE_CHOOSE;
+                break;
+                
+              default: 
+                break;
+          }
+          break;
+          
+        // Enter Click Setting Calib
+        case _MENU_SETTING_CALIB:
+          switch(sMenuState.SettingCalib)
+          {
+            case _SETTING_CALIB_0_CHOOSE:
+                sMenuState.SettingCalib = _SETTING_CALIB_0_RUN;
+                sMenuState.CalibOxy = _CALIB_ON_GOING,
+                fevent_active(sEventAppCtrlOxy, _EVENT_CTRL_OXY_0_CALIB);
+                break;
+                
+            case _SETTING_CALIB_100_CHOOSE:
+                sMenuState.SettingCalib = _SETTING_CALIB_100_RUN;
+                sMenuState.CalibOxy = _CALIB_ON_GOING,
+                fevent_active(sEventAppCtrlOxy, _EVENT_CTRL_OXY_100_CALIB);
+                break;
+                
+            case _SETTING_CALIB_0_RUN:
+                if(sMenuState.CalibOxy != _CALIB_ON_GOING)
+                sMenuState.SettingCalib = _SETTING_CALIB_0_CHOOSE;
+                break;
+                
+            case _SETTING_CALIB_100_RUN:
+                if(sMenuState.CalibOxy != _CALIB_ON_GOING)
+                sMenuState.SettingCalib = _SETTING_CALIB_0_CHOOSE;
+                break;
+                
+              default: 
+                break;
+          }
+          break;
+          
+        // Enter Click Setting Satility
+        case _MENU_SETTING_SATILITY:
+          sMenuState.Screen = _MENU_SETTING_MAIN;
+          break;
+          
+        //Enter Click Setting Password
+        case _MENU_SETTING_PASSWORD:
+          switch(sMenuState.SettingPassword)
+          {
+            case _CHANGE_PASS_1:
+                sMenuState.SettingPassword = _CHANGE_PASS_2;
+                break;
+                
+            case _CHANGE_PASS_2:
+                sMenuState.SettingPassword = _CHANGE_PASS_3;
+                break;
+                
+            case _CHANGE_PASS_3:
+                Save_Password();
+                sMenuState.Screen = _MENU_MAIN_1;
+                Menu_ResetState();
+                break;
+                
+              default: 
+                break;
+          }
+          break;
+          
+        // Enter Click Calib Oxy
+        case _MENU_CALIB_OXY:
+          if(sMenuState.CalibOxy != _CALIB_ON_GOING)
+          {
+              sMenuState.Screen = _SETTING_MAIN_CALIB;
+              sMenuState.SettingCalib = _SETTING_CALIB_0_CHOOSE;
+          }
+          break;
+      
+        default:
+          break;
+    }
+  
+}
+
+void User_Button_Exit_Click(void)
+{
+    switch(sMenuState.Screen)
+    {
+        //Exit Click Back Main 1
+        case _MENU_MAIN_2:
+        case _MENU_SETTING_MAIN:
+          sMenuState.Screen = _MENU_MAIN_1;
+          Menu_ResetState();
+          break;
+          
+        //Exit Click Menu Login
+        case _MENU_LOGIN:
+          switch(sMenuState.Login)
+          {
+              case _LOGIN_PASS_1:
+                sMenuState.Screen = _MENU_MAIN_1;
+                Menu_ResetState();
+                break;
+                
+              case _LOGIN_PASS_2:
+                sMenuState.Login = _LOGIN_PASS_1;
+                break;
+                
+              case _LOGIN_PASS_3:
+                sMenuState.Login = _LOGIN_PASS_2;
+                break;
+          }
+          break;
+          
+        //Exit Click Setting Cycle
+        case _MENU_SETTING_CYCLE:
+          switch(sMenuState.SettingCycle)
+          {
+            case _SETTING_CYCLE_RUN_CHOOSE:
+            case _SETTING_CYCLE_FREE_CHOOSE:
+              sMenuState.Screen = _MENU_SETTING_MAIN;
+              Menu_ResetState();
+              break;
+              
+            case _SETTING_CYCLE_RUN_CHANGE:
+              sMenuState.SettingCycle = _SETTING_CYCLE_RUN_CHOOSE;
+              break;
+              
+            case _SETTING_CYCLE_FREE_CHANGE:
+              sMenuState.SettingCycle = _SETTING_CYCLE_FREE_CHOOSE;
+              break;
+              
+              default: 
+                break;
+          }
+          break;
+          
+        //Exit Click Setting Calib
+        case _MENU_SETTING_CALIB:
+          switch(sMenuState.SettingCycle)
+          {
+              case _SETTING_CALIB_0_CHOOSE:
+              case _SETTING_CALIB_100_CHOOSE:
+                sMenuState.Screen = _MENU_SETTING_MAIN;
+                Menu_ResetState();
+                break;
+                
+              default:
+                break;
+          }
+          
+        //Exit Click Setting Satility
+        case _MENU_SETTING_SATILITY:
+          sMenuState.Screen = _MENU_SETTING_MAIN;
+          Menu_ResetState();
+          break;
+          
+        //Exit Click Setting Password
+        case _MENU_SETTING_PASSWORD:
+          switch(sMenuState.SettingPassword)
+          {
+              case _CHANGE_PASS_1:
+                sMenuState.Screen = _MENU_SETTING_MAIN;
+                Menu_ResetState();
+                break;
+                
+              case _CHANGE_PASS_2:
+                sMenuState.SettingPassword = _CHANGE_PASS_1;
+                break;
+                
+              case _CHANGE_PASS_3:
+                sMenuState.SettingPassword = _CHANGE_PASS_2;
+                break;
+          }
+          break;
+          
+        //Exit Click Calib Oxy
+        case _MENU_CALIB_OXY:
+          if(sMenuState.CalibOxy != _CALIB_ON_GOING)
+          {
+              sMenuState.Screen = _SETTING_MAIN_CALIB;
+              sMenuState.SettingCalib = _SETTING_CALIB_0_CHOOSE;
+          }
+          break;
+          
+        default:
+          break;
+    }
+}
+
+void User_Button_Up_Click(void)
+{
+    switch(sMenuState.Screen)
+    {
+        //Up Click Login
+        case _MENU_LOGIN:
+          switch(sMenuState.Login)
+          {
+            case _LOGIN_PASS_1:
+              if(sPassword.Obj1 <9)  sPassword.Obj1++;
+              break;
+            
+            case _LOGIN_PASS_2:
+              if(sPassword.Obj2 <9)  sPassword.Obj2++;
+              break;
+              
+            case _LOGIN_PASS_3:
+              if(sPassword.Obj3 <9)  sPassword.Obj3++;
+              break;
+              
+              default:
+                break;
+          }
+          break;
+          
+        //Up Click Setting Main
+        case _MENU_SETTING_MAIN:
+          switch(sMenuState.SettingMain)
+          {
+              case _SETTING_MAIN_CYCLE:
+                sMenuState.SettingMain = _SETTING_MAIN_PASSWORD;
+                break;
+                
+              case _SETTING_MAIN_CALIB:
+                sMenuState.SettingMain = _SETTING_MAIN_CYCLE;
+                break;
+                
+              case _SETTING_MAIN_SATILITY:
+                sMenuState.SettingMain = _SETTING_MAIN_CALIB;
+                break;
+                
+              case _SETTING_MAIN_PASSWORD:
+                sMenuState.SettingMain = _SETTING_MAIN_SATILITY;
+                break;
+                
+              default:
+                break;
+          }
+          break;
+          
+        //Up Click Setting Cycle
+        case _MENU_SETTING_CYCLE:
+          switch(sMenuState.SettingCycle)
+          {
+              case _SETTING_CYCLE_RUN_CHOOSE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_FREE_CHOOSE;
+                break;
+                
+              case _SETTING_CYCLE_FREE_CHOOSE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_RUN_CHOOSE;
+                break;
+                
+              case _SETTING_CYCLE_RUN_CHANGE:
+                if(sTimeCtrlOxy.RunCtrl < TIME_MAX)     sTimeCtrlOxy.RunCtrl++;
+
+                break;
+                
+              case _SETTING_CYCLE_FREE_CHANGE:
+                if(sTimeCtrlOxy.FreeCtrl < TIME_MAX)    sTimeCtrlOxy.FreeCtrl++;
+                break;
+                
+              default:
+                break;
+          }
+          break;
+          
+        //Up Click Setting Calib
+        case _MENU_SETTING_CALIB:
+          switch(sMenuState.SettingCalib)
+          {
+              case _SETTING_CALIB_0_CHOOSE:
+                sMenuState.SettingCalib = _SETTING_CALIB_100_CHOOSE;
+                break;
+                
+              case _SETTING_CALIB_100_CHOOSE:
+                sMenuState.SettingCalib = _SETTING_CALIB_0_CHOOSE;
+                break;
+      
+              default:
+                break;
+          }
+          break;
+          
+        //Up Click Setting Satility
+        case _MENU_SETTING_SATILITY:
+          if(sParamCtrlOxy.SetupSatility < SATILITY_MAX) sParamCtrlOxy.SetupSatility++;
+          break;
+          
+        //Up Click Setting Password
+        case _MENU_SETTING_PASSWORD:
+          switch(sMenuState.SettingPassword)
+          {
+            case _CHANGE_PASS_1:
+              if(sPassword.Pass1 <9)  sPassword.Pass1++;
+              break;
+            
+            case _CHANGE_PASS_2:
+              if(sPassword.Pass2 <9)  sPassword.Pass2++;
+              break;
+              
+            case _CHANGE_PASS_3:
+              if(sPassword.Pass3 <9)  sPassword.Pass3++;
+              break;
+              
+              default:
+                break;
+          }
+          break;
+      
+        default:
+          break;
+    }
+}
+
+void User_Button_Down_Click(void)
+{
+    switch(sMenuState.Screen)
+    {
+        //Down Click Login
+        case _MENU_LOGIN:
+          switch(sMenuState.Login)
+          {
+            case _LOGIN_PASS_1:
+              if(sPassword.Obj1 > 0)    sPassword.Obj1--;
+              break;
+            
+            case _LOGIN_PASS_2:
+              if(sPassword.Obj2 > 0)    sPassword.Obj2--;
+              break;
+              
+            case _LOGIN_PASS_3:
+              if(sPassword.Obj3 > 0)    sPassword.Obj3--;
+              break;
+              
+              default:
+                break;
+          }
+          break;
+          
+        //Down Click Setting Main
+        case _MENU_SETTING_MAIN:
+          switch(sMenuState.SettingMain)
+          {
+              case _SETTING_MAIN_CYCLE:
+                sMenuState.SettingMain = _SETTING_MAIN_CALIB;
+                break;
+                
+              case _SETTING_MAIN_CALIB:
+                sMenuState.SettingMain = _SETTING_MAIN_SATILITY;
+                break;
+                
+              case _SETTING_MAIN_SATILITY:
+                sMenuState.SettingMain = _SETTING_MAIN_PASSWORD;
+                break;
+                
+              case _SETTING_MAIN_PASSWORD:
+                sMenuState.SettingMain = _SETTING_MAIN_CYCLE;
+                break;
+                
+              default:
+                break;
+          }
+          break;
+          
+        //Down Click Setting Cycle
+        case _MENU_SETTING_CYCLE:
+          switch(sMenuState.SettingCycle)
+          {
+              case _SETTING_CYCLE_RUN_CHOOSE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_FREE_CHOOSE;
+                break;
+                
+              case _SETTING_CYCLE_FREE_CHOOSE:
+                sMenuState.SettingCycle = _SETTING_CYCLE_RUN_CHOOSE;
+                break;
+                
+              case _SETTING_CYCLE_RUN_CHANGE:
+                if(sTimeCtrlOxy.RunCtrl > TIME_MIN)     sTimeCtrlOxy.RunCtrl--;
+                
+                break;
+                
+              case _SETTING_CYCLE_FREE_CHANGE:
+                if(sTimeCtrlOxy.RunCtrl > TIME_MIN)     sTimeCtrlOxy.FreeCtrl--;
+                break;
+                
+              default:
+                break;
+          }
+          break;
+          
+        //Down Click Setting Calib
+        case _MENU_SETTING_CALIB:
+          switch(sMenuState.SettingCalib)
+          {
+              case _SETTING_CALIB_0_CHOOSE:
+                sMenuState.SettingCalib = _SETTING_CALIB_100_CHOOSE;
+                break;
+                
+              case _SETTING_CALIB_100_CHOOSE:
+                sMenuState.SettingCalib = _SETTING_CALIB_0_CHOOSE;
+                break;
+      
+              default:
+                break;
+          }
+          break;
+          
+        //Down Click Setting Satility
+        case _MENU_SETTING_SATILITY:
+          if(sParamCtrlOxy.SetupSatility > SATILITY_MIN)    sParamCtrlOxy.SetupSatility--;
+          break;
+          
+        //Down Click Login
+        case _MENU_SETTING_PASSWORD:
+          switch(sMenuState.SettingPassword)
+          {
+            case _CHANGE_PASS_1:
+              if(sPassword.Pass1 > 0)    sPassword.Pass1--;
+              break;
+            
+            case _CHANGE_PASS_2:
+              if(sPassword.Pass2 > 0)    sPassword.Pass2--;
+              break;
+              
+            case _CHANGE_PASS_3:
+              if(sPassword.Pass3 > 0)    sPassword.Pass3--;
+              break;
+              
+              default:
+                break;
+          }
+          break;
+      
+        default:
+          break;
+    }
+}
+/*====================== Function Use Button Hold Cycle =======================*/
+void User_Button_Enter_Hold_Cycle(void)
+{
+    
+}
+
+void User_Button_Exit_Hold_Cycle(void)
+{
+
+}
+
+void User_Button_Up_Hold_Cycle(void)
+{
+    switch(sMenuState.Screen)
+    {
+        //Up Click Login
+        case _MENU_LOGIN:
+          switch(sMenuState.Login)
+          {
+            case _LOGIN_PASS_1:
+              if(sPassword.Obj1 <9)  sPassword.Obj1++;
+              break;
+            
+            case _LOGIN_PASS_2:
+              if(sPassword.Obj2 <9)  sPassword.Obj2++;
+              break;
+              
+            case _LOGIN_PASS_3:
+              if(sPassword.Obj3 <9)  sPassword.Obj3++;
+              break;
+              
+              default:
+                break;
+          }
+          break;
+          
+        //Up Click Setting Cycle
+        case _MENU_SETTING_CYCLE:
+          switch(sMenuState.SettingCycle)
+          {
+              case _SETTING_CYCLE_RUN_CHANGE:
+                if(sTimeCtrlOxy.RunCtrl < TIME_MAX)     sTimeCtrlOxy.RunCtrl++;
+
+                break;
+                
+              case _SETTING_CYCLE_FREE_CHANGE:
+                if(sTimeCtrlOxy.FreeCtrl < TIME_MAX)    sTimeCtrlOxy.FreeCtrl++;
+                break;
+                
+              default:
+                break;
+          }
+          break;
+          
+        //Up Click Setting Satility
+        case _MENU_SETTING_SATILITY:
+          if(sParamCtrlOxy.SetupSatility < SATILITY_MAX) sParamCtrlOxy.SetupSatility++;
+          break;
+      
+        default:
+          break;
+    }
+}
+
+void User_Button_Down_Hold_Cycle(void)
+{
+    switch(sMenuState.Screen)
+    {
+        //Down Click Login
+        case _MENU_LOGIN:
+          switch(sMenuState.Login)
+          {
+            case _LOGIN_PASS_1:
+              if(sPassword.Obj1 > 0)    sPassword.Obj1--;
+              break;
+            
+            case _LOGIN_PASS_2:
+              if(sPassword.Obj2 > 0)    sPassword.Obj2--;
+              break;
+              
+            case _LOGIN_PASS_3:
+              if(sPassword.Obj3 > 0)    sPassword.Obj3--;
+              break;
+              
+              default:
+                break;
+          }
+          break;
+ 
+        //Down Click Setting Cycle
+        case _MENU_SETTING_CYCLE:
+          switch(sMenuState.SettingCycle)
+          {
+              case _SETTING_CYCLE_RUN_CHANGE:
+                if(sTimeCtrlOxy.RunCtrl > TIME_MIN)     sTimeCtrlOxy.RunCtrl--;
+                
+                break;
+                
+              case _SETTING_CYCLE_FREE_CHANGE:
+                if(sTimeCtrlOxy.RunCtrl > TIME_MIN)     sTimeCtrlOxy.FreeCtrl--;
+                break;
+                
+              default:
+                break;
+          }
+          break;
+          
+        //Down Click Setting Satility
+        case _MENU_SETTING_SATILITY:
+          if(sParamCtrlOxy.SetupSatility > SATILITY_MIN)    sParamCtrlOxy.SetupSatility--;
+          break;
+      
+        default:
+          break;
+    }
+}
+/*====================== Function Use Button Hold Once =======================*/
+void User_Button_Enter_Hold_Once(void)
+{
+    switch(sMenuState.Screen)
+    {
+        case _MENU_MAIN_1:
+        case _MENU_MAIN_2:
+          sMenuState.Screen = _MENU_LOGIN;
+          Menu_ResetState();
+          Clear_Rol_LCD(3, 7);
+          DLCD_Login_Entry();
+          break;
+          
+        default:
+          break;
+    }
+}
+
+void User_Button_Exit_Hold_Once(void)
+{
+    switch(sMenuState.Screen)
+    {
+        //Exit Hold Once Back Main 1
+        case _MENU_MAIN_2:
+        case _MENU_LOGIN:
+        case _MENU_SETTING_MAIN:
+        case _MENU_SETTING_CYCLE:
+        case _MENU_SETTING_CALIB:
+        case _MENU_SETTING_SATILITY:
+          sMenuState.Screen = _MENU_MAIN_1;
+          Menu_ResetState();
+          break;
+          
+        //Exit Hold Once Calib Oxy
+        case _MENU_CALIB_OXY:
+          if(sMenuState.CalibOxy != _CALIB_ON_GOING)
+          {
+            sMenuState.Screen = _MENU_SETTING_MAIN;
+            Menu_ResetState();
+          }
+          break;
+          
+        default:
+          break;
+    }
+}
+
+void User_Button_Up_Hold_Once(void)
+{
+
+}
+
+void User_Button_Down_Hold_Once(void)
+{
+
+}
+
+/*=========================  Function Handle LCD =======================*/
+uint8_t Check_Password(void)
+{
+    uint8_t Result = 0;
+    if(sPassword.Obj1 == sPassword.Pass1 &&
+       sPassword.Obj2 == sPassword.Pass2 &&
+       sPassword.Obj3 == sPassword.Pass3)
+    {
+        Result = 1;
+    }
+    sPassword.Obj1 = 0;
+    sPassword.Obj2 = 0;
+    sPassword.Obj3 = 0; 
+    
+    return Result;
+}
+
+void Save_Password(void)
+{
+    uint8_t aData[8] = {0};
+    uint8_t length = 0;
+    
+    if(sPassword.Pass1 <= 0x09 && sPassword.Pass2 <= 0x09 && sPassword.Pass3 <= 0x09)
+    {
+        aData[length++] = sPassword.Pass1;
+        aData[length++] = sPassword.Pass2;
+        aData[length++] = sPassword.Pass3;
+        Save_Array(ADDR_PASSWORD_SETTING, aData, length);
+    }
+}
+
+void Init_Password(void)
+{
+    if(*(__IO uint8_t*)(ADDR_PASSWORD_SETTING) == BYTE_TEMP_FIRST)
+    {
+        sPassword.Pass1  = *(__IO uint8_t*)(ADDR_PASSWORD_SETTING+2) ;
+        sPassword.Pass2  = *(__IO uint8_t*)(ADDR_PASSWORD_SETTING+3) ;
+        sPassword.Pass3  = *(__IO uint8_t*)(ADDR_PASSWORD_SETTING+4) ;
+        if(sPassword.Pass1 > 0x09 || sPassword.Pass2 > 0x09 || sPassword.Pass3 > 0x09)
+        {
+            sPassword.Pass1 = 0x00;
+            sPassword.Pass2 = 0x00;
+            sPassword.Pass3 = 0x00;
+            Save_Password();
+        }
+    }
+}
+
+/*============================ Function Handle =========================*/
+void Menu_ResetState(void)
+{
+    sMenuState.Login = 0;
+    sMenuState.SettingMain = 0;
+    sMenuState.SettingCycle = 0;
+    sMenuState.SettingCalib = 0;
+    sMenuState.SettingPassword = 0;
+}
+
+/*==========================Function Handle=========================*/
+void Init_AppMenuDisplay(void)
+{
+    Init_Password();
+}
+
+uint8_t AppMenu_Task(void)
+{
+    uint8_t i = 0;
+    uint8_t Result =  false;
+    
+    for(i = 0; i < _EVENT_MENU_END; i++)
+    {
+        if(sEventAppMenu[i].e_status == 1)
+        {
+            Result = true; 
+            
+            if((sEventAppMenu[i].e_systick == 0) ||
+               ((HAL_GetTick() - sEventAppMenu[i].e_systick) >= sEventAppMenu[i].e_period))
+            {
+                sEventAppMenu[i].e_status = 0; //Disable event
+                sEventAppMenu[i].e_systick= HAL_GetTick();
+                sEventAppMenu[i].e_function_handler(i);
+            }
+        }
+    }
+    
+    
+    return Result;
+}
+
